@@ -83,6 +83,14 @@ class PHP_CodeCoverage_TextUI_Command
         $input->registerOption(
           new ezcConsoleOption(
             '',
+            'php',
+            ezcConsoleInput::TYPE_STRING
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
             'text',
             ezcConsoleInput::TYPE_STRING
            )
@@ -173,6 +181,7 @@ class PHP_CodeCoverage_TextUI_Command
         $arguments = $input->getArguments();
         $clover    = $input->getOption('clover')->value;
         $html      = $input->getOption('html')->value;
+        $php       = $input->getOption('php')->value;
         $text      = $input->getOption('text')->value;
         $blacklist = $input->getOption('blacklist')->value;
         $whitelist = $input->getOption('whitelist')->value;
@@ -238,6 +247,11 @@ class PHP_CodeCoverage_TextUI_Command
                 $writer->process($coverage, $html);
             }
 
+            if ($php) {
+                $writer = new PHP_CodeCoverage_Report_PHP;
+                $writer->process($coverage, $php);
+            }
+
             if ($text) {
                 $writer = new PHP_CodeCoverage_Report_Text;
                 $writer->process($coverage, $text);
@@ -275,6 +289,7 @@ Usage: phpcov [switches] <file>
 
   --clover <file>         Generate code coverage report in Clover XML format.
   --html <dir>            Generate code coverage report in HTML format.
+  --php <file>            Serialize PHP_CodeCoverage object to file.
   --text <file>           Generate code coverage report in text format.
 
   --blacklist <dir|file>  Adds <dir|file> to the blacklist.
