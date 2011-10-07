@@ -259,7 +259,7 @@ class PHP_CodeCoverage_TextUI_Command
 Usage: phpcov [switches] <file>
        phpcov --merge [switches] <directory>
 
-  --clover <file>         Write code coverage data in Clover XML format.
+  --clover <file>         Generate code coverage report in Clover XML format.
   --html <dir>            Generate code coverage report in HTML format.
 
   --blacklist <dir|file>  Adds <dir|file> to the blacklist.
