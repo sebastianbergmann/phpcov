@@ -295,7 +295,7 @@ Usage: phpcov [switches] <file>
   --blacklist <dir|file>  Adds <dir|file> to the blacklist.
   --whitelist <dir|file>  Adds <dir|file> to the whitelist.
 
-  --merge                 Merges serialized code coverage data.
+  --merge                 Merges PHP_CodeCoverage objects stored in .cov files.
 
   --help                  Prints this usage information.
   --version               Prints the version and exits.
