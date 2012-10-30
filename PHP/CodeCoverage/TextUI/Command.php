@@ -196,16 +196,16 @@ class PHP_CodeCoverage_TextUI_Command
             exit(0);
         }
 
-        $arguments = $input->getArguments();
-        $clover    = $input->getOption('clover')->value;
-        $html      = $input->getOption('html')->value;
-        $php       = $input->getOption('php')->value;
-        $text      = $input->getOption('text')->value;
-        $blacklist = $input->getOption('blacklist')->value;
-        $whitelist = $input->getOption('whitelist')->value;
+        $arguments        = $input->getArguments();
+        $clover           = $input->getOption('clover')->value;
+        $html             = $input->getOption('html')->value;
+        $php              = $input->getOption('php')->value;
+        $text             = $input->getOption('text')->value;
+        $blacklist        = $input->getOption('blacklist')->value;
+        $whitelist        = $input->getOption('whitelist')->value;
         $addUncovered     = $input->getOption('add-uncovered')->value;
         $processUncovered = $input->getOption('process-uncovered')->value;
-        $merge     = $input->getOption('merge')->value;
+        $merge            = $input->getOption('merge')->value;
 
         if (count($arguments) == 1) {
             self::printVersionString();
@@ -230,7 +230,11 @@ class PHP_CodeCoverage_TextUI_Command
                 }
             } else {
                 $coverage->setAddUncoveredFilesFromWhitelist($addUncovered);
-                $coverage->setProcessUncoveredFilesFromWhitelist($processUncovered);
+
+                $coverage->setProcessUncoveredFilesFromWhitelist(
+                  $processUncovered
+                );
+
                 foreach ($whitelist as $item) {
                     if (is_dir($item)) {
                         $filter->addDirectoryToWhitelist($item);
