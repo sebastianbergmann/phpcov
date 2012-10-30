@@ -127,6 +127,24 @@ class PHP_CodeCoverage_TextUI_Command
 
         $input->registerOption(
           new ezcConsoleOption(
+            '',
+            'add-uncovered',
+            ezcConsoleInput::TYPE_NONE,
+            FALSE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
+            '',
+            'process-uncovered',
+            ezcConsoleInput::TYPE_NONE,
+            FALSE
+           )
+        );
+
+        $input->registerOption(
+          new ezcConsoleOption(
             'h',
             'help',
             ezcConsoleInput::TYPE_NONE,
@@ -185,6 +203,8 @@ class PHP_CodeCoverage_TextUI_Command
         $text      = $input->getOption('text')->value;
         $blacklist = $input->getOption('blacklist')->value;
         $whitelist = $input->getOption('whitelist')->value;
+        $addUncovered     = $input->getOption('add-uncovered')->value;
+        $processUncovered = $input->getOption('process-uncovered')->value;
         $merge     = $input->getOption('merge')->value;
 
         if (count($arguments) == 1) {
@@ -209,6 +229,8 @@ class PHP_CodeCoverage_TextUI_Command
                     }
                 }
             } else {
+                $coverage->setAddUncoveredFilesFromWhitelist($addUncovered);
+                $coverage->setProcessUncoveredFilesFromWhitelist($processUncovered);
                 foreach ($whitelist as $item) {
                     if (is_dir($item)) {
                         $filter->addDirectoryToWhitelist($item);
@@ -295,6 +317,9 @@ Usage: phpcov [switches] <file>
 
   --blacklist <dir|file>  Adds <dir|file> to the blacklist.
   --whitelist <dir|file>  Adds <dir|file> to the whitelist.
+
+  --add-uncovered         Add whitelisted files that are not covered.
+  --process-uncovered     Process whitelisted files that are not covered.
 
   --merge                 Merges PHP_CodeCoverage objects stored in .cov files.
 
