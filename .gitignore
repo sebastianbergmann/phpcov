@@ -1,2 +1,3 @@
 build
 phpunit.xml
+.idea

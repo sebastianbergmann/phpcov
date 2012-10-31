@@ -49,6 +49,16 @@ if (strpos('@php_bin@', '@php_bin') === 0) {
 require 'PHP/CodeCoverage/Autoload.php';
 require 'PHP/CodeCoverage/TextUI/Command.php';
 
+require_once 'Symfony/Component/Finder/Finder.php';
+require_once 'Symfony/Component/Finder/Glob.php';
+require_once 'Symfony/Component/Finder/Iterator/FilterIterator.php';
+require_once 'Symfony/Component/Finder/Iterator/FileTypeFilterIterator.php';
+require_once 'Symfony/Component/Finder/Iterator/MultiplePcreFilterIterator.php';
+require_once 'Symfony/Component/Finder/Iterator/FilenameFilterIterator.php';
+require_once 'Symfony/Component/Finder/Iterator/RecursiveDirectoryIterator.php';
+require_once 'Symfony/Component/Finder/Iterator/ExcludeDirectoryFilterIterator.php';
+require_once 'Symfony/Component/Finder/SplFileInfo.php';
+
 require 'ezc/Base/base.php';
 spl_autoload_register(array('ezcBase', 'autoload'));
 
