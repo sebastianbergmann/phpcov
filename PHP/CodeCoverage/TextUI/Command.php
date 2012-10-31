@@ -253,14 +253,13 @@ class PHP_CodeCoverage_TextUI_Command
 
                 $coverage->stop();
             } else {
-                $finder = new Symfony\Component\Finder\Finder;
-                $finder->in($arguments[0])
-                       ->name('*.cov');
+                $facade = new File_Iterator_Facade;
+                $result = $facade->getFilesAsArray(
+                  $arguments[0], '.cov'
+                );
 
-                foreach ($finder as $file) {
-                    $coverage->merge(
-                      unserialize(file_get_contents($file->getRealpath()))
-                    );
+                foreach ($files as $file) {
+                    $coverage->merge(unserialize(file_get_contents($file)));
                 }
             }
 
