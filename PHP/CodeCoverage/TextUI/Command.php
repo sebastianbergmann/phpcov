@@ -264,18 +264,30 @@ class PHP_CodeCoverage_TextUI_Command
             }
 
             if ($clover) {
+                print "\nGenerating code coverage report in Clover XML format ...";
+
                 $writer = new PHP_CodeCoverage_Report_Clover;
                 $writer->process($coverage, $clover);
+
+                print " done\n";
             }
 
             if ($html) {
+                print "\nGenerating code coverage report in HTML format ...";
+
                 $writer = new PHP_CodeCoverage_Report_HTML;
                 $writer->process($coverage, $html);
+
+                print " done\n";
             }
 
             if ($php) {
+                print "\nGenerating code coverage report in PHP format ...";
+
                 $writer = new PHP_CodeCoverage_Report_PHP;
                 $writer->process($coverage, $php);
+
+                print " done\n";
             }
 
             if ($text) {
@@ -310,6 +322,7 @@ class PHP_CodeCoverage_TextUI_Command
         self::printVersionString();
 
         print <<<EOT
+
 Usage: phpcov [switches] <file>
        phpcov --merge [switches] <directory>
 
@@ -337,6 +350,6 @@ EOT;
      */
     protected static function printVersionString()
     {
-        print "phpcov @package_version@ by Sebastian Bergmann.\n\n";
+        print "phpcov @package_version@ by Sebastian Bergmann.\n";
     }
 }
