@@ -1,7 +1,7 @@
 @echo off
 REM PHP_CodeCoverage
 REM
-REM Copyright (c) 2011, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+REM Copyright (c) 2011-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
 REM All rights reserved.
 REM
 REM Redistribution and use in source and binary forms, with or without

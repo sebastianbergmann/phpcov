@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 /**
  * PHP_CodeCoverage
@@ -37,16 +36,28 @@
  *
  * @package   PHP_CodeCoverage
  * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright 2011-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 1.1.0
  */
 
-if (strpos('@php_bin@', '@php_bin') === 0) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'autoload.php';
-} else {
-    require 'SebastianBergmann/PHPCOV/autoload.php';
-}
+require 'PHP/CodeCoverage/Autoload.php';
+require 'ezc/Base/base.php';
 
-$textui = new SebastianBergmann\PHPCOV\Command;
-$textui->main();
+spl_autoload_register(
+    function($class) {
+        static $classes = null;
+        if ($classes === null) {
+            $classes = array(
+              'sebastianbergmann\\phpcov\\command' => '/Command.php',
+              'sebastianbergmann\\phpcov\\version' => '/Version.php'
+            );
+        }
+        $cn = strtolower($class);
+        if (isset($classes[$cn])) {
+            require __DIR__ . $classes[$cn];
+        }
+    }
+);
+
+spl_autoload_register(array('ezcBase', 'autoload'));

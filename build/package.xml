@@ -27,28 +27,27 @@
   <api>stable</api>
  </stability>
  <license>The BSD 3-Clause License</license>
- <notes>http://github.com/sebastianbergmann/phpcov/</notes>
+ <notes>http://github.com/sebastianbergmann/phpcov/tree</notes>
  <contents>
   <dir name="/">
-   <dir name="PHP">
-    <dir name="CodeCoverage">
-     <dir name="TextUI">
-      <file baseinstalldir="/" name="Command.php" role="php">
-       <tasks:replace from="@package_version@" to="version" type="package-info" />
-      </file>
-     </dir>
+   <dir name="SebastianBergmann">
+    <dir name="PHPCOV">
+     <file baseinstalldir="/" name="autoload.php" role="php" />
+     <file baseinstalldir="/" name="Command.php" role="php" />
+     <file baseinstalldir="/" name="Version.php" role="php" />
     </dir>
    </dir>
    <file baseinstalldir="/" name="phpcov.php" role="script">
     <tasks:replace from="/usr/bin/env php" to="php_bin" type="pear-config"/>
     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
    <file baseinstalldir="/" name="phpcov.bat" role="script">
     <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
     <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
-    <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
+   <file baseinstalldir="/" name="ChangeLog.markdown" role="doc"/>
+   <file baseinstalldir="/" name="LICENSE" role="doc"/>
+   <file baseinstalldir="/" name="README.markdown" role="doc"/>
   </dir>
  </contents>
  <dependencies>
