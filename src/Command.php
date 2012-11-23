@@ -77,6 +77,14 @@ namespace SebastianBergmann\PHPCOV
             $input->registerOption(
               new \ezcConsoleOption(
                 '',
+                'configuration',
+                \ezcConsoleInput::TYPE_STRING
+               )
+            );
+
+            $input->registerOption(
+              new \ezcConsoleOption(
+                '',
                 'html',
                 \ezcConsoleInput::TYPE_STRING
                )
@@ -200,6 +208,7 @@ namespace SebastianBergmann\PHPCOV
 
             $arguments        = $input->getArguments();
             $clover           = $input->getOption('clover')->value;
+            $configuration    = $input->getOption('configuration')->value;
             $html             = $input->getOption('html')->value;
             $php              = $input->getOption('php')->value;
             $text             = $input->getOption('text')->value;
@@ -209,11 +218,15 @@ namespace SebastianBergmann\PHPCOV
             $processUncovered = $input->getOption('process-uncovered')->value;
             $merge            = $input->getOption('merge')->value;
 
+            $coverage = new \PHP_CodeCoverage;
+            $filter   = $coverage->filter();
+
+            if ($configuration) {
+                $this->handleConfiguration($configuration, $coverage);
+            }
+
             if (count($arguments) == 1) {
                 $this->printVersionString();
-
-                $coverage = new \PHP_CodeCoverage;
-                $filter   = $coverage->filter();
 
                 if (empty($whitelist)) {
                     $c = new \ReflectionClass('ezcBase');
@@ -341,6 +354,8 @@ Usage: phpcov [switches] <file>
 
   --merge                 Merges PHP_CodeCoverage objects stored in .cov files.
 
+  --configuration         Read configuration from XML file.
+
   --help                  Prints this usage information.
   --version               Prints the version and exits.
 
@@ -353,6 +368,69 @@ EOT;
         protected function printVersionString()
         {
             printf("phpcov %s by Sebastian Bergmann.\n", Version::id());
+        }
+
+        /**
+         * @param string           $filename
+         * @param PHP_CodeCoverage $coverage
+         */
+        protected function handleConfiguration($filename, \PHP_CodeCoverage $coverage)
+        {
+            $filter = $coverage->filter();
+
+            $configuration = \PHPUnit_Util_Configuration::getInstance(
+              $filename
+            );
+
+            $filterConfiguration = $configuration->getFilterConfiguration();
+
+            $coverage->setAddUncoveredFilesFromWhitelist(
+              $filterConfiguration['whitelist']['addUncoveredFilesFromWhitelist']
+            );
+
+            $coverage->setProcessUncoveredFilesFromWhitelist(
+              $filterConfiguration['whitelist']['processUncoveredFilesFromWhitelist']
+            );
+
+            foreach ($filterConfiguration['blacklist']['include']['directory'] as $dir) {
+                $filter->addDirectoryToBlacklist(
+                  $dir['path'], $dir['suffix'], $dir['prefix'], $dir['group']
+                );
+            }
+
+            foreach ($filterConfiguration['blacklist']['include']['file'] as $file) {
+                $filter->addFileToBlacklist($file);
+            }
+
+            foreach ($filterConfiguration['blacklist']['exclude']['directory'] as $dir) {
+                $filter->removeDirectoryFromBlacklist(
+                  $dir['path'], $dir['suffix'], $dir['prefix'], $dir['group']
+                );
+            }
+
+            foreach ($filterConfiguration['blacklist']['exclude']['file'] as $file) {
+                $filter->removeFileFromBlacklist($file);
+            }
+
+            foreach ($filterConfiguration['whitelist']['include']['directory'] as $dir) {
+                $filter->addDirectoryToWhitelist(
+                  $dir['path'], $dir['suffix'], $dir['prefix']
+                );
+            }
+
+            foreach ($filterConfiguration['whitelist']['include']['file'] as $file) {
+                $filter->addFileToWhitelist($file);
+            }
+
+            foreach ($filterConfiguration['whitelist']['exclude']['directory'] as $dir) {
+                $filter->removeDirectoryFromWhitelist(
+                  $dir['path'], $dir['suffix'], $dir['prefix']
+                );
+            }
+
+            foreach ($filterConfiguration['whitelist']['exclude']['file'] as $file) {
+                $filter->removeFileFromWhitelist($file);
+            }
         }
     }
 }

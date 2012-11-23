@@ -44,6 +44,10 @@
 require 'PHP/CodeCoverage/Autoload.php';
 require 'ezc/Base/base.php';
 
+if (stream_resolve_include_path('PHPUnit/Autoload.php')) {
+    require_once 'PHPUnit/Autoload.php';
+}
+
 spl_autoload_register(
     function($class) {
         static $classes = null;
