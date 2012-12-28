@@ -41,12 +41,9 @@
  * @since     File available since Release 1.1.0
  */
 
+require 'PHPUnit/Autoload.php';
 require 'PHP/CodeCoverage/Autoload.php';
 require 'ezc/Base/base.php';
-
-if (stream_resolve_include_path('PHPUnit/Autoload.php')) {
-    require_once 'PHPUnit/Autoload.php';
-}
 
 spl_autoload_register(
     function($class) {
