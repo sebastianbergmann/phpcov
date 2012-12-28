@@ -1,35 +1,40 @@
-phpcov
-======
+# phpcov
 
 **phpcov** is a command-line frontend for the PHP_CodeCoverage library.
 
-Installation
-------------
+## Installation
 
-phpcov should be installed using the PEAR Installer, the backbone of the [PHP Extension and Application Repository](http://pear.php.net/) that provides a distribution system for PHP packages.
+There are two supported ways of installing phpcov.
 
-Depending on your OS distribution and/or your PHP environment, you may need to install PEAR or update your existing PEAR installation before you can proceed with the following instructions. `sudo pear upgrade PEAR` usually suffices to upgrade an existing PEAR installation. The [PEAR Manual ](http://pear.php.net/manual/en/installation.getting.php) explains how to perform a fresh installation of PEAR.
+You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) to download and install phpcov as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of phpcov that has all required dependencies of phpcov bundled in a single file.
 
-The following two commands are all that is required to install phpcov using the PEAR Installer:
+### PEAR Installer
+
+The following two commands (which you may have to run as `root`) are all that is required to install phpcov using the PEAR Installer:
 
     pear config-set auto_discover 1
     pear install pear.phpunit.de/phpcov
 
-Usage
------
+### PHP Archive (PHAR)
 
-    sb@vmware examples % cat add.php
+    wget http://pear.phpunit.de/get/phpcov.phar
+    chmod +x phpcov.phar
+
+## Usage
+
+    cat add.php
     <?php
     $a = 1;
     $b = 2;
     print $a + $b;
+    ?>
 
-    sb@vmware examples % phpcov --clover clover.xml add.php
-    phpcov 1.0.0 by Sebastian Bergmann.
+    phpcov --clover clover.xml add.php
+    phpcov 1.1.0 by Sebastian Bergmann.
 
     3
 
-    sb@vmware examples % cat clover.xml
+    cat clover.xml
     <?xml version="1.0" encoding="UTF-8"?>
     <coverage generated="1270365900">
       <project timestamp="1270365900">
