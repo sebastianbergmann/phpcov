@@ -2,7 +2,7 @@
 /**
  * PHP_CodeCoverage
  *
- * Copyright (c) 2011-2012, Sebastian Bergmann <sb@sebastian-bergmann.de>.
+ * Copyright (c) 2011-2013, Sebastian Bergmann <sb@sebastian-bergmann.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@
  * @category   PHP
  * @package    CodeCoverage
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
- * @copyright  2011-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
+ * @copyright  2011-2013 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link       http://github.com/sebastianbergmann/phpcov
  * @since      File available since Release 1.1.0
@@ -47,7 +47,7 @@ namespace SebastianBergmann\PHPCOV
 {
     /**
      * @author    Sebastian Bergmann <sb@sebastian-bergmann.de>
-     * @copyright 2009-2012 Sebastian Bergmann <sb@sebastian-bergmann.de>
+     * @copyright 2009-2013 Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
      * @link      http://github.com/sebastianbergmann/phpcov/tree
      * @since     Class available since Release 1.1.0
