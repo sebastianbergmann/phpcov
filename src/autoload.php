@@ -41,27 +41,27 @@
  * @since     File available since Release 1.1.0
  */
 
+require 'PHPUnit/Autoload.php';
 require 'PHP/CodeCoverage/Autoload.php';
-require 'ezc/Base/base.php';
-
-if (stream_resolve_include_path('PHPUnit/Autoload.php')) {
-    require_once 'PHPUnit/Autoload.php';
-}
+require 'SebastianBergmann/FinderFacade/autoload.php';
+require 'SebastianBergmann/Version/autoload.php';
+require 'Symfony/Component/Console/autoloader.php';
 
 spl_autoload_register(
     function($class) {
         static $classes = null;
+
         if ($classes === null) {
             $classes = array(
-              'sebastianbergmann\\phpcov\\command' => '/Command.php',
-              'sebastianbergmann\\phpcov\\version' => '/Version.php'
+              'sebastianbergmann\\phpcov\\application' => '/Application.php',
+              'sebastianbergmann\\phpcov\\command' => '/Command.php'
             );
         }
+
         $cn = strtolower($class);
+
         if (isset($classes[$cn])) {
             require __DIR__ . $classes[$cn];
         }
     }
 );
-
-spl_autoload_register(array('ezcBase', 'autoload'));

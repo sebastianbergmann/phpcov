@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP_CodeCoverage
+ * phpcov
  *
  * Copyright (c) 2011-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,402 +34,312 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @category   PHP
- * @package    CodeCoverage
- * @author     Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright  2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
- * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link       http://github.com/sebastianbergmann/phpcov
- * @since      File available since Release 1.0.0
+ * @package   phpcov
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @since     File available since Release 2.0.0
  */
 
-namespace SebastianBergmann\PHPCOV
+namespace SebastianBergmann\PHPCOV;
+
+use Symfony\Component\Console\Command\Command as AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use SebastianBergmann\FinderFacade\FinderFacade;
+use PHP_CodeCoverage;
+use PHP_CodeCoverage_Report_Clover;
+use PHP_CodeCoverage_Report_HTML;
+use PHP_CodeCoverage_Report_PHP;
+use PHP_CodeCoverage_Report_Text;
+use PHPUnit_Util_Configuration;
+use ReflectionClass;
+
+/**
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
+ * @since     Class available since Release 2.0.0
+ */
+class Command extends AbstractCommand
 {
     /**
-     * TextUI frontend for PHP_CodeCoverage.
-     *
-     * @category   PHP
-     * @package    CodeCoverage
-     * @author     Sebastian Bergmann <sebastian@phpunit.de>
-     * @copyright  2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
-     * @license    http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
-     * @version    Release: @package_version@
-     * @link       http://github.com/sebastianbergmann/phpcov
-     * @since      Class available since Release 1.0.0
+     * Configures the current command.
      */
-    class Command
+    protected function configure()
     {
-        /**
-         * Main method.
-         */
-        public function main()
-        {
-            $input = new \ezcConsoleInput;
+        $this->setName('phpcov')
+             ->addArgument(
+                 'argument',
+                 InputArgument::OPTIONAL
+             )
+             ->addOption(
+                 'configuration',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Read configuration from XML file'
+             )
+             ->addOption(
+                 'clover',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Generate code coverage report in Clover XML format'
+             )
+             ->addOption(
+                 'html',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Generate code coverage report in HTML format'
+             )
+             ->addOption(
+                 'php',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Serialize PHP_CodeCoverage object to file'
+             )
+             ->addOption(
+                 'text',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Generate code coverage report in text format'
+             )
+             ->addOption(
+                 'blacklist',
+                 null,
+                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                 'Add directory or file to the blacklist'
+             )
+             ->addOption(
+                 'whitelist',
+                 null,
+                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                 'Add directory or file to the whitelist'
+             )
+             ->addOption(
+                 'merge',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Merge serialized PHP_CodeCoverage objects stored in .cov files'
+             )
+             ->addOption(
+                 'add-uncovered',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Add whitelisted files that are not covered'
+             )
+             ->addOption(
+                 'process-uncovered',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Process whitelisted files that are not covered'
+             );
+    }
 
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'clover',
-                \ezcConsoleInput::TYPE_STRING
-               )
-            );
+    /**
+     * Executes the current command.
+     *
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     *
+     * @return null|integer null or 0 if everything went fine, or an error code
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $coverage      = new PHP_CodeCoverage;
+        $configuration = $input->getOption('configuration');
 
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'configuration',
-                \ezcConsoleInput::TYPE_STRING
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'html',
-                \ezcConsoleInput::TYPE_STRING
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'php',
-                \ezcConsoleInput::TYPE_STRING
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'text',
-                \ezcConsoleInput::TYPE_STRING
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'blacklist',
-                \ezcConsoleInput::TYPE_STRING,
-                array(),
-                TRUE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'whitelist',
-                \ezcConsoleInput::TYPE_STRING,
-                array(),
-                TRUE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'merge',
-                \ezcConsoleInput::TYPE_NONE,
-                FALSE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'add-uncovered',
-                \ezcConsoleInput::TYPE_NONE,
-                FALSE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                '',
-                'process-uncovered',
-                \ezcConsoleInput::TYPE_NONE,
-                FALSE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                'h',
-                'help',
-                \ezcConsoleInput::TYPE_NONE,
-                NULL,
-                FALSE,
-                '',
-                '',
-                array(),
-                array(),
-                FALSE,
-                FALSE,
-                TRUE
-               )
-            );
-
-            $input->registerOption(
-              new \ezcConsoleOption(
-                'v',
-                'version',
-                \ezcConsoleInput::TYPE_NONE,
-                NULL,
-                FALSE,
-                '',
-                '',
-                array(),
-                array(),
-                FALSE,
-                FALSE,
-                TRUE
-               )
-            );
-
-            try {
-                $input->process();
-            }
-
-            catch (ezcConsoleOptionException $e) {
-                print $e->getMessage() . "\n";
-                exit(1);
-            }
-
-            if ($input->getOption('help')->value) {
-                $this->showHelp();
-                exit(0);
-            }
-
-            else if ($input->getOption('version')->value) {
-                $this->printVersionString();
-                exit(0);
-            }
-
-            $arguments        = $input->getArguments();
-            $clover           = $input->getOption('clover')->value;
-            $configuration    = $input->getOption('configuration')->value;
-            $html             = $input->getOption('html')->value;
-            $php              = $input->getOption('php')->value;
-            $text             = $input->getOption('text')->value;
-            $blacklist        = $input->getOption('blacklist')->value;
-            $whitelist        = $input->getOption('whitelist')->value;
-            $addUncovered     = $input->getOption('add-uncovered')->value;
-            $processUncovered = $input->getOption('process-uncovered')->value;
-            $merge            = $input->getOption('merge')->value;
-
-            $coverage = new \PHP_CodeCoverage;
-            $filter   = $coverage->filter();
-
-            if ($configuration) {
-                $this->handleConfiguration($configuration, $coverage);
-            }
-
-            if (count($arguments) == 1) {
-                $this->printVersionString();
-
-                if (empty($whitelist)) {
-                    $c = new \ReflectionClass('ezcBase');
-                    $filter->addDirectoryToBlacklist(dirname($c->getFileName()));
-                    $c = new \ReflectionClass('ezcConsoleInput');
-                    $filter->addDirectoryToBlacklist(dirname($c->getFileName()));
-
-                    foreach ($blacklist as $item) {
-                        if (is_dir($item)) {
-                            $filter->addDirectoryToBlacklist($item);
-                        }
-
-                        else if (is_file($item)) {
-                            $filter->addFileToBlacklist($item);
-                        }
-                    }
-                } else {
-                    $coverage->setAddUncoveredFilesFromWhitelist($addUncovered);
-
-                    $coverage->setProcessUncoveredFilesFromWhitelist(
-                      $processUncovered
-                    );
-
-                    foreach ($whitelist as $item) {
-                        if (is_dir($item)) {
-                            $filter->addDirectoryToWhitelist($item);
-                        }
-
-                        else if (is_file($item)) {
-                            $filter->addFileToWhitelist($item);
-                        }
-                    }
-                }
-
-                if (!$merge) {
-                    $coverage->start('phpcov');
-
-                    require $arguments[0];
-
-                    $coverage->stop();
-                } else {
-                    $facade = new \File_Iterator_Facade;
-                    $files  = $facade->getFilesAsArray(
-                      $arguments[0], '.cov'
-                    );
-
-                    foreach ($files as $file) {
-                        $coverage->merge(unserialize(file_get_contents($file)));
-                    }
-                }
-
-                if ($clover) {
-                    print "\nGenerating code coverage report in Clover XML format ...";
-
-                    $writer = new \PHP_CodeCoverage_Report_Clover;
-                    $writer->process($coverage, $clover);
-
-                    print " done\n";
-                }
-
-                if ($html) {
-                    print "\nGenerating code coverage report in HTML format ...";
-
-                    $writer = new \PHP_CodeCoverage_Report_HTML;
-                    $writer->process($coverage, $html);
-
-                    print " done\n";
-                }
-
-                if ($php) {
-                    print "\nGenerating code coverage report in PHP format ...";
-
-                    $writer = new \PHP_CodeCoverage_Report_PHP;
-                    $writer->process($coverage, $php);
-
-                    print " done\n";
-                }
-
-                if ($text) {
-                    $writer = new \PHP_CodeCoverage_Report_Text;
-                    $writer->process($coverage, $text);
-                }
-            } else {
-                $this->showHelp();
-                exit(1);
-            }
+        if ($configuration) {
+            $this->handleConfiguration($coverage, $configuration);
         }
 
-        /**
-         * Shows an error.
-         *
-         * @param string $message
-         */
-        protected function showError($message)
-        {
-            $this->printVersionString();
+        $this->handleFilter($coverage, $input);
 
-            print $message;
-
-            exit(1);
+        if ($input->getArgument('argument') === null &&
+            $input->getOption('merge')) {
+            $this->executeMerge($coverage, $input->getOption('merge'));
+        } elseif ($input->getArgument('argument') !== null &&
+                   !$input->getOption('merge')) {
+            $this->executeScript($coverage, $input->getArgument('argument'));
         }
 
-        /**
-         * Shows the help.
-         */
-        protected function showHelp()
-        {
-            $this->printVersionString();
-
-            print <<<EOT
-
-Usage: phpcov [switches] <file>
-       phpcov --merge [switches] <directory>
-
-  --clover <file>         Generate code coverage report in Clover XML format.
-  --html <dir>            Generate code coverage report in HTML format.
-  --php <file>            Serialize PHP_CodeCoverage object to file.
-  --text <file>           Generate code coverage report in text format.
-
-  --blacklist <dir|file>  Adds <dir|file> to the blacklist.
-  --whitelist <dir|file>  Adds <dir|file> to the whitelist.
-
-  --add-uncovered         Add whitelisted files that are not covered.
-  --process-uncovered     Process whitelisted files that are not covered.
-
-  --merge                 Merges PHP_CodeCoverage objects stored in .cov files.
-
-  --configuration         Read configuration from XML file.
-
-  --help                  Prints this usage information.
-  --version               Prints the version and exits.
-
-EOT;
-        }
-
-        /**
-         * Prints the version string.
-         */
-        protected function printVersionString()
-        {
-            printf("phpcov %s by Sebastian Bergmann.\n", Version::id());
-        }
-
-        /**
-         * @param string           $filename
-         * @param PHP_CodeCoverage $coverage
-         */
-        protected function handleConfiguration($filename, \PHP_CodeCoverage $coverage)
-        {
-            $filter = $coverage->filter();
-
-            $configuration = \PHPUnit_Util_Configuration::getInstance(
-              $filename
+        if ($input->getOption('clover')) {
+            $output->write(
+                "\nGenerating code coverage report in Clover XML format ..."
             );
 
-            $filterConfiguration = $configuration->getFilterConfiguration();
+            $writer = new PHP_CodeCoverage_Report_Clover;
+            $writer->process($coverage, $input->getOption('clover'));
 
+            $output->write(" done\n");
+        }
+
+        if ($input->getOption('html')) {
+            $output->write(
+                "\nGenerating code coverage report in HTML format ..."
+            );
+
+            $writer = new PHP_CodeCoverage_Report_HTML;
+            $writer->process($coverage, $input->getOption('html'));
+
+            $output->write(" done\n");
+        }
+
+        if ($input->getOption('php')) {
+            $output->write(
+                "\nGenerating code coverage report in PHP format ..."
+            );
+
+            $writer = new PHP_CodeCoverage_Report_PHP;
+            $writer->process($coverage, $input->getOption('php'));
+
+            $output->write(" done\n");
+        }
+
+        if ($input->getOption('text')) {
+            $writer = new PHP_CodeCoverage_Report_Text;
+            $writer->process($coverage, $input->getOption('text'));
+        }
+    }
+
+    /**
+     * @param PHP_CodeCoverage $coverage
+     * @param string           $directory
+     */
+    private function executeMerge(PHP_CodeCoverage $coverage, $directory)
+    {
+        $finder = new FinderFacade(array($directory), array(), array('*.cov'));
+
+        foreach ($finder->findFiles() as $file) {
+            $coverage->merge(unserialize(file_get_contents($file)));
+        }
+    }
+
+    /**
+     * @param PHP_CodeCoverage $coverage
+     * @param string           $script
+     */
+    private function executeScript(PHP_CodeCoverage $coverage, $script)
+    {
+        $coverage->start('phpcov');
+
+        require $script;
+
+        $coverage->stop();
+    }
+
+    /**
+     * @param PHP_CodeCoverage $coverage
+     * @param string           $filename
+     */
+    private function handleConfiguration(PHP_CodeCoverage $coverage, $filename)
+    {
+        $filter        = $coverage->filter();
+        $configuration = PHPUnit_Util_Configuration::getInstance($filename);
+
+        $filterConfiguration = $configuration->getFilterConfiguration();
+
+        $coverage->setAddUncoveredFilesFromWhitelist(
+            $filterConfiguration['whitelist']['addUncoveredFilesFromWhitelist']
+        );
+
+        $coverage->setProcessUncoveredFilesFromWhitelist(
+            $filterConfiguration['whitelist']['processUncoveredFilesFromWhitelist']
+        );
+
+        foreach ($filterConfiguration['blacklist']['include']['directory'] as $dir) {
+            $filter->addDirectoryToBlacklist(
+                $dir['path'],
+                $dir['suffix'],
+                $dir['prefix'],
+                $dir['group']
+            );
+        }
+
+        foreach ($filterConfiguration['blacklist']['include']['file'] as $file) {
+            $filter->addFileToBlacklist($file);
+        }
+
+        foreach ($filterConfiguration['blacklist']['exclude']['directory'] as $dir) {
+            $filter->removeDirectoryFromBlacklist(
+                $dir['path'],
+                $dir['suffix'],
+                $dir['prefix'],
+                $dir['group']
+            );
+        }
+
+        foreach ($filterConfiguration['blacklist']['exclude']['file'] as $file) {
+            $filter->removeFileFromBlacklist($file);
+        }
+
+        foreach ($filterConfiguration['whitelist']['include']['directory'] as $dir) {
+            $filter->addDirectoryToWhitelist(
+                $dir['path'],
+                $dir['suffix'],
+                $dir['prefix']
+            );
+        }
+
+        foreach ($filterConfiguration['whitelist']['include']['file'] as $file) {
+            $filter->addFileToWhitelist($file);
+        }
+
+        foreach ($filterConfiguration['whitelist']['exclude']['directory'] as $dir) {
+            $filter->removeDirectoryFromWhitelist(
+                $dir['path'],
+                $dir['suffix'],
+                $dir['prefix']
+            );
+        }
+
+        foreach ($filterConfiguration['whitelist']['exclude']['file'] as $file) {
+            $filter->removeFileFromWhitelist($file);
+        }
+    }
+
+    private function handleFilter(PHP_CodeCoverage $coverage, InputInterface $input)
+    {
+        $filter = $coverage->filter();
+
+        if (empty($input->getOption('whitelist'))) {
+            $classes = array(
+                'SebastianBergmann\PHPCOV\Application',
+                'SebastianBergmann\FinderFacade\FinderFacade',
+                'SebastianBergmann\Version',
+                'Symfony\Component\Console\Application',
+                'Symfony\Component\Finder\Finder'
+            );
+
+            foreach ($classes as $class) {
+                $c = new ReflectionClass($class);
+                $filter->addDirectoryToBlacklist(dirname($c->getFileName()));
+            }
+
+            foreach ($input->getOption('blacklist') as $item) {
+                if (is_dir($item)) {
+                    $filter->addDirectoryToBlacklist($item);
+                } elseif (is_file($item)) {
+                    $filter->addFileToBlacklist($item);
+                }
+            }
+        } else {
             $coverage->setAddUncoveredFilesFromWhitelist(
-              $filterConfiguration['whitelist']['addUncoveredFilesFromWhitelist']
+                $input->getOption('add-uncovered')
             );
 
             $coverage->setProcessUncoveredFilesFromWhitelist(
-              $filterConfiguration['whitelist']['processUncoveredFilesFromWhitelist']
+                $input->getOption('process-uncovered')
             );
 
-            foreach ($filterConfiguration['blacklist']['include']['directory'] as $dir) {
-                $filter->addDirectoryToBlacklist(
-                  $dir['path'], $dir['suffix'], $dir['prefix'], $dir['group']
-                );
-            }
-
-            foreach ($filterConfiguration['blacklist']['include']['file'] as $file) {
-                $filter->addFileToBlacklist($file);
-            }
-
-            foreach ($filterConfiguration['blacklist']['exclude']['directory'] as $dir) {
-                $filter->removeDirectoryFromBlacklist(
-                  $dir['path'], $dir['suffix'], $dir['prefix'], $dir['group']
-                );
-            }
-
-            foreach ($filterConfiguration['blacklist']['exclude']['file'] as $file) {
-                $filter->removeFileFromBlacklist($file);
-            }
-
-            foreach ($filterConfiguration['whitelist']['include']['directory'] as $dir) {
-                $filter->addDirectoryToWhitelist(
-                  $dir['path'], $dir['suffix'], $dir['prefix']
-                );
-            }
-
-            foreach ($filterConfiguration['whitelist']['include']['file'] as $file) {
-                $filter->addFileToWhitelist($file);
-            }
-
-            foreach ($filterConfiguration['whitelist']['exclude']['directory'] as $dir) {
-                $filter->removeDirectoryFromWhitelist(
-                  $dir['path'], $dir['suffix'], $dir['prefix']
-                );
-            }
-
-            foreach ($filterConfiguration['whitelist']['exclude']['file'] as $file) {
-                $filter->removeFileFromWhitelist($file);
+            foreach ($input->getOption('whitelist') as $item) {
+                if (is_dir($item)) {
+                    $filter->addDirectoryToWhitelist($item);
+                } elseif (is_file($item)) {
+                    $filter->addFileToWhitelist($item);
+                }
             }
         }
     }

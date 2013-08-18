@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 /**
- * PHP_CodeCoverage
+ * phpcov
  *
- * Copyright (c) 2011-2013, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2011-2012, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,17 +35,36 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package   PHP_CodeCoverage
+ * @package   phpcov
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2012 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.0.0
+ * @since     File available since Release 2.0.0
  */
 
-if (strpos('@php_bin@', '@php_bin') === 0) {
-    require __DIR__ . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'autoload.php';
-} else {
-    require 'SebastianBergmann/PHPCOV/autoload.php';
+$files = array(
+  __DIR__ . '/../../vendor/autoload.php',
+  __DIR__ . '/../../../../autoload.php'
+);
+
+$found = false;
+
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        require $file;
+
+        $found = true;
+
+        break;
+    }
+}
+
+if (!$found) {
+    die(
+      'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+      'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+      'php composer.phar install' . PHP_EOL
+    );
 }
 
 $application = new SebastianBergmann\PHPCOV\Application;
