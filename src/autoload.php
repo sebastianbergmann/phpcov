@@ -43,6 +43,7 @@
 
 require 'PHPUnit/Autoload.php';
 require 'PHP/CodeCoverage/Autoload.php';
+require 'SebastianBergmann/Diff/autoload.php';
 require 'SebastianBergmann/FinderFacade/autoload.php';
 require 'SebastianBergmann/Version/autoload.php';
 require 'Symfony/Component/Console/autoloader.php';
@@ -54,7 +55,8 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
               'sebastianbergmann\\phpcov\\application' => '/Application.php',
-              'sebastianbergmann\\phpcov\\command' => '/Command.php'
+              'sebastianbergmann\\phpcov\\command' => '/Command.php',
+              'sebastianbergmann\\phpcov\\patchcoverage' => '/PatchCoverage.php'
             );
         }
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP_CodeCoverage
+ * phpcov
  *
  * Copyright (c) 2011-2013, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
@@ -34,34 +34,42 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package   PHP_CodeCoverage
+ * @package   phpcov
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2009-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @since     File available since Release 1.1.0
+ * @since     File available since Release 2.0.0
  */
 
-require 'PHPUnit/Autoload.php';
-require 'PHP/CodeCoverage/Autoload.php';
-require 'SebastianBergmann/Diff/autoload.php';
-require 'SebastianBergmann/FinderFacade/autoload.php';
-require 'SebastianBergmann/Version/autoload.php';
-require 'Symfony/Component/Console/autoloader.php';
+namespace SebastianBergmann\PHPCOV;
 
-spl_autoload_register(
-    function($class) {
-        static $classes = null;
+use PHPUnit_Framework_TestCase;
 
-        if ($classes === null) {
-            $classes = array(
-              ___CLASSLIST___
-            );
-        }
+/**
+ * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
+ * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
+ * @since     Class available since Release 2.0.0
+ */
+class PatchCoverageTest extends PHPUnit_Framework_TestCase
+{
+    public function testPatchCoverageIsCalculatedCorrectly()
+    {
+        $pc = new PatchCoverage;
 
-        $cn = strtolower($class);
-
-        if (isset($classes[$cn])) {
-            require ___BASEDIR___$classes[$cn];
-        }
+        $this->assertEquals(
+            array(
+                'numChangedLinesThatAreExecutable' => 2,
+                'numChangedLinesThatWereExecuted' => 1,
+                'changedLinesThatWereNotExecuted' => array(
+                    'Example.php' => array(11)
+                )
+            ),
+            $pc->execute(
+                __DIR__ . '/fixture/coverage.php',
+                __DIR__ . '/fixture/patch.txt'
+            )
+        );
     }
-);
+}

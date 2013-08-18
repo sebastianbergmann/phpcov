@@ -54,6 +54,7 @@ use PHP_CodeCoverage_Report_Clover;
 use PHP_CodeCoverage_Report_HTML;
 use PHP_CodeCoverage_Report_PHP;
 use PHP_CodeCoverage_Report_Text;
+use PHP_CodeCoverage_Util;
 use PHPUnit_Util_Configuration;
 use ReflectionClass;
 
@@ -135,6 +136,12 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Process whitelisted files that are not covered'
+             )
+             ->addOption(
+                 'patch',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Unified diff to be analysed for patch coverage'
              );
     }
 
@@ -148,6 +155,45 @@ class Command extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($input->getArgument('argument') && $input->getOption('patch')) {
+            $pc = new PatchCoverage;
+            $pc = $pc->execute(
+                $input->getArgument('argument'),
+                $input->getOption('patch')
+            );
+
+            $output->writeln(
+                sprintf(
+                    '%d / %d changed executable lines covered (%s)',
+                    $pc['numChangedLinesThatWereExecuted'],
+                    $pc['numChangedLinesThatAreExecutable'],
+                    PHP_CodeCoverage_Util::percent(
+                        $pc['numChangedLinesThatWereExecuted'],
+                        $pc['numChangedLinesThatAreExecutable'],
+                        true
+                    )
+                )
+            );
+
+            if (!empty($pc['changedLinesThatWereNotExecuted'])) {
+                $output->writeln("\nChanged executable lines that are not covered:\n");
+
+                foreach ($pc['changedLinesThatWereNotExecuted'] as $file => $lines) {
+                    foreach ($lines as $line) {
+                        $output->writeln(
+                            sprintf(
+                                '  %s:%d',
+                                $file,
+                                $line
+                            )
+                        );
+                    }
+                }
+            }
+
+            return;
+        }
+
         $coverage      = new PHP_CodeCoverage;
         $configuration = $input->getOption('configuration');
 

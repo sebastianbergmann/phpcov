@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpcov" default="build">
- <target name="build" depends="prepare,lint,phpcs"/>
+ <target name="build" depends="prepare,lint,phpcs,phpunit"/>
 
  <target name="clean" description="Cleanup build artifacts">
   <delete dir="${basedir}/vendor"/>
@@ -51,6 +51,13 @@
    <arg value="--extensions=php" />
    <arg value="--ignore=Autoload.php" />
    <arg path="${basedir}/src" />
+  </exec>
+ </target>
+
+ <target name="phpunit" description="Run unit tests with PHPUnit">
+  <exec executable="phpunit" failonerror="true">
+   <arg value="--configuration" />
+   <arg path="${basedir}/build/phpunit.xml" />
   </exec>
  </target>
 
