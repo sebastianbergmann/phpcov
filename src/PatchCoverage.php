@@ -45,7 +45,6 @@ namespace SebastianBergmann\PHPCOV;
 
 use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
-use PHP_CodeCoverage_Util;
 
 /**
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
@@ -59,9 +58,10 @@ class PatchCoverage
     /**
      * @param  string $coverage
      * @param  string $patch
+     * @param  string $prefix
      * @return array
      */
-    public function execute($coverage, $patch)
+    public function execute($coverage, $patch, $prefix)
     {
         $result = array(
             'numChangedLinesThatAreExecutable' => 0,
@@ -71,11 +71,9 @@ class PatchCoverage
 
         $coverage = unserialize(file_get_contents($coverage));
         $coverage = $coverage->getData();
-        PHP_CodeCoverage_Util::reducePaths($coverage);
-
-        $parser  = new DiffParser;
-        $patch   = $parser->parse(file_get_contents($patch));
-        $changes = array();
+        $parser   = new DiffParser;
+        $patch    = $parser->parse(file_get_contents($patch));
+        $changes  = array();
 
         foreach ($patch as $diff) {
             $file           = substr($diff->getFrom(), 2);
@@ -97,12 +95,14 @@ class PatchCoverage
         }
 
         foreach ($changes as $file => $lines) {
+            $key = $prefix . $file;
+
             foreach ($lines as $line) {
-                if (isset($coverage[$file][$line]) &&
-                    is_array($coverage[$file][$line])) {
+                if (isset($coverage[$key][$line]) &&
+                    is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
 
-                    if (empty($coverage[$file][$line])) {
+                    if (empty($coverage[$key][$line])) {
                         if (!isset($result['changedLinesThatWereNotExecuted'][$file])) {
                             $result['changedLinesThatWereNotExecuted'][$file] = array();
                         }

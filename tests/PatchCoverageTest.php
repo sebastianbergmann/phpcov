@@ -68,7 +68,8 @@ class PatchCoverageTest extends PHPUnit_Framework_TestCase
             ),
             $pc->execute(
                 __DIR__ . '/fixture/coverage.php',
-                __DIR__ . '/fixture/patch.txt'
+                __DIR__ . '/fixture/patch.txt',
+                '/tmp/example/'
             )
         );
     }

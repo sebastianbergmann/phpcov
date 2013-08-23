@@ -142,6 +142,12 @@ class Command extends AbstractCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'Unified diff to be analysed for patch coverage'
+             )
+             ->addOption(
+                 'path-prefix',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Prefix that needs to be stripped from paths in the diff'
              );
     }
 
@@ -159,7 +165,8 @@ class Command extends AbstractCommand
             $pc = new PatchCoverage;
             $pc = $pc->execute(
                 $input->getArgument('argument'),
-                $input->getOption('patch')
+                $input->getOption('patch'),
+                $input->getOption('path-prefix')
             );
 
             $output->writeln(
