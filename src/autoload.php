@@ -55,8 +55,11 @@ spl_autoload_register(
         if ($classes === null) {
             $classes = array(
               'sebastianbergmann\\phpcov\\application' => '/Application.php',
-              'sebastianbergmann\\phpcov\\command' => '/Command.php',
-              'sebastianbergmann\\phpcov\\patchcoverage' => '/PatchCoverage.php'
+              'sebastianbergmann\\phpcov\\basecommand' => '/BaseCommand.php',
+              'sebastianbergmann\\phpcov\\executecommand' => '/ExecuteCommand.php',
+              'sebastianbergmann\\phpcov\\mergecommand' => '/MergeCommand.php',
+              'sebastianbergmann\\phpcov\\patchcoverage' => '/PatchCoverage.php',
+              'sebastianbergmann\\phpcov\\patchcoveragecommand' => '/PatchCoverageCommand.php'
             );
         }
 

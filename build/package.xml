@@ -34,7 +34,11 @@
     <dir name="PHPCOV">
      <file baseinstalldir="/" name="autoload.php" role="php" />
      <file baseinstalldir="/" name="Application.php" role="php" />
-     <file baseinstalldir="/" name="Command.php" role="php" />
+     <file baseinstalldir="/" name="BaseCommand.php" role="php" />
+     <file baseinstalldir="/" name="ExecuteCommand.php" role="php" />
+     <file baseinstalldir="/" name="MergeCommand.php" role="php" />
+     <file baseinstalldir="/" name="PatchCoverageCommand.php" role="php" />
+     <file baseinstalldir="/" name="PatchCoverage.php" role="php" />
     </dir>
    </dir>
    <file baseinstalldir="/" name="phpcov.php" role="script">

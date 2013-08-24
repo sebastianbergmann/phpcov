@@ -43,58 +43,91 @@
 
 namespace SebastianBergmann\PHPCOV;
 
-use SebastianBergmann\Version;
-use Symfony\Component\Console\Application as AbstractApplication;
+use Symfony\Component\Console\Command\Command as AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\ArrayInput;
+use PHP_CodeCoverage_Util;
 
 /**
- * TextUI frontend for PHP_CodeCoverage.
- *
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
  * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
  * @since     Class available since Release 2.0.0
  */
-class Application extends AbstractApplication
+class PatchCoverageCommand extends AbstractCommand
 {
-    public function __construct()
+    /**
+     * Configures the current command.
+     */
+    protected function configure()
     {
-        $version = new Version('2.0', __DIR__);
-        parent::__construct('phpcov', $version->getVersion());
-
-        $this->add(new ExecuteCommand);
-        $this->add(new MergeCommand);
-        $this->add(new PatchCoverageCommand);
+        $this->setName('patch-coverage')
+             ->addArgument(
+                 'coverage',
+                 InputArgument::REQUIRED,
+                 'Serialized PHP_CodeCoverage object'
+             )
+             ->addOption(
+                 'patch',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Unified diff to be analysed for patch coverage'
+             )
+             ->addOption(
+                 'path-prefix',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Prefix that needs to be stripped from paths in the diff'
+             );
     }
 
     /**
-     * Runs the current application.
+     * Executes the current command.
      *
-     * @param InputInterface  $input  An Input instance
-     * @param OutputInterface $output An Output instance
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
      *
-     * @return integer 0 if everything went fine, or an error code
+     * @return null|integer null or 0 if everything went fine, or an error code
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->hasParameterOption('--quiet')) {
-            $output->write(
-                sprintf(
-                    "phpcov %s by Sebastian Bergmann.\n\n",
-                    $this->getVersion()
+        $pc = new PatchCoverage;
+        $pc = $pc->execute(
+            $input->getArgument('coverage'),
+            $input->getOption('patch'),
+            $input->getOption('path-prefix')
+        );
+
+        $output->writeln(
+            sprintf(
+                '%d / %d changed executable lines covered (%s)',
+                $pc['numChangedLinesThatWereExecuted'],
+                $pc['numChangedLinesThatAreExecutable'],
+                PHP_CodeCoverage_Util::percent(
+                    $pc['numChangedLinesThatWereExecuted'],
+                    $pc['numChangedLinesThatAreExecutable'],
+                    true
                 )
-            );
-        }
+            )
+        );
 
-        if ($input->hasParameterOption('--version') ||
-            $input->hasParameterOption('-V')) {
-            exit;
-        }
+        if (!empty($pc['changedLinesThatWereNotExecuted'])) {
+            $output->writeln("\nChanged executable lines that are not covered:\n");
 
-        parent::doRun($input, $output);
+            foreach ($pc['changedLinesThatWereNotExecuted'] as $file => $lines) {
+                foreach ($lines as $line) {
+                    $output->writeln(
+                        sprintf(
+                            '  %s:%d',
+                            $file,
+                            $line
+                        )
+                    );
+                }
+            }
+        }
     }
 }
