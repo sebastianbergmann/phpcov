@@ -52,6 +52,7 @@ use PHP_CodeCoverage;
 use PHP_CodeCoverage_Report_Clover;
 use PHP_CodeCoverage_Report_HTML;
 use PHP_CodeCoverage_Report_PHP;
+use PHP_CodeCoverage_Report_PHPSmart;
 use PHP_CodeCoverage_Report_Text;
 use PHPUnit_Util_Configuration;
 use ReflectionClass;
@@ -141,7 +142,8 @@ abstract class BaseCommand extends AbstractCommand
     {
         $filter = $coverage->filter();
 
-        if (empty($input->getOption('whitelist'))) {
+        $whitelist = $input->getOption('whitelist');
+        if (empty($whitelist)) {
             $classes = array(
                 'SebastianBergmann\PHPCOV\Application',
                 'SebastianBergmann\FinderFacade\FinderFacade',
@@ -215,6 +217,18 @@ abstract class BaseCommand extends AbstractCommand
 
             $output->write(" done\n");
         }
+
+        if ($input->getOption('phpsmart')) {
+            $output->write(
+                "\nGenerating code coverage report in PHPSmart format ..."
+            );
+
+            $writer = new PHP_CodeCoverage_Report_PHPSmart;
+            $writer->process($coverage, $input->getOption('phpsmart'));
+
+            $output->write(" done\n");
+        }
+
 
         if ($input->getOption('text')) {
             $writer = new PHP_CodeCoverage_Report_Text;

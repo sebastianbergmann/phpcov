@@ -119,6 +119,12 @@ class ExecuteCommand extends BaseCommand
                  'Serialize PHP_CodeCoverage object to file'
              )
              ->addOption(
+                 'phpsmart',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Export PHP_CodeCoverage object to .smart file'
+             )
+             ->addOption(
                  'text',
                  null,
                  InputOption::VALUE_REQUIRED,
