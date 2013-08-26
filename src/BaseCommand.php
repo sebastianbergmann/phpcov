@@ -223,10 +223,10 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in PHPSmart format ..."
             );
 
-	    $writer = new PHP_CodeCoverage_Report_PHPSmart;
+            $writer = new PHP_CodeCoverage_Report_PHPSmart;
             $writer->process($coverage, $input->getOption('phpsmart'));
 
-	    $output->write(" done\n");
+            $output->write(" done\n");
         }
 
 

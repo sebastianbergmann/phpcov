@@ -118,16 +118,16 @@ class MergeCommand extends BaseCommand
             array($input->getArgument('directory')), array(), array('*.cov', '*.smart')
         );
 
-    foreach ($finder->findFiles() as $file) {
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
-        switch ($extension) {
-            case 'smart':
-                $object = include($file);
-                $coverage->merge($object);
-                unset($object);
-                break;
-            default:
-                $coverage->merge(unserialize(file_get_contents($file)));
+        foreach ($finder->findFiles() as $file) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            switch ($extension) {
+                case 'smart':
+                    $object = include($file);
+                    $coverage->merge($object);
+                    unset($object);
+                    break;
+                default:
+                    $coverage->merge(unserialize(file_get_contents($file)));
             }
         }
         $this->handleReports($coverage, $input, $output);
