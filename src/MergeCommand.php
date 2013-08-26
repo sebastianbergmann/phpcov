@@ -68,7 +68,7 @@ class MergeCommand extends BaseCommand
              ->addArgument(
                  'directory',
                  InputArgument::REQUIRED,
-                 'Directory to scan for serialized PHP_CodeCoverage objects stored in .cov files'
+                 'Directory to scan for serialized PHP_CodeCoverage objects stored in .cov or .smart files'
              )
              ->addOption(
                  'clover',
@@ -87,6 +87,12 @@ class MergeCommand extends BaseCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'Serialize PHP_CodeCoverage object to file'
+             )
+             ->addOption(
+                 'phpsmart',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Export PHP_CodeCoverage object to .smart file'
              )
              ->addOption(
                  'text',
@@ -109,13 +115,21 @@ class MergeCommand extends BaseCommand
         $coverage = new PHP_CodeCoverage;
 
         $finder = new FinderFacade(
-            array($input->getArgument('directory')), array(), array('*.cov')
+            array($input->getArgument('directory')), array(), array('*.cov', '*.smart')
         );
 
-        foreach ($finder->findFiles() as $file) {
-            $coverage->merge(unserialize(file_get_contents($file)));
+    foreach ($finder->findFiles() as $file) {
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        switch ($extension) {
+            case 'smart':
+                $object = include($file);
+                $coverage->merge($object);
+                unset($object);
+                break;
+            default:
+                $coverage->merge(unserialize(file_get_contents($file)));
+            }
         }
-
         $this->handleReports($coverage, $input, $output);
     }
 }
