@@ -141,7 +141,8 @@ abstract class BaseCommand extends AbstractCommand
     {
         $filter = $coverage->filter();
 
-        if (empty($input->getOption('whitelist'))) {
+        $whitelist = $input->getOption('whitelist');
+        if (empty($whitelist)) {
             $classes = array(
                 'SebastianBergmann\PHPCOV\Application',
                 'SebastianBergmann\FinderFacade\FinderFacade',
@@ -215,6 +216,7 @@ abstract class BaseCommand extends AbstractCommand
 
             $output->write(" done\n");
         }
+
 
         if ($input->getOption('text')) {
             $writer = new PHP_CodeCoverage_Report_Text;
