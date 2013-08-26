@@ -33,7 +33,7 @@ The following two commands (which you may have to run as `root`) are all that is
 
       Example.php:11
 
-### Merging serialized PHP_CodeCoverage objects stored in *.cov files
+### Merging exported PHP_CodeCoverage objects stored in *.cov files
 
     phpcov merge --clover coverage.xml /home/sb/example
     phpcov 2.0.0 by Sebastian Bergmann.

@@ -116,7 +116,7 @@ class ExecuteCommand extends BaseCommand
                  'php',
                  null,
                  InputOption::VALUE_REQUIRED,
-                 'Serialize PHP_CodeCoverage object to file'
+                 'Export PHP_CodeCoverage object to file'
              )
              ->addOption(
                  'text',

@@ -68,7 +68,7 @@ class MergeCommand extends BaseCommand
              ->addArgument(
                  'directory',
                  InputArgument::REQUIRED,
-                 'Directory to scan for serialized PHP_CodeCoverage objects stored in .cov files'
+                 'Directory to scan for exported PHP_CodeCoverage objects stored in .cov files'
              )
              ->addOption(
                  'clover',
@@ -86,7 +86,7 @@ class MergeCommand extends BaseCommand
                  'php',
                  null,
                  InputOption::VALUE_REQUIRED,
-                 'Serialize PHP_CodeCoverage object to file'
+                 'Export PHP_CodeCoverage object to file'
              )
              ->addOption(
                  'text',
@@ -113,9 +113,10 @@ class MergeCommand extends BaseCommand
         );
 
         foreach ($finder->findFiles() as $file) {
-            $coverage->merge(unserialize(file_get_contents($file)));
+            $object = include($file);
+            $coverage->merge($object);
+            unset($object);
         }
-
         $this->handleReports($coverage, $input, $output);
     }
 }
