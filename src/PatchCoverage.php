@@ -69,7 +69,7 @@ class PatchCoverage
             'changedLinesThatWereNotExecuted'  => array()
         );
 
-        $coverage = unserialize(file_get_contents($coverage));
+        $coverage = include($coverage);
         $coverage = $coverage->getData();
         $parser   = new DiffParser;
         $patch    = $parser->parse(file_get_contents($patch));

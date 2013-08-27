@@ -68,7 +68,7 @@ class PatchCoverageCommand extends AbstractCommand
              ->addArgument(
                  'coverage',
                  InputArgument::REQUIRED,
-                 'Serialized PHP_CodeCoverage object'
+                 'Exported PHP_CodeCoverage object'
              )
              ->addOption(
                  'patch',
