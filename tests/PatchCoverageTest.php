@@ -43,7 +43,6 @@
 
 namespace SebastianBergmann\PHPCOV;
 
-include_once('SebastianBergmann/PHPCOV/PatchCoverage.php');
 use PHPUnit_Framework_TestCase;
 
 /**

@@ -109,14 +109,17 @@ class MergeCommand extends BaseCommand
         $coverage = new PHP_CodeCoverage;
 
         $finder = new FinderFacade(
-            array($input->getArgument('directory')), array(), array('*.cov')
+            array($input->getArgument('directory')),
+            array(),
+            array('*.cov')
         );
 
         foreach ($finder->findFiles() as $file) {
-            $object = include($file);
-            $coverage->merge($object);
-            unset($object);
+            $_coverage = include($file);
+            $coverage->merge($_coverage);
+            unset($_coverage);
         }
+
         $this->handleReports($coverage, $input, $output);
     }
 }
