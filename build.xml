@@ -111,14 +111,14 @@
   <copy todir="${basedir}/build/phar/phpunit">
    <fileset dir="${basedir}/vendor/phpunit/phpunit/PHPUnit">
     <include name="**/*.php" />
-    <exclude name="**/autoload.php" />
+    <exclude name="**/Autoload.*" />
    </fileset>
   </copy>
 
   <copy todir="${basedir}/build/phar/php-code-coverage">
    <fileset dir="${basedir}/vendor/phpunit/php-code-coverage/PHP">
-    <include name="**/*.php" />
-    <exclude name="**/autoload.php" />
+    <include name="**/*" />
+    <exclude name="**/Autoload.*" />
    </fileset>
   </copy>
 
