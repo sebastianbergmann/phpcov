@@ -4,21 +4,41 @@
 
 ## Installation
 
-There are two supported ways of installing phpcov.
+### PHP Archive (PHAR)
 
-You can use the [PEAR Installer](http://pear.php.net/manual/en/guide.users.commandline.cli.php) to download and install phpcov as well as its dependencies. You can also download a [PHP Archive (PHAR)](http://php.net/phar) of phpcov that has all required dependencies of phpcov bundled in a single file.
+The easiest way to obtain PHPCOV is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of PHPCOV bundled in a single file:
+
+    wget https://phar.phpunit.de/phpcov.phar
+    chmod +x phpcov.phar
+    mv phpcov.phar /usr/local/bin/phpcov
+
+You can also immediately use the PHAR after you have downloaded it, of course:
+
+    wget https://phar.phpunit.de/phpcov.phar
+    php phpcov.phar
+
+### Composer
+
+Simply add a dependency on `phpunit/phpcov` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project. Here is a minimal example of a `composer.json` file that just defines a development-time dependency on PHPCOV:
+
+    {
+        "require-dev": {
+            "phpunit/phpcov": "*"
+        }
+    }
+
+For a system-wide installation via Composer, you can run:
+
+    composer global require 'phpunit/phpcov=*'
+
+Make sure you have `~/.composer/vendor/bin/` in your path.
 
 ### PEAR Installer
 
-The following two commands (which you may have to run as `root`) are all that is required to install phpcov using the PEAR Installer:
+The following two commands (which you may have to run as `root`) are all that is required to install PHPCOV using the PEAR Installer:
 
     pear config-set auto_discover 1
     pear install pear.phpunit.de/phpcov
-
-### PHP Archive (PHAR)
-
-    wget http://pear.phpunit.de/get/phpcov.phar
-    chmod +x phpcov.phar
 
 ## Usage
 
