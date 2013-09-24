@@ -59,7 +59,8 @@ spl_autoload_register(
               'sebastianbergmann\\phpcov\\executecommand' => '/ExecuteCommand.php',
               'sebastianbergmann\\phpcov\\mergecommand' => '/MergeCommand.php',
               'sebastianbergmann\\phpcov\\patchcoverage' => '/PatchCoverage.php',
-              'sebastianbergmann\\phpcov\\patchcoveragecommand' => '/PatchCoverageCommand.php'
+              'sebastianbergmann\\phpcov\\patchcoveragecommand' => '/PatchCoverageCommand.php',
+              'sebastianbergmann\\phpcov\\transformcommand' => '/TransformCommand.php'
             );
         }
 
