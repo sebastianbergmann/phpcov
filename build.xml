@@ -119,4 +119,3 @@
   <chmod file="${basedir}/build/phpcov-${version}.phar" perm="ugo+rx"/>
  </target>
 </project>
-

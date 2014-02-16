@@ -1,14 +1,14 @@
 <?php
 $coverage = new PHP_CodeCoverage;
 $coverage->setData(array (
-  '/tmp/example/Example.php' => 
+  '/tmp/example/Example.php' =>
   array (
-    6 => 
+    6 =>
     array (
       0 => 'ExampleTest::testOne',
     ),
     7 => NULL,
-    11 => 
+    11 =>
     array (
     ),
     12 => NULL,
