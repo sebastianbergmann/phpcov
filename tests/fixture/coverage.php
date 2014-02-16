@@ -403,14 +403,14 @@
   '/usr/local/src/version/src/autoload.php' => true,
 ));$filter->setWhitelistedFiles(array (
 ));$object = new PHP_CodeCoverage(new PHP_CodeCoverage_Driver_Xdebug(), $filter); $object->setData(array (
-  '/tmp/example/Example.php' => 
+  '/tmp/example/Example.php' =>
   array (
-    6 => 
+    6 =>
     array (
       0 => 'ExampleTest::testOne',
     ),
     7 => NULL,
-    11 => 
+    11 =>
     array (
     ),
     12 => NULL,
