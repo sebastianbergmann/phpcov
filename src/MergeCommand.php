@@ -106,7 +106,7 @@ class MergeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $coverage = new PHP_CodeCoverage;
+        $mergedCoverage = new PHP_CodeCoverage;
 
         $finder = new FinderFacade(
             array($input->getArgument('directory')),
@@ -116,10 +116,10 @@ class MergeCommand extends BaseCommand
 
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
-            $coverage->merge($_coverage);
+            $mergedCoverage->merge($_coverage);
             unset($_coverage);
         }
 
-        $this->handleReports($coverage, $input, $output);
+        $this->handleReports($mergedCoverage, $input, $output);
     }
 }
