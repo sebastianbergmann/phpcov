@@ -2,7 +2,7 @@
 /**
  * phpcov
  *
- * Copyright (c) 2011-2013, Sebastian Bergmann <sebastian@phpunit.de>.
+ * Copyright (c) 2011-2014, Sebastian Bergmann <sebastian@phpunit.de>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@
  *
  * @package   phpcov
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 2.0.0
  */
@@ -52,7 +52,7 @@ use PHP_CodeCoverage;
 
 /**
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright 2011-2013 Sebastian Bergmann <sebastian@phpunit.de>
+ * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
  * @since     Class available since Release 2.0.0
@@ -106,7 +106,7 @@ class MergeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $coverage = new PHP_CodeCoverage;
+        $mergedCoverage = new PHP_CodeCoverage;
 
         $finder = new FinderFacade(
             array($input->getArgument('directory')),
@@ -116,10 +116,10 @@ class MergeCommand extends BaseCommand
 
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
-            $coverage->merge($_coverage);
+            $mergedCoverage->merge($_coverage);
             unset($_coverage);
         }
 
-        $this->handleReports($coverage, $input, $output);
+        $this->handleReports($mergedCoverage, $input, $output);
     }
 }
