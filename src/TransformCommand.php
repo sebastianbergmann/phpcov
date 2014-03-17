@@ -73,19 +73,19 @@ class TransformCommand extends BaseCommand
              ->addOption(
                  'clover',
                  null,
-                 InputOption::VALUE_OPTIONAL,
+                 InputOption::VALUE_REQUIRED,
                  'Generate code coverage report in Clover XML format'
              )
              ->addOption(
                  'html',
                  null,
-                 InputOption::VALUE_OPTIONAL,
+                 InputOption::VALUE_REQUIRED,
                  'Generate code coverage report in HTML format'
              )
              ->addOption(
                  'text',
                  null,
-                 InputOption::VALUE_OPTIONAL,
+                 InputOption::VALUE_NONE,
                  'Generate code coverage report in text format'
              )
              ->addOption(
@@ -108,7 +108,7 @@ class TransformCommand extends BaseCommand
     {
         $coverage = new PHP_CodeCoverage;
 
-        $_coverage = unserialize(file_get_contents($input->getArgument('coverage-file')));
+        $_coverage = include($input->getArgument('coverage-file'));
         $coverage->merge($_coverage);
         unset($_coverage);
 
