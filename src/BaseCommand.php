@@ -195,6 +195,17 @@ abstract class BaseCommand extends AbstractCommand
             $output->write(" done\n");
         }
 
+        if ($input->getOption('crap4j')) {
+            $output->write(
+                "\nGenerating code coverage report in Crap4J XML format..."
+            );
+
+            $writer = new PHP_CodeCoverage_Report_Crap4j;
+            $writer->process($coverage, $input->getOption('crap4j'));
+
+            $output->write(" done\n");
+        }
+
         if ($input->getOption('html')) {
             $output->write(
                 "\nGenerating code coverage report in HTML format ..."
