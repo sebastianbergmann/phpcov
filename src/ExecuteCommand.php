@@ -107,6 +107,12 @@ class ExecuteCommand extends BaseCommand
                  'Generate code coverage report in Clover XML format'
              )
              ->addOption(
+                 'crap4j',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Generate code coverage report in Crap4J XML format'
+             )
+             ->addOption(
                  'html',
                  null,
                  InputOption::VALUE_REQUIRED,
