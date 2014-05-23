@@ -13,15 +13,14 @@
     "support": {
         "issues": "https://github.com/sebastianbergmann/phpcov/issues"
     },
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.3",
-        "phpunit/phpunit": "4.0.*@dev",
-        "phpunit/php-code-coverage": "2.0.*@dev",
-        "sebastian/diff": ">=1.1.0",
-        "sebastian/finder-facade": ">=1.1.0",
-        "sebastian/version": ">=1.0.0",
-        "symfony/console": ">=2.2.0"
+        "phpunit/phpunit": "~4.0",
+        "phpunit/php-code-coverage": "~2.0",
+        "sebastian/diff": "~1.1",
+        "sebastian/finder-facade": "~1.1",
+        "sebastian/version": "~1.0.3",
+        "symfony/console": "~2.2"
     },
     "autoload": {
         "classmap": [
@@ -29,11 +28,12 @@
         ]
     },
     "bin": [
-        "composer/bin/phpcov"
+        "phpcov"
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }
+
