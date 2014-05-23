@@ -50,6 +50,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHP_CodeCoverage;
 use PHP_CodeCoverage_Report_Clover;
+use PHP_CodeCoverage_Report_Crap4j;
 use PHP_CodeCoverage_Report_HTML;
 use PHP_CodeCoverage_Report_PHP;
 use PHP_CodeCoverage_Report_Text;
