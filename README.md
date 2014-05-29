@@ -37,7 +37,13 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
 
 ### Patch Coverage
 
-    phpcov patch-coverage --patch patch.txt --path-prefix /home/sb/example/ example.cov
+    $ git diff HEAD^1 > /tmp/patch.txt
+
+    $ phpunit --coverage-php /tmp/coverage.cov
+
+    $ phpcov patch-coverage --patch /tmp/patch.txt         \
+                            --path-prefix /path/to/project \
+                            /tmp/coverage.cov
     phpcov 2.0.0 by Sebastian Bergmann.
 
     1 / 2 changed executable lines covered (50.00%)
@@ -48,14 +54,18 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
 
 ### Merging exported PHP_CodeCoverage objects stored in *.cov files
 
-    phpcov merge --clover coverage.xml /home/sb/example
+    $ parallel --gnu :::                                                 \
+        'phpunit --coverage-php /tmp/coverage/FooTest.cov tests/FooTest' \
+        'phpunit --coverage-php /tmp/coverage/BarTest.cov tests/BarTest'
+
+    $ phpcov merge --clover /tmp/clover.xml /tmp/coverage
     phpcov 2.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
 
 ### Executing a PHP script and generating code coverage in Clover XML format
 
-    phpcov execute --clover coverage.xml script.php
+    $ phpcov execute --clover coverage.xml script.php
     phpcov 2.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
