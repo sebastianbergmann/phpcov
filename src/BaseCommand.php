@@ -75,7 +75,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         $filter        = $coverage->filter();
-        $configuration = PHPUnit_Util_Configuration::getInstance($filename);
+        $configuration = PHPUnit_Util_Configuration::getInstance($configuration);
 
         $filterConfiguration = $configuration->getFilterConfiguration();
 
