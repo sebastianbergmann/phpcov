@@ -50,6 +50,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHP_CodeCoverage;
 use PHP_CodeCoverage_Report_Clover;
+use PHP_CodeCoverage_Report_Crap4j;
 use PHP_CodeCoverage_Report_HTML;
 use PHP_CodeCoverage_Report_PHP;
 use PHP_CodeCoverage_Report_Text;
@@ -74,7 +75,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         $filter        = $coverage->filter();
-        $configuration = PHPUnit_Util_Configuration::getInstance($filename);
+        $configuration = PHPUnit_Util_Configuration::getInstance($configuration);
 
         $filterConfiguration = $configuration->getFilterConfiguration();
 
@@ -191,6 +192,17 @@ abstract class BaseCommand extends AbstractCommand
 
             $writer = new PHP_CodeCoverage_Report_Clover;
             $writer->process($coverage, $input->getOption('clover'));
+
+            $output->write(" done\n");
+        }
+
+        if ($input->getOption('crap4j')) {
+            $output->write(
+                "\nGenerating code coverage report in Crap4J XML format..."
+            );
+
+            $writer = new PHP_CodeCoverage_Report_Crap4j;
+            $writer->process($coverage, $input->getOption('crap4j'));
 
             $output->write(" done\n");
         }
