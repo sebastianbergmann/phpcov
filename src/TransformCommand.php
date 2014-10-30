@@ -83,6 +83,12 @@ class TransformCommand extends BaseCommand
                  'Generate code coverage report in HTML format'
              )
              ->addOption(
+                 'crap4j',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Generate code coverage report in Crap4J XML format'
+             )
+             ->addOption(
                  'text',
                  null,
                  InputOption::VALUE_NONE,
