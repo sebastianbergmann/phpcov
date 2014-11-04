@@ -17,7 +17,10 @@ use PHPUnit_Framework_TestCase;
  */
 class PatchCoverageTest extends PHPUnit_Framework_TestCase
 {
-    public function testPatchCoverageIsCalculatedCorrectly()
+    /**
+     * @dataProvider providerForPatchCoverageIsCalculatedCorrectly
+     */
+    public function testPatchCoverageIsCalculatedCorrectly($patchFile)
     {
         $pc = new PatchCoverage;
 
@@ -31,8 +34,22 @@ class PatchCoverageTest extends PHPUnit_Framework_TestCase
             ),
             $pc->execute(
                 __DIR__ . '/fixture/coverage.php',
-                __DIR__ . '/fixture/patch.txt',
+                __DIR__ . '/fixture/' . $patchFile . '.txt',
                 '/tmp/example/'
+            )
+        );
+    }
+
+    public function providerForPatchCoverageIsCalculatedCorrectly()
+    {
+        return array(
+            // Original patch
+            array(
+                'patch'
+            ),
+            // Patch showing a renamed file
+            array(
+                'patch2'
             )
         );
     }

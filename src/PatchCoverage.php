@@ -39,7 +39,7 @@ class PatchCoverage
         $changes  = array();
 
         foreach ($patch as $diff) {
-            $file           = substr($diff->getFrom(), 2);
+            $file           = substr($diff->getTo(), 2);
             $changes[$file] = array();
 
             foreach ($diff->getChunks() as $chunk) {
