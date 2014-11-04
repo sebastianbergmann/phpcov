@@ -36,6 +36,7 @@
  *
  * @package   phpcov
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @author    Rob Caiger <rob@clocal.co.uk>
  * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 2.0.0
@@ -48,6 +49,7 @@ use SebastianBergmann\Diff\Parser as DiffParser;
 
 /**
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
+ * @author    Rob Caiger <rob@clocal.co.uk>
  * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
@@ -76,7 +78,7 @@ class PatchCoverage
         $changes  = array();
 
         foreach ($patch as $diff) {
-            $file           = substr($diff->getFrom(), 2);
+            $file           = substr($diff->getTo(), 2);
             $changes[$file] = array();
 
             foreach ($diff->getChunks() as $chunk) {
@@ -98,6 +100,7 @@ class PatchCoverage
             $key = $prefix . $file;
 
             foreach ($lines as $line) {
+
                 if (isset($coverage[$key][$line]) &&
                     is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
