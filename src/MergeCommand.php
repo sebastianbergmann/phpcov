@@ -23,6 +23,11 @@ use PHP_CodeCoverage;
 class MergeCommand extends BaseCommand
 {
     /**
+     * @var string[]
+     */
+    protected $mergeErrors;
+
+    /**
      * Configures the current command.
      */
     protected function configure()
@@ -85,10 +90,35 @@ class MergeCommand extends BaseCommand
 
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
+            
+            if (! ($_coverage instanceof PHP_CodeCoverage)) {
+                $this->mergeErrors[] = $file;
+                unset($_coverage);
+                continue;
+            }
+            
             $mergedCoverage->merge($_coverage);
             unset($_coverage);
         }
 
         $this->handleReports($mergedCoverage, $input, $output);
+        $this->outputMergeErrors($output);
+    }
+
+    /**
+     * 
+     * @param OutputInterface $output
+     * 
+     * @return void
+     */
+    protected function outputMergeErrors(OutputInterface $output)
+    {
+        if (empty($this->mergeErrors)) {
+            return;
+        }
+
+        foreach ($this->mergeErrors as $mergeError) {
+             $output->write('Failed to merge: '. $mergeError, true);
+        }
     }
 }
