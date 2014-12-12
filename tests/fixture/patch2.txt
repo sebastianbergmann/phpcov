@@ -1,0 +1,18 @@
+diff --git a/OldExample.php b/Example.php
+index c566258..3e248ce 100644
+--- a/OldExample.php
++++ b/Example.php
+@@ -3,11 +3,11 @@ class Example
+ {
+     public function foo()
+     {
+-        return 'bar';
++        return 'foo';
+     }
+
+     public function bar()
+     {
+-        return 'foo';
++        return 'bar';
+     }
+ }
