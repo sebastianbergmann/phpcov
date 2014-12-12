@@ -89,6 +89,10 @@ class PatchCoverageTest extends PHPUnit_Framework_TestCase
             // Patch showing a renamed file
             array(
                 'patch2'
+            ),
+            // Patch with different start and end numbers
+            array(
+                'patch3'
             )
         );
     }

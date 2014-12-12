@@ -82,7 +82,7 @@ class PatchCoverage
             $changes[$file] = array();
 
             foreach ($diff->getChunks() as $chunk) {
-                $lineNr = $chunk->getStart();
+                $lineNr = $chunk->getEnd();
 
                 foreach ($chunk->getLines() as $line) {
                     if ($line->getType() == Line::ADDED) {
