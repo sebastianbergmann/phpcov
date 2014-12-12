@@ -36,7 +36,6 @@
  *
  * @package   phpcov
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @author    Rob Caiger <rob@clocal.co.uk>
  * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @since     File available since Release 2.0.0
@@ -48,7 +47,6 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @author    Rob Caiger <rob@clocal.co.uk>
  * @copyright 2011-2014 Sebastian Bergmann <sebastian@phpunit.de>
  * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
  * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
