@@ -18,10 +18,6 @@ use SebastianBergmann\FinderFacade\FinderFacade;
 use PHP_CodeCoverage;
 
 /**
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
  * @since     Class available since Release 2.0.0
  */
 class MergeCommand extends BaseCommand
@@ -75,7 +71,7 @@ class MergeCommand extends BaseCommand
      * @param InputInterface  $input  An InputInterface instance
      * @param OutputInterface $output An OutputInterface instance
      *
-     * @return null|integer null or 0 if everything went fine, or an error code
+     * @return null|int null or 0 if everything went fine, or an error code
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

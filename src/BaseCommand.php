@@ -11,9 +11,7 @@
 namespace SebastianBergmann\PHPCOV;
 
 use Symfony\Component\Console\Command\Command as AbstractCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHP_CodeCoverage;
 use PHP_CodeCoverage_Report_Clover;
@@ -25,10 +23,6 @@ use PHPUnit_Util_Configuration;
 use ReflectionClass;
 
 /**
- * @author    Sebastian Bergmann <sebastian@phpunit.de>
- * @copyright Sebastian Bergmann <sebastian@phpunit.de>
- * @license   http://www.opensource.org/licenses/BSD-3-Clause  The BSD 3-Clause License
- * @link      http://github.com/sebastianbergmann/php-code-coverage/tree
  * @since     Class available since Release 2.0.0
  */
 abstract class BaseCommand extends AbstractCommand
