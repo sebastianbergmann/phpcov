@@ -42,7 +42,7 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
     $ phpunit --coverage-php /tmp/coverage.cov
 
     $ phpcov patch-coverage --patch /tmp/patch.txt         \
-                            --path-prefix /path/to/project \
+                            --path-prefix /path/to/project/ \
                             /tmp/coverage.cov
     phpcov 2.0.0 by Sebastian Bergmann.
 
