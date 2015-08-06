@@ -69,3 +69,9 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
     phpcov 2.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
+
+### Transform a *.cov-report from phpunits --coverage-php into another report-format, e.g. html
+    phpcov transform --html /home/sb/example example.cov
+    phpcov 2.0.0 by Sebastian Bergmann.
+
+    Generating code coverage report in HTML format ... done

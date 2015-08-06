@@ -27,6 +27,7 @@ class Application extends AbstractApplication
         $version = new Version('2.0.1', dirname(__DIR__));
         parent::__construct('phpcov', $version->getVersion());
 
+        $this->add(new TransformCommand);
         $this->add(new ExecuteCommand);
         $this->add(new MergeCommand);
         $this->add(new PatchCoverageCommand);
