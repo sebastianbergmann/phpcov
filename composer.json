@@ -15,7 +15,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "phpunit/phpunit": "~4.1",
+        "phpunit/phpunit": "~4.1|~5",
         "phpunit/php-code-coverage": "~2.0",
         "sebastian/diff": "~1.1",
         "sebastian/finder-facade": "~1.1",
