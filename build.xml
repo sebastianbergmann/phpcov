@@ -86,17 +86,12 @@
   <copy todir="${basedir}/build/phar/phpunit">
    <fileset dir="${basedir}/vendor/phpunit">
     <include name="**/*.php" />
+    <include name="php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template/**" />
     <exclude name="**/Autoload.php" />
     <exclude name="**/autoload.php" />
     <exclude name="**/Tests/**" />
     <exclude name="**/tests/**" />
     <exclude name="**/build/**" />
-   </fileset>
-  </copy>
-
-  <copy todir="${basedir}/build/phar/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template">
-   <fileset dir="${basedir}/vendor/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template">
-     <include name="**/*.*"/>
    </fileset>
   </copy>
 
