@@ -94,6 +94,12 @@
    </fileset>
   </copy>
 
+  <copy todir="${basedir}/build/phar/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template">
+   <fileset dir="${basedir}/vendor/phpunit/php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template">
+     <include name="**/*.*"/>
+   </fileset>
+  </copy>
+
   <copy todir="${basedir}/build/phar/sebastian">
    <fileset dir="${basedir}/vendor/sebastian">
     <include name="**/src/*.php" />
