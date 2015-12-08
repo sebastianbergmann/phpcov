@@ -61,6 +61,7 @@ class PatchCoverage
             $key = $prefix . $file;
 
             foreach ($lines as $line) {
+
                 if (isset($coverage[$key][$line]) &&
                     is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
