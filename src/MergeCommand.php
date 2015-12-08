@@ -75,20 +75,26 @@ class MergeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $mergedCoverage = new PHP_CodeCoverage;
-
         $finder = new FinderFacade(
             array($input->getArgument('directory')),
             array(),
             array('*.cov')
         );
 
-        foreach ($finder->findFiles() as $file) {
-            $_coverage = include($file);
-            $mergedCoverage->merge($_coverage);
-            unset($_coverage);
-        }
+        $files = $finder->findFiles();
 
-        $this->handleReports($mergedCoverage, $input, $output);
+        if (count($files) > 0) {
+            $file = array_shift($files);
+
+            $mergedCoverage = include($file);
+
+            foreach ($files as $file) {
+                $_coverage = include($file);
+                $mergedCoverage->merge($_coverage);
+                unset($_coverage);
+            }
+
+            $this->handleReports($mergedCoverage, $input, $output);
+        }
     }
 }
