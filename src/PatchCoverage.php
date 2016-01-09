@@ -19,28 +19,29 @@ use SebastianBergmann\Diff\Parser as DiffParser;
 class PatchCoverage
 {
     /**
-     * @param  string $coverage
-     * @param  string $patch
-     * @param  string $prefix
+     * @param string $coverage
+     * @param string $patch
+     * @param string $prefix
+     *
      * @return array
      */
     public function execute($coverage, $patch, $prefix)
     {
-        $result = array(
+        $result = [
             'numChangedLinesThatAreExecutable' => 0,
             'numChangedLinesThatWereExecuted'  => 0,
-            'changedLinesThatWereNotExecuted'  => array()
-        );
+            'changedLinesThatWereNotExecuted'  => []
+        ];
 
         $coverage = include($coverage);
         $coverage = $coverage->getData();
         $parser   = new DiffParser;
         $patch    = $parser->parse(file_get_contents($patch));
-        $changes  = array();
+        $changes  = [];
 
         foreach ($patch as $diff) {
             $file           = substr($diff->getTo(), 2);
-            $changes[$file] = array();
+            $changes[$file] = [];
 
             foreach ($diff->getChunks() as $chunk) {
                 $lineNr = $chunk->getEnd();
@@ -67,7 +68,7 @@ class PatchCoverage
 
                     if (empty($coverage[$key][$line])) {
                         if (!isset($result['changedLinesThatWereNotExecuted'][$file])) {
-                            $result['changedLinesThatWereNotExecuted'][$file] = array();
+                            $result['changedLinesThatWereNotExecuted'][$file] = [];
                         }
 
                         $result['changedLinesThatWereNotExecuted'][$file][] = $line;

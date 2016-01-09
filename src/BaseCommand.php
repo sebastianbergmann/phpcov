@@ -105,13 +105,13 @@ abstract class BaseCommand extends AbstractCommand
 
         $whitelist = $input->getOption('whitelist');
         if (empty($whitelist)) {
-            $classes = array(
+            $classes = [
                 'SebastianBergmann\PHPCOV\Application',
                 'SebastianBergmann\FinderFacade\FinderFacade',
                 'SebastianBergmann\Version',
                 'Symfony\Component\Console\Application',
                 'Symfony\Component\Finder\Finder'
-            );
+            ];
 
             foreach ($classes as $class) {
                 $c = new ReflectionClass($class);

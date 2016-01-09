@@ -25,13 +25,13 @@ class PatchCoverageTest extends PHPUnit_Framework_TestCase
         $pc = new PatchCoverage;
 
         $this->assertEquals(
-            array(
+            [
                 'numChangedLinesThatAreExecutable' => 2,
-                'numChangedLinesThatWereExecuted' => 1,
-                'changedLinesThatWereNotExecuted' => array(
-                    'Example.php' => array(11)
-                )
-            ),
+                'numChangedLinesThatWereExecuted'  => 1,
+                'changedLinesThatWereNotExecuted'  => [
+                    'Example.php' => [11]
+                ]
+            ],
             $pc->execute(
                 __DIR__ . '/fixture/coverage.php',
                 __DIR__ . '/fixture/' . $patchFile . '.txt',
@@ -42,19 +42,19 @@ class PatchCoverageTest extends PHPUnit_Framework_TestCase
 
     public function providerForPatchCoverageIsCalculatedCorrectly()
     {
-        return array(
+        return [
             // Original patch
-            array(
+            [
                 'patch'
-            ),
+            ],
             // Patch showing a renamed file
-            array(
+            [
                 'patch2'
-            ),
+            ],
             // Patch with different start and end numbers
-            array(
+            [
                 'patch3'
-            )
-        );
+            ]
+        ];
     }
 }

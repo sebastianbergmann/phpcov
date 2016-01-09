@@ -83,20 +83,20 @@ class MergeCommand extends BaseCommand
         $mergedCoverage = new PHP_CodeCoverage;
 
         $finder = new FinderFacade(
-            array($input->getArgument('directory')),
-            array(),
-            array('*.cov')
+            [$input->getArgument('directory')],
+            [],
+            ['*.cov']
         );
 
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
-            
+
             if (! ($_coverage instanceof PHP_CodeCoverage)) {
                 $this->mergeErrors[] = $file;
                 unset($_coverage);
                 continue;
             }
-            
+
             $mergedCoverage->merge($_coverage);
             unset($_coverage);
         }
@@ -106,10 +106,7 @@ class MergeCommand extends BaseCommand
     }
 
     /**
-     * 
      * @param OutputInterface $output
-     * 
-     * @return void
      */
     protected function outputMergeErrors(OutputInterface $output)
     {
@@ -118,7 +115,7 @@ class MergeCommand extends BaseCommand
         }
 
         foreach ($this->mergeErrors as $mergeError) {
-             $output->write('Failed to merge: '. $mergeError, true);
+            $output->write('Failed to merge: ' . $mergeError, true);
         }
     }
 }

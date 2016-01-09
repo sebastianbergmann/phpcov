@@ -1,25 +1,25 @@
 <?php
 $coverage = new PHP_CodeCoverage;
-$coverage->setData(array (
+$coverage->setData([
   '/tmp/example/Example.php' =>
-  array (
+   [
     6 =>
-    array (
+     [
       0 => 'ExampleTest::testOne',
-    ),
-    7 => NULL,
+    ],
+    7  => null,
     11 =>
-    array (
-    ),
-    12 => NULL,
-  ),
-));
-$coverage->setTests(array (
+     [
+    ],
+    12 => null,
+  ],
+]);
+$coverage->setTests([
   'ExampleTest::testOne' => 0,
-));
+]);
 
 $filter = $coverage->filter();
-$filter->setWhitelistedFiles(array (
-));
+$filter->setWhitelistedFiles([
+]);
 
 return $coverage;
