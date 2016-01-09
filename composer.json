@@ -14,7 +14,7 @@
         "issues": "https://github.com/sebastianbergmann/phpcov/issues"
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.6",
         "phpunit/phpunit": "~5.0",
         "phpunit/php-code-coverage": "~3.0",
         "sebastian/diff": "~1.1",
@@ -32,7 +32,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     }
 }
