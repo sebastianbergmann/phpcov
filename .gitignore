@@ -1,5 +1,5 @@
 /build/phar
-/build/*.phar
+/build/*.phar*
 /.idea
 /cache.properties
 /composer.phar
