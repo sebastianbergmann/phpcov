@@ -200,7 +200,8 @@ abstract class BaseCommand extends AbstractCommand
                 $input->getOption('show-uncovered-files'),
                 $input->getOption('show-only-summary')
             );
-            $writer->process($coverage, $input->getOption('text'));
+            $report = $writer->process($coverage, $input->getOption('text'));
+            $output->write($report);
         }
     }
 }
