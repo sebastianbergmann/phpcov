@@ -173,7 +173,10 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in HTML format ..."
             );
 
-            $writer = new PHP_CodeCoverage_Report_HTML;
+            $writer = new PHP_CodeCoverage_Report_HTML(
+                $input->getOption('low-upper-bound'),
+                $input->getOption('high-lower-bound')
+            );
             $writer->process($coverage, $input->getOption('html'));
 
             $output->write(" done\n");
@@ -191,7 +194,12 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('text')) {
-            $writer = new PHP_CodeCoverage_Report_Text;
+            $writer = new PHP_CodeCoverage_Report_Text(
+                $input->getOption('low-upper-bound'),
+                $input->getOption('high-lower-bound'),
+                $input->getOption('show-uncovered-files'),
+                $input->getOption('show-only-summary')
+            );
             $writer->process($coverage, $input->getOption('text'));
         }
     }
