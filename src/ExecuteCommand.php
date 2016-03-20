@@ -91,6 +91,31 @@ class ExecuteCommand extends BaseCommand
                  null,
                  InputOption::VALUE_REQUIRED,
                  'Generate code coverage report in text format'
+             )
+             ->addOption(
+                 'low-upper-bound',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Maximum coverage percentage to be considered "lowly" covered.',
+                 50
+             ->addOption(
+                 'high-lower-bound',
+                 null,
+                 InputOption::VALUE_REQUIRED,
+                 'Minimum coverage percentage to be considered "highly" covered.',
+                 90
+             )
+             ->addOption(
+                 'show-uncovered-files',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Show all whitelisted files in --text output not just the ones with coverage information.'
+             )
+             ->addOption(
+                 'show-only-summary',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Show only the summary in --text output.'
              );
     }
 
