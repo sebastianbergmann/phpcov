@@ -98,6 +98,7 @@ class ExecuteCommand extends BaseCommand
                  InputOption::VALUE_REQUIRED,
                  'Maximum coverage percentage to be considered "lowly" covered.',
                  50
+             )
              ->addOption(
                  'high-lower-bound',
                  null,
