@@ -89,7 +89,7 @@ class ExecuteCommand extends BaseCommand
              ->addOption(
                  'text',
                  null,
-                 InputOption::VALUE_REQUIRED,
+                 InputOption::VALUE_NONE,
                  'Generate code coverage report in text format'
              )
              ->addOption(
@@ -117,6 +117,12 @@ class ExecuteCommand extends BaseCommand
                  null,
                  InputOption::VALUE_NONE,
                  'Show only the summary in --text output.'
+             )
+             ->addOption(
+                 'show-colors',
+                 null,
+                 InputOption::VALUE_NONE,
+                 'Use colored output in --text output.'
              );
     }
 
