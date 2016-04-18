@@ -19,7 +19,7 @@
         "phpunit/php-code-coverage": "~3.0",
         "sebastian/diff": "~1.1",
         "sebastian/finder-facade": "~1.1",
-        "sebastian/version": "~1.0",
+        "sebastian/version": "~1.0|~2.0",
         "symfony/console": "~2|~3"
     },
     "autoload": {
