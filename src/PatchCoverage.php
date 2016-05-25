@@ -33,7 +33,7 @@ class PatchCoverage
             'changedLinesThatWereNotExecuted'  => []
         ];
 
-        if (substr($prefix, -1) != DIRECTORY_SEPARATOR) {
+        if (substr($prefix, -1, 1) != DIRECTORY_SEPARATOR) {
             $prefix .= DIRECTORY_SEPARATOR;
         }
 
