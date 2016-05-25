@@ -1,7 +1,6 @@
 <?php
 $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->files()
-    ->in('build')
     ->in('src')
     ->in('tests')
     ->name('*.php');
