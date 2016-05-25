@@ -33,6 +33,10 @@ class PatchCoverage
             'changedLinesThatWereNotExecuted'  => []
         ];
 
+        if (substr($prefix, -1) != DIRECTORY_SEPARATOR) {
+            $prefix .= DIRECTORY_SEPARATOR;
+        }
+
         $coverage = include($coverage);
         $coverage = $coverage->getData();
         $parser   = new DiffParser;
