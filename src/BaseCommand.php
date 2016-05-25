@@ -77,8 +77,6 @@ abstract class BaseCommand extends AbstractCommand
     {
         $filter = $coverage->filter();
 
-        $whitelist = $input->getOption('whitelist');
-
         $coverage->setAddUncoveredFilesFromWhitelist(
             $input->getOption('add-uncovered')
         );
