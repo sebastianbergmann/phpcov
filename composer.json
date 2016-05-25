@@ -13,10 +13,12 @@
     "support": {
         "issues": "https://github.com/sebastianbergmann/phpcov/issues"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^5.6 || ^7.0",
         "phpunit/phpunit": "^5.0",
-        "phpunit/php-code-coverage": "^3.3.2",
+        "phpunit/php-code-coverage": "^4.0",
         "sebastian/diff": "^1.1",
         "sebastian/finder-facade": "^1.1",
         "sebastian/version": "^1.0|^2.0",
@@ -32,7 +34,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "3.1.x-dev"
         }
     }
 }

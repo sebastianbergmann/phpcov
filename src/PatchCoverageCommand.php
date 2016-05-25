@@ -10,12 +10,12 @@
 
 namespace SebastianBergmann\PHPCOV;
 
+use SebastianBergmann\CodeCoverage\Util;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHP_CodeCoverage_Util;
 
 /**
  * @since Class available since Release 2.0.0
@@ -31,7 +31,7 @@ class PatchCoverageCommand extends AbstractCommand
              ->addArgument(
                  'coverage',
                  InputArgument::REQUIRED,
-                 'Exported PHP_CodeCoverage object'
+                 'Exported code coverage object'
              )
              ->addOption(
                  'patch',
@@ -69,7 +69,7 @@ class PatchCoverageCommand extends AbstractCommand
                 '%d / %d changed executable lines covered (%s)',
                 $pc['numChangedLinesThatWereExecuted'],
                 $pc['numChangedLinesThatAreExecutable'],
-                PHP_CodeCoverage_Util::percent(
+                Util::percent(
                     $pc['numChangedLinesThatWereExecuted'],
                     $pc['numChangedLinesThatAreExecutable'],
                     true

@@ -10,24 +10,23 @@
 
 namespace SebastianBergmann\PHPCOV;
 
+use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
+use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
+use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
+use SebastianBergmann\CodeCoverage\Report\PHP as PhpReport;
+use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHP_CodeCoverage;
-use PHP_CodeCoverage_Report_Clover;
-use PHP_CodeCoverage_Report_Crap4j;
-use PHP_CodeCoverage_Report_HTML;
-use PHP_CodeCoverage_Report_PHP;
-use PHP_CodeCoverage_Report_Text;
 use PHPUnit_Util_Configuration;
-use ReflectionClass;
 
 /**
  * @since Class available since Release 2.0.0
  */
 abstract class BaseCommand extends AbstractCommand
 {
-    protected function handleConfiguration(PHP_CodeCoverage $coverage, InputInterface $input)
+    protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input)
     {
         $configuration = $input->getOption('configuration');
 
@@ -73,7 +72,7 @@ abstract class BaseCommand extends AbstractCommand
         }
     }
 
-    protected function handleFilter(PHP_CodeCoverage $coverage, InputInterface $input)
+    protected function handleFilter(CodeCoverage $coverage, InputInterface $input)
     {
         $filter = $coverage->filter();
 
@@ -96,14 +95,14 @@ abstract class BaseCommand extends AbstractCommand
         }
     }
 
-    protected function handleReports(PHP_CodeCoverage $coverage, InputInterface $input, OutputInterface $output)
+    protected function handleReports(CodeCoverage $coverage, InputInterface $input, OutputInterface $output)
     {
         if ($input->getOption('clover')) {
             $output->write(
                 "\nGenerating code coverage report in Clover XML format ..."
             );
 
-            $writer = new PHP_CodeCoverage_Report_Clover;
+            $writer = new CloverReport;
             $writer->process($coverage, $input->getOption('clover'));
 
             $output->write(" done\n");
@@ -114,7 +113,7 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in Crap4J XML format..."
             );
 
-            $writer = new PHP_CodeCoverage_Report_Crap4j;
+            $writer = new Crap4jReport;
             $writer->process($coverage, $input->getOption('crap4j'));
 
             $output->write(" done\n");
@@ -125,7 +124,7 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in HTML format ..."
             );
 
-            $writer = new PHP_CodeCoverage_Report_HTML;
+            $writer = new HtmlReport;
             $writer->process($coverage, $input->getOption('html'));
 
             $output->write(" done\n");
@@ -136,14 +135,14 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in PHP format ..."
             );
 
-            $writer = new PHP_CodeCoverage_Report_PHP;
+            $writer = new PhpReport;
             $writer->process($coverage, $input->getOption('php'));
 
             $output->write(" done\n");
         }
 
         if ($input->getOption('text')) {
-            $writer = new PHP_CodeCoverage_Report_Text;
+            $writer = new TextReport;
             $writer->process($coverage, $input->getOption('text'));
         }
     }

@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * TextUI frontend for PHP_CodeCoverage.
+ * TextUI frontend for php-code-coverage.
  *
  * @since Class available since Release 2.0.0
  */
@@ -24,7 +24,7 @@ class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('3.0.0', dirname(__DIR__));
+        $version = new Version('3.1', dirname(__DIR__));
         parent::__construct('phpcov', $version->getVersion());
 
         $this->add(new ExecuteCommand);

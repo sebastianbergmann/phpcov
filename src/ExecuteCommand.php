@@ -10,11 +10,11 @@
 
 namespace SebastianBergmann\PHPCOV;
 
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHP_CodeCoverage;
 
 /**
  * @since Class available since Release 2.0.0
@@ -78,7 +78,7 @@ class ExecuteCommand extends BaseCommand
                  'php',
                  null,
                  InputOption::VALUE_REQUIRED,
-                 'Export PHP_CodeCoverage object to file'
+                 'Export code coverage object to file'
              )
              ->addOption(
                  'text',
@@ -98,7 +98,7 @@ class ExecuteCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $coverage = new PHP_CodeCoverage;
+        $coverage = new CodeCoverage;
 
         $this->handleConfiguration($coverage, $input);
         $this->handleFilter($coverage, $input);

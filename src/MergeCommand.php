@@ -10,12 +10,12 @@
 
 namespace SebastianBergmann\PHPCOV;
 
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use SebastianBergmann\FinderFacade\FinderFacade;
-use PHP_CodeCoverage;
 
 /**
  * @since Class available since Release 2.0.0
@@ -36,7 +36,7 @@ class MergeCommand extends BaseCommand
              ->addArgument(
                  'directory',
                  InputArgument::REQUIRED,
-                 'Directory to scan for exported PHP_CodeCoverage objects stored in .cov files'
+                 'Directory to scan for exported code coverage objects stored in .cov files'
              )
              ->addOption(
                  'clover',
@@ -60,7 +60,7 @@ class MergeCommand extends BaseCommand
                  'php',
                  null,
                  InputOption::VALUE_REQUIRED,
-                 'Export PHP_CodeCoverage object to file'
+                 'Export code coverage object to file'
              )
              ->addOption(
                  'text',
@@ -80,7 +80,7 @@ class MergeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $mergedCoverage = new PHP_CodeCoverage;
+        $mergedCoverage = new CodeCoverage;
 
         $finder = new FinderFacade(
             [$input->getArgument('directory')],
@@ -91,7 +91,7 @@ class MergeCommand extends BaseCommand
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
 
-            if (! ($_coverage instanceof PHP_CodeCoverage)) {
+            if (! ($_coverage instanceof CodeCoverage)) {
                 $this->mergeErrors[] = $file;
                 unset($_coverage);
                 continue;
