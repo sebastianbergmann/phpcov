@@ -39,12 +39,6 @@ class ExecuteCommand extends BaseCommand
                  'Read configuration from XML file'
              )
              ->addOption(
-                 'blacklist',
-                 null,
-                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                 'Add directory or file to the blacklist'
-             )
-             ->addOption(
                  'whitelist',
                  null,
                  InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,

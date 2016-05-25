@@ -48,32 +48,6 @@ abstract class BaseCommand extends AbstractCommand
             $filterConfiguration['whitelist']['processUncoveredFilesFromWhitelist']
         );
 
-        foreach ($filterConfiguration['blacklist']['include']['directory'] as $dir) {
-            $filter->addDirectoryToBlacklist(
-                $dir['path'],
-                $dir['suffix'],
-                $dir['prefix'],
-                $dir['group']
-            );
-        }
-
-        foreach ($filterConfiguration['blacklist']['include']['file'] as $file) {
-            $filter->addFileToBlacklist($file);
-        }
-
-        foreach ($filterConfiguration['blacklist']['exclude']['directory'] as $dir) {
-            $filter->removeDirectoryFromBlacklist(
-                $dir['path'],
-                $dir['suffix'],
-                $dir['prefix'],
-                $dir['group']
-            );
-        }
-
-        foreach ($filterConfiguration['blacklist']['exclude']['file'] as $file) {
-            $filter->removeFileFromBlacklist($file);
-        }
-
         foreach ($filterConfiguration['whitelist']['include']['directory'] as $dir) {
             $filter->addDirectoryToWhitelist(
                 $dir['path'],
@@ -104,42 +78,20 @@ abstract class BaseCommand extends AbstractCommand
         $filter = $coverage->filter();
 
         $whitelist = $input->getOption('whitelist');
-        if (empty($whitelist)) {
-            $classes = [
-                'SebastianBergmann\PHPCOV\Application',
-                'SebastianBergmann\FinderFacade\FinderFacade',
-                'SebastianBergmann\Version',
-                'Symfony\Component\Console\Application',
-                'Symfony\Component\Finder\Finder'
-            ];
 
-            foreach ($classes as $class) {
-                $c = new ReflectionClass($class);
-                $filter->addDirectoryToBlacklist(dirname($c->getFileName()));
-            }
+        $coverage->setAddUncoveredFilesFromWhitelist(
+            $input->getOption('add-uncovered')
+        );
 
-            foreach ($input->getOption('blacklist') as $item) {
-                if (is_dir($item)) {
-                    $filter->addDirectoryToBlacklist($item);
-                } elseif (is_file($item)) {
-                    $filter->addFileToBlacklist($item);
-                }
-            }
-        } else {
-            $coverage->setAddUncoveredFilesFromWhitelist(
-                $input->getOption('add-uncovered')
-            );
+        $coverage->setProcessUncoveredFilesFromWhitelist(
+            $input->getOption('process-uncovered')
+        );
 
-            $coverage->setProcessUncoveredFilesFromWhitelist(
-                $input->getOption('process-uncovered')
-            );
-
-            foreach ($input->getOption('whitelist') as $item) {
-                if (is_dir($item)) {
-                    $filter->addDirectoryToWhitelist($item);
-                } elseif (is_file($item)) {
-                    $filter->addFileToWhitelist($item);
-                }
+        foreach ($input->getOption('whitelist') as $item) {
+            if (is_dir($item)) {
+                $filter->addDirectoryToWhitelist($item);
+            } elseif (is_file($item)) {
+                $filter->addFileToWhitelist($item);
             }
         }
     }
