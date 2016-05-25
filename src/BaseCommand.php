@@ -23,7 +23,7 @@ use PHPUnit_Util_Configuration;
 use ReflectionClass;
 
 /**
- * @since     Class available since Release 2.0.0
+ * @since Class available since Release 2.0.0
  */
 abstract class BaseCommand extends AbstractCommand
 {

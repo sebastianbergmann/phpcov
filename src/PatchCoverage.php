@@ -14,7 +14,7 @@ use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
 /**
- * @since     Class available since Release 2.0.0
+ * @since Class available since Release 2.0.0
  */
 class PatchCoverage
 {

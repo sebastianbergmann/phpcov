@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * TextUI frontend for PHP_CodeCoverage.
  *
- * @since     Class available since Release 2.0.0
+ * @since Class available since Release 2.0.0
  */
 class Application extends AbstractApplication
 {

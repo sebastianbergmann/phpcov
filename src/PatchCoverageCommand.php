@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PHP_CodeCoverage_Util;
 
 /**
- * @since     Class available since Release 2.0.0
+ * @since Class available since Release 2.0.0
  */
 class PatchCoverageCommand extends AbstractCommand
 {
