@@ -16,6 +16,7 @@ use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
 use SebastianBergmann\CodeCoverage\Report\PHP as PhpReport;
 use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
+use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -142,6 +143,11 @@ abstract class BaseCommand extends AbstractCommand
         if ($input->getOption('text')) {
             $writer = new TextReport;
             $writer->process($coverage, $input->getOption('text'));
+        }
+
+        if ($input->getOption('xml')) {
+            $writer = new XmlReport;
+            $writer->process($coverage, $input->getOption('xml'));
         }
     }
 }

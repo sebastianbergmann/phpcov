@@ -74,18 +74,24 @@ class ExecuteCommand extends BaseCommand
                  InputOption::VALUE_REQUIRED,
                  'Generate code coverage report in HTML format'
              )
-             ->addOption(
-                 'php',
-                 null,
-                 InputOption::VALUE_REQUIRED,
-                 'Export code coverage object to file'
-             )
-             ->addOption(
-                 'text',
-                 null,
-                 InputOption::VALUE_REQUIRED,
-                 'Generate code coverage report in text format'
-             );
+            ->addOption(
+                'php',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Export code coverage object to file'
+            )
+            ->addOption(
+                'text',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Generate code coverage report in text format'
+            )
+            ->addOption(
+                'xml',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Generate code coverage report in PHPUnit XML format'
+            );
     }
 
     /**
