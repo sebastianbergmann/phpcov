@@ -141,8 +141,9 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('text')) {
-            $writer = new TextReport;
-            $writer->process($coverage, $input->getOption('text'));
+            $report = new TextReport;
+
+            $output->write($report->process($coverage));
         }
 
         if ($input->getOption('xml')) {
