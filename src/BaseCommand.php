@@ -142,7 +142,7 @@ abstract class BaseCommand extends AbstractCommand
 
         if ($input->getOption('text')) {
             $writer = new PHP_CodeCoverage_Report_Text;
-            $writer->process($coverage, $input->getOption('text'));
+            $output->write($writer->process($coverage));
         }
     }
 }
