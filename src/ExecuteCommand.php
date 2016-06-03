@@ -83,7 +83,7 @@ class ExecuteCommand extends BaseCommand
             ->addOption(
                 'text',
                 null,
-                InputOption::VALUE_NONE,
+                InputOption::VALUE_REQUIRED,
                 'Write code coverage report in text format to STDOUT'
             )
             ->addOption(
@@ -91,6 +91,12 @@ class ExecuteCommand extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Generate code coverage report in PHPUnit XML format'
+            )
+            ->addOption(
+                'ansi',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate code coverage report in text format colored output'
             );
     }
 
