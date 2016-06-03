@@ -140,7 +140,13 @@ abstract class BaseCommand extends AbstractCommand
         if ($input->getOption('text')) {
             $report = new TextReport;
 
-            $output->write($report->process($coverage, $input->getOption('show-colors')));
+            $output->write($report->process($coverage));
+        }
+        
+        if ($input->getOption('ansi')) {
+            $report = new TextReport;
+
+            $output->write($report->process($coverage, true));
         }
 
         if ($input->getOption('xml')) {
