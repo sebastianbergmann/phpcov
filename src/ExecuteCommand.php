@@ -83,7 +83,7 @@ class ExecuteCommand extends BaseCommand
             ->addOption(
                 'text',
                 null,
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 'Write code coverage report in text format to STDOUT'
             )
             ->addOption(
