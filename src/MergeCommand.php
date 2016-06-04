@@ -62,7 +62,7 @@ class MergeCommand extends BaseCommand
             ->addOption(
                 'text',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_NONE,
                 'Generate code coverage report in text format'
             )
             ->addOption(
@@ -70,12 +70,6 @@ class MergeCommand extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Generate code coverage report in PHPUnit XML format'
-            )
-            ->addOption(
-                'ansi',
-                null,
-                InputOption::VALUE_NONE,
-                'Generate code coverage report in text format colored output'
             );
     }
 
