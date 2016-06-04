@@ -147,6 +147,10 @@ abstract class BaseCommand extends AbstractCommand
             if ($input->getOption('no-ansi')){
                 $color=false;
             }
+            
+            if ($input->getOption('ansi')){
+                $color=true;
+            }
 
             $output->write($report->process($coverage, $color));
         }
