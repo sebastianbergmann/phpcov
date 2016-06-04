@@ -28,6 +28,8 @@ class Application extends AbstractApplication
         parent::__construct('phpcov', $version->getVersion());
 
         $this->add(new ExecuteCommand);
+        $this->add(new StartCommand);
+        $this->add(new StopCommand);
         $this->add(new MergeCommand);
         $this->add(new PatchCoverageCommand);
     }

@@ -1,35 +1,36 @@
 <?php
-/*
+/**
  * This file is part of phpcov.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @author Levi Govaerts <legovaer@me.com>
  */
 
 namespace SebastianBergmann\PHPCOV;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use Symfony\Component\Console\Exception\RuntimeException;
-use Symfony\Component\Console\Input\InputArgument;
+use SebastianBergmann\CodeCoverage\Driver\XdebugSQLite3;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @since Class available since Release 2.0.0
+ * @since Class available since Release 3.0.1
  */
-class ExecuteCommand extends BaseCommand
+class StartCommand extends BaseCommand
 {
-    use ExecuteOptionsTrait;
+
+    public $root;
 
     /**
      * Configures the current command.
      */
     protected function configure()
     {
-        $this->setName('execute');
+        $this->setName('start');
     }
 
     /**
@@ -42,21 +43,9 @@ class ExecuteCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$input->getArgument('script')) {
-            throw new RuntimeException('Not enough arguments (missing: "script").');
-        }
-
-        $coverage = new CodeCoverage;
-
-        $this->handleConfiguration($coverage, $input);
-        $this->handleFilter($coverage, $input);
-
-        $coverage->start('phpcov');
-
-        require $input->getArgument('script');
-
-        $coverage->stop();
-
-        $this->handleReports($coverage, $input, $output);
+        $coverage = new CodeCoverage(new XdebugSQLite3());
+        /** @var XdebugSQLite3 $driver */
+        $driver = $coverage->driver();
+        $driver->resetLog();
     }
 }
