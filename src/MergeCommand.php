@@ -63,7 +63,7 @@ class MergeCommand extends BaseCommand
                 'text',
                 null,
                 InputOption::VALUE_NONE,
-                'Generate code coverage report in text format'
+                'Generate code coverage report in text format to STDOUT'
             )
             ->addOption(
                 'xml',
