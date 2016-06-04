@@ -143,11 +143,7 @@ abstract class BaseCommand extends AbstractCommand
         if ($input->getOption('text')) {
             $report = new TextReport;
             
-            $color=true;
-            if ($input->getOption('no-ansi')){
-                $color=false;
-            }
-            
+            $color=false;
             if ($input->getOption('ansi')){
                 $color=true;
             }
