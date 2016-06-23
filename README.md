@@ -69,3 +69,15 @@ Make sure you have `~/.composer/vendor/bin/` in your path.
     phpcov 2.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
+
+### Checking against a minimum code coverage target
+
+Use the check-coverage command to check for sufficient code coverage.
+If the check fails, PHPCOV will exit with status 1.
+
+    $ phpcov check-coverage tmp/coverage.cov 90
+    phpcov <unreleased> by Sebastian Bergmann.
+
+    Insufficient code coverage (90.0% required, 11.4% reached)
+    $ echo $?
+    1

@@ -30,6 +30,7 @@ class Application extends AbstractApplication
         $this->add(new ExecuteCommand);
         $this->add(new MergeCommand);
         $this->add(new PatchCoverageCommand);
+        $this->add(new CheckCoverageCommand);
     }
 
     /**
@@ -56,6 +57,6 @@ class Application extends AbstractApplication
             exit;
         }
 
-        parent::doRun($input, $output);
+        return parent::doRun($input, $output);
     }
 }
