@@ -16,9 +16,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @since Class available since Release 2.0.0
- */
 class ExecuteCommand extends BaseCommand
 {
     /**

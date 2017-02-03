@@ -1,72 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="phpcov" default="build">
-    <target name="build" depends="prepare,lint"/>
+<project name="phpcov" default="setup">
+    <target name="setup" depends="clean,composer"/>
 
     <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/bin"/>
         <delete dir="${basedir}/vendor"/>
         <delete file="${basedir}/composer.lock"/>
-        <delete dir="${basedir}/build/phar"/>
-        <delete>
-            <fileset dir="${basedir}/build" includes="*.phar"/>
-        </delete>
     </target>
 
-    <target name="composer" description="Install dependencies with Composer">
-        <tstamp>
-            <format property="thirty.days.ago" pattern="MM/dd/yyyy hh:mm aa" offset="-30" unit="day"/>
-        </tstamp>
-        <delete>
-            <fileset dir="${basedir}">
-                <include name="composer.phar"/>
-                <date datetime="${thirty.days.ago}" when="before"/>
-            </fileset>
-        </delete>
-
-        <get src="https://getcomposer.org/composer.phar" dest="${basedir}/composer.phar" skipexisting="true"/>
-
-        <exec executable="php">
-            <arg value="composer.phar"/>
-            <arg value="install"/>
-        </exec>
-    </target>
-
-    <target name="prepare" depends="clean,composer" description="Prepare for build">
-    </target>
-
-    <target name="lint">
-        <apply executable="php" failonerror="true">
-            <arg value="-l"/>
-
-            <fileset dir="${basedir}/src">
-                <include name="**/*.php"/>
-                <modified/>
-            </fileset>
-
-            <fileset dir="${basedir}/tests">
-                <include name="**/*.php"/>
-                <modified/>
-            </fileset>
-        </apply>
-    </target>
-
-    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
-        <exec executable="phpcs">
-            <arg value="--standard=PSR2"/>
-            <arg value="--extensions=php"/>
-            <arg path="${basedir}/src"/>
-        </exec>
-    </target>
-
-    <target name="phpunit" depends="prepare,lint" description="Run unit tests with PHPUnit">
-        <exec executable="${basedir}/vendor/bin/phpunit" failonerror="true">
-            <arg value="--configuration"/>
-            <arg path="${basedir}/build/phpunit.xml"/>
+    <target name="composer" depends="clean" description="Install dependencies with Composer">
+        <exec executable="composer" taskname="composer">
+            <arg value="update"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-ansi"/>
+            <arg value="--no-suggest"/>
+            <arg value="--optimize-autoloader"/>
+            <arg value="--prefer-stable"/>
         </exec>
     </target>
 
     <target name="signed-phar"
-            description="Create signed PHAR archive of PHPUnit and all its dependencies (release)"
+            description="Create signed PHAR archive of phpcov and all its dependencies (release)"
             depends="phar">
         <exec executable="bash" outputproperty="version">
             <arg value="-c" />
@@ -145,3 +99,4 @@
         <chmod file="${basedir}/build/phpcov-${version}.phar" perm="ugo+rx"/>
     </target>
 </project>
+

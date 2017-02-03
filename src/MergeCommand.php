@@ -17,9 +17,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use SebastianBergmann\FinderFacade\FinderFacade;
 
-/**
- * @since Class available since Release 2.0.0
- */
 class MergeCommand extends BaseCommand
 {
     /**

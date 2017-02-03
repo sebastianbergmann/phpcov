@@ -22,9 +22,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPUnit_Util_Configuration;
 
-/**
- * @since Class available since Release 2.0.0
- */
 abstract class BaseCommand extends AbstractCommand
 {
     protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input)

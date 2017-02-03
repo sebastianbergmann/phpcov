@@ -1,7 +1,6 @@
 /build/phar
 /build/*.phar*
 /.idea
-/cache.properties
-/composer.phar
 /composer.lock
 /vendor
+

@@ -10,12 +10,9 @@
 
 namespace SebastianBergmann\PHPCOV;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-/**
- * @since     Class available since Release 2.0.0
- */
-class PatchCoverageTest extends PHPUnit_Framework_TestCase
+class PatchCoverageTest extends TestCase
 {
     /**
      * @dataProvider providerForPatchCoverageIsCalculatedCorrectly
