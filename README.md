@@ -15,7 +15,7 @@ The easiest way to obtain phpcov is to download a [PHP Archive (PHAR)](http://ph
 You can also immediately use the PHAR after you have downloaded it, of course:
 
     $ wget https://phar.phpunit.de/phpcov.phar
-    $ php phpcpd.phar
+    $ php phpcov.phar
 
 ### Composer
 
