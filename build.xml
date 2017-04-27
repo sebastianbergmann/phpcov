@@ -3,8 +3,15 @@
     <target name="setup" depends="clean,composer"/>
 
     <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/vendor"/>
         <delete file="${basedir}/composer.lock"/>
+        <delete dir="${basedir}/vendor"/>
+        <delete dir="${basedir}/build/phar"/>
+        <delete>
+            <fileset dir="${basedir}/build">
+                <include name="**/phpcov*.phar"/>
+                <include name="**/phpcov*.phar.asc"/>
+            </fileset>
+        </delete>
     </target>
 
     <target name="composer" depends="clean" description="Install dependencies with Composer">
@@ -55,19 +62,15 @@
         <copy todir="${basedir}/build/phar/phpunit">
             <fileset dir="${basedir}/vendor/phpunit">
                 <include name="**/*.php"/>
-                <include name="php-code-coverage/src/CodeCoverage/Report/HTML/Renderer/Template/**"/>
-                <exclude name="**/Autoload.php"/>
-                <exclude name="**/autoload.php"/>
-                <exclude name="**/Tests/**"/>
-                <exclude name="**/tests/**"/>
+                <include name="php-code-coverage/src/Report/Html/Renderer/Template/**"/>
                 <exclude name="**/build/**"/>
+                <exclude name="**/tests/**"/>
             </fileset>
         </copy>
 
         <copy todir="${basedir}/build/phar/sebastian">
             <fileset dir="${basedir}/vendor/sebastian">
                 <include name="**/src/*.php"/>
-                <exclude name="**/autoload.php"/>
             </fileset>
         </copy>
 
