@@ -57,7 +57,7 @@ You can then invoke it using the `vendor/bin/phpcov` executable.
 
 ### Executing a PHP script and generating code coverage in Clover XML format
 
-    $ phpcov execute script.php --clover coverage.xml
+    $ phpcov execute script.php --clover coverage.xml --whitelist TestedClass.php
     phpcov 2.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
