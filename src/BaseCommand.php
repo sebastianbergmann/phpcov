@@ -32,7 +32,6 @@ abstract class BaseCommand extends AbstractCommand
     
     protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input)
     {
-
         $configuration = $input->getOption('configuration');
 
         if (!$configuration) {
@@ -106,7 +105,6 @@ abstract class BaseCommand extends AbstractCommand
 
     protected function handleReports(CodeCoverage $coverage, InputInterface $input, OutputInterface $output)
     {
-
         if ($input->getOption('clover')) {
             $output->write(
                 "\nGenerating code coverage report in Clover XML format ..."
