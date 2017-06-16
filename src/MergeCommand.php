@@ -39,6 +39,20 @@ class MergeCommand extends BaseCommand
                  'Directory to scan for exported code coverage objects stored in .cov files'
              )
              ->addOption(
+                 'lowupperbound',
+                 null,
+                 InputOption::VALUE_OPTIONAL,
+                 'Maximum coverage percentage to be considered "lowly" covered',
+                 50
+             )
+             ->addOption(
+                 'highlowerbound',
+                 null,
+                 InputOption::VALUE_OPTIONAL,
+                 'Minimum coverage percentage to be considered "highly" covered',
+                 90
+             )
+             ->addOption(
                  'clover',
                  null,
                  InputOption::VALUE_REQUIRED,
