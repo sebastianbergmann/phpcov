@@ -119,8 +119,11 @@ abstract class BaseCommand extends AbstractCommand
             $output->write(
                 "\nGenerating code coverage report in HTML format ..."
             );
-
-            $writer = new HtmlReport;
+        
+            $writer = new HtmlReport(
+                $input->getOption('lowupperbound'),
+                $input->getOption('highlowerbound')
+            );
             $writer->process($coverage, $input->getOption('html'));
 
             $output->write(" done\n");
