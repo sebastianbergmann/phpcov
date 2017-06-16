@@ -39,18 +39,10 @@ class MergeCommand extends BaseCommand
                  'Directory to scan for exported code coverage objects stored in .cov files'
              )
              ->addOption(
-                 'lowupperbound',
+                 'configuration',
                  null,
                  InputOption::VALUE_OPTIONAL,
-                 'Maximum coverage percentage to be considered "lowly" covered',
-                 50
-             )
-             ->addOption(
-                 'highlowerbound',
-                 null,
-                 InputOption::VALUE_OPTIONAL,
-                 'Minimum coverage percentage to be considered "highly" covered',
-                 90
+                 'Read configuration from XML file'
              )
              ->addOption(
                  'clover',
@@ -101,7 +93,8 @@ class MergeCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $mergedCoverage = new CodeCoverage;
-
+        $this->handleConfiguration($mergedCoverage, $input);
+        
         $finder = new FinderFacade(
             [$input->getArgument('directory')],
             [],

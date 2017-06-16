@@ -11,4 +11,7 @@
    <directory>../src</directory>
   </whitelist>
  </filter>
+ <logging>
+  <log type="coverage-html" lowUpperBound="35" highLowerBound="75" target="notused"/>
+ </logging>
 </phpunit>

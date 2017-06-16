@@ -27,8 +27,12 @@ use PHPUnit_Util_Configuration;
  */
 abstract class BaseCommand extends AbstractCommand
 {
+    private $lowupperbound = 50;
+    private $highlowerbound = 90;
+    
     protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input)
     {
+
         $configuration = $input->getOption('configuration');
 
         if (!$configuration) {
@@ -39,6 +43,12 @@ abstract class BaseCommand extends AbstractCommand
         $configuration = PHPUnit_Util_Configuration::getInstance($configuration);
 
         $filterConfiguration = $configuration->getFilterConfiguration();
+        
+        $loggingConfiguration = $configuration->getLoggingConfiguration();
+        if (isset($loggingConfiguration['lowUpperBound']))
+            $this->lowupperbound = $loggingConfiguration['lowUpperBound'];
+        if (isset($loggingConfiguration['highLowerBound']))
+            $this->highlowerbound = $loggingConfiguration['highLowerBound'];
 
         $coverage->setAddUncoveredFilesFromWhitelist(
             $filterConfiguration['whitelist']['addUncoveredFilesFromWhitelist']
@@ -96,6 +106,7 @@ abstract class BaseCommand extends AbstractCommand
 
     protected function handleReports(CodeCoverage $coverage, InputInterface $input, OutputInterface $output)
     {
+
         if ($input->getOption('clover')) {
             $output->write(
                 "\nGenerating code coverage report in Clover XML format ..."
@@ -122,10 +133,9 @@ abstract class BaseCommand extends AbstractCommand
             $output->write(
                 "\nGenerating code coverage report in HTML format ..."
             );
-
             $writer = new HtmlReport(
-                $input->getOption('lowupperbound'),
-                $input->getOption('highlowerbound')
+                $this->lowupperbound,
+                $this->highlowerbound
             );
             $writer->process($coverage, $input->getOption('html'));
 
