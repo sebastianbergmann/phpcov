@@ -153,7 +153,7 @@ abstract class BaseCommand extends AbstractCommand
                 "\nGenerating code coverage report in PHP format ..."
             );
 
-            $writer = new XmlReport;
+            $writer = new XmlReport('unknown');
             $writer->process($coverage, $input->getOption('xml'));
 
             $output->write(" done\n");
