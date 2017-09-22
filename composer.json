@@ -17,7 +17,7 @@
         "php": "^7.0",
         "phpunit/phpunit": "^6.0",
         "phpunit/php-code-coverage": "^5.2.1",
-        "sebastian/diff": "^1.1",
+        "sebastian/diff": "^1.1 || ^2.0",
         "sebastian/finder-facade": "^1.1",
         "sebastian/version": "^2.0",
         "symfony/console": "^3"
