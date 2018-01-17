@@ -13,6 +13,14 @@
     "support": {
         "issues": "https://github.com/sebastianbergmann/phpcov/issues"
     },
+    "config": {
+        "platform": {
+            "php": "7.0.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
     "require": {
         "php": "^7.0",
         "phpunit/phpunit": "^6.0",
