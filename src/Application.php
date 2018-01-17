@@ -22,7 +22,7 @@ class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('4.0.3', dirname(__DIR__));
+        $version = new Version('4.0.4', dirname(__DIR__));
         parent::__construct('phpcov', $version->getVersion());
 
         $this->add(new ExecuteCommand);
