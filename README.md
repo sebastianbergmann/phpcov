@@ -1,6 +1,6 @@
 # phpcov
 
-**phpcov** is a command-line frontend for the PHP_CodeCoverage library.
+**phpcov** is a command-line frontend for the php-code-coverage library.
 
 ## Installation
 
@@ -44,7 +44,7 @@ You can then invoke it using the `vendor/bin/phpcov` executable.
 
       Example.php:11
 
-### Merging exported PHP_CodeCoverage objects stored in *.cov files
+### Merging exported php-code-coverage objects stored in *.cov files
 
     $ parallel --gnu :::                                                 \
         'phpunit --coverage-php /tmp/coverage/FooTest.cov tests/FooTest' \

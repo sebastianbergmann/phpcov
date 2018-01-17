@@ -1,6 +1,6 @@
 {
     "name": "phpunit/phpcov",
-    "description": "CLI frontend for PHP_CodeCoverage",
+    "description": "CLI frontend for php-code-coverage",
     "homepage": "https://github.com/sebastianbergmann/phpcov",
     "license": "BSD-3-Clause",
     "authors": [
