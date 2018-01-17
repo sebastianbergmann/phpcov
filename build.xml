@@ -79,8 +79,12 @@
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/fdomdocument">
+        <copy todir="${basedir}/build/phar/theseer-fdomdocument">
             <fileset dir="${basedir}/vendor/theseer/fdomdocument/src"/>
+        </copy>
+
+        <copy todir="${basedir}/build/phar/theseer-tokenizer">
+            <fileset dir="${basedir}/vendor/theseer/tokenizer/src"/>
         </copy>
 
         <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
