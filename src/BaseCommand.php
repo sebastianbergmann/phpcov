@@ -138,7 +138,13 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('text')) {
-            $report = new TextReport;
+            $lowUpperBound = $input->getOption('lowUpperBound') ?? 50;
+            $highLowerBound = $input->getOption('highLowerBound') ?? 90;
+            $showUncoveredFiles = $input->getOption('showUncoveredFiles');
+            $showOnlySummary = $input->getOption('showOnlySummary');
+
+            $report = new TextReport($lowUpperBound, $highLowerBound,
+                $showUncoveredFiles, $showOnlySummary);
             
             $color=false;
             if ($input->getOption('ansi')){

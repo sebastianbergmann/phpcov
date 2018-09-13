@@ -70,6 +70,30 @@ class MergeCommand extends BaseCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Generate code coverage report in PHPUnit XML format'
+            )
+            ->addOption(
+                'lowUpperBound',
+                50,
+                InputOption::VALUE_REQUIRED,
+                'Set the lowUpperBound value for text format'
+            )
+            ->addOption(
+                'highLowerBound',
+                90,
+                InputOption::VALUE_REQUIRED,
+                'Set highLowerBound value for text format'
+            )
+            ->addOption(
+                'showUncoveredFiles',
+                null,
+                InputOption::VALUE_NONE,
+                'Set showUncoveredFiles TRUE for test format'
+            )
+            ->addOption(
+                'showOnlySummary',
+                null,
+                InputOption::VALUE_NONE,
+                'Set showOnlySummary TRUE for test format'
             );
     }
 
