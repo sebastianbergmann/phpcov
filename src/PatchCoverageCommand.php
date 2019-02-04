@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -22,7 +22,7 @@ class PatchCoverageCommand extends AbstractCommand
     /**
      * Configures the current command.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('patch-coverage')
              ->addArgument(
@@ -62,7 +62,7 @@ class PatchCoverageCommand extends AbstractCommand
         );
 
         $output->writeln(
-            sprintf(
+            \sprintf(
                 '%d / %d changed executable lines covered (%s)',
                 $pc['numChangedLinesThatWereExecuted'],
                 $pc['numChangedLinesThatAreExecutable'],
@@ -80,7 +80,7 @@ class PatchCoverageCommand extends AbstractCommand
             foreach ($pc['changedLinesThatWereNotExecuted'] as $file => $lines) {
                 foreach ($lines as $line) {
                     $output->writeln(
-                        sprintf(
+                        \sprintf(
                             '  %s:%d',
                             $file,
                             $line

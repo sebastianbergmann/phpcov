@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -27,21 +27,21 @@ class PatchCoverage
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
             'numChangedLinesThatWereExecuted'  => 0,
-            'changedLinesThatWereNotExecuted'  => []
+            'changedLinesThatWereNotExecuted'  => [],
         ];
 
-        if (substr($prefix, -1, 1) != DIRECTORY_SEPARATOR) {
-            $prefix .= DIRECTORY_SEPARATOR;
+        if (\substr($prefix, -1, 1) != \DIRECTORY_SEPARATOR) {
+            $prefix .= \DIRECTORY_SEPARATOR;
         }
 
         $coverage = include($coverage);
         $coverage = $coverage->getData();
         $parser   = new DiffParser;
-        $patch    = $parser->parse(file_get_contents($patch));
+        $patch    = $parser->parse(\file_get_contents($patch));
         $changes  = [];
 
         foreach ($patch as $diff) {
-            $file           = substr($diff->getTo(), 2);
+            $file           = \substr($diff->getTo(), 2);
             $changes[$file] = [];
 
             foreach ($diff->getChunks() as $chunk) {
@@ -64,7 +64,7 @@ class PatchCoverage
 
             foreach ($lines as $line) {
                 if (isset($coverage[$key][$line]) &&
-                    is_array($coverage[$key][$line])) {
+                    \is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
 
                     if (empty($coverage[$key][$line])) {

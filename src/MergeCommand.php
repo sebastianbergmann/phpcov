@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -11,11 +11,11 @@
 namespace SebastianBergmann\PHPCOV;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\FinderFacade\FinderFacade;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use SebastianBergmann\FinderFacade\FinderFacade;
 
 class MergeCommand extends BaseCommand
 {
@@ -27,7 +27,7 @@ class MergeCommand extends BaseCommand
     /**
      * Configures the current command.
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('merge')
              ->addArgument(
@@ -94,9 +94,10 @@ class MergeCommand extends BaseCommand
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
 
-            if (! ($_coverage instanceof CodeCoverage)) {
+            if (!($_coverage instanceof CodeCoverage)) {
                 $this->mergeErrors[] = $file;
                 unset($_coverage);
+
                 continue;
             }
 
@@ -108,10 +109,7 @@ class MergeCommand extends BaseCommand
         $this->outputMergeErrors($output);
     }
 
-    /**
-     * @param OutputInterface $output
-     */
-    protected function outputMergeErrors(OutputInterface $output)
+    protected function outputMergeErrors(OutputInterface $output): void
     {
         if (empty($this->mergeErrors)) {
             return;

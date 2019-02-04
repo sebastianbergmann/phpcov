@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -22,7 +22,7 @@ class Application extends AbstractApplication
 {
     public function __construct()
     {
-        $version = new Version('6.0', dirname(__DIR__));
+        $version = new Version('6.0', \dirname(__DIR__));
         parent::__construct('phpcov', $version->getVersion());
 
         $this->add(new ExecuteCommand);
@@ -42,7 +42,7 @@ class Application extends AbstractApplication
     {
         if (!$input->hasParameterOption('--quiet')) {
             $output->write(
-                sprintf(
+                \sprintf(
                     "phpcov %s by Sebastian Bergmann.\n\n",
                     $this->getVersion()
                 )

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace SebastianBergmann\PHPCOV;
 
+use PHPUnit\Util\Configuration;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
@@ -20,11 +20,10 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPUnit_Util_Configuration;
 
 abstract class BaseCommand extends AbstractCommand
 {
-    protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input)
+    protected function handleConfiguration(CodeCoverage $coverage, InputInterface $input): void
     {
         $configuration = $input->getOption('configuration');
 
@@ -33,7 +32,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         $filter        = $coverage->filter();
-        $configuration = PHPUnit_Util_Configuration::getInstance($configuration);
+        $configuration = Configuration::getInstance($configuration);
 
         $filterConfiguration = $configuration->getFilterConfiguration();
 
@@ -70,7 +69,7 @@ abstract class BaseCommand extends AbstractCommand
         }
     }
 
-    protected function handleFilter(CodeCoverage $coverage, InputInterface $input)
+    protected function handleFilter(CodeCoverage $coverage, InputInterface $input): void
     {
         $filter = $coverage->filter();
 
@@ -83,20 +82,18 @@ abstract class BaseCommand extends AbstractCommand
         );
 
         foreach ($input->getOption('whitelist') as $item) {
-            if (is_dir($item)) {
+            if (\is_dir($item)) {
                 $filter->addDirectoryToWhitelist($item);
-            } elseif (is_file($item)) {
+            } elseif (\is_file($item)) {
                 $filter->addFileToWhitelist($item);
             }
         }
     }
 
-    protected function handleReports(CodeCoverage $coverage, InputInterface $input, OutputInterface $output)
+    protected function handleReports(CodeCoverage $coverage, InputInterface $input, OutputInterface $output): void
     {
         if ($input->getOption('clover')) {
-            $output->write(
-                "\nGenerating code coverage report in Clover XML format ..."
-            );
+            $output->write("\nGenerating code coverage report in Clover XML format ...");
 
             $writer = new CloverReport;
             $writer->process($coverage, $input->getOption('clover'));
@@ -105,9 +102,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('crap4j')) {
-            $output->write(
-                "\nGenerating code coverage report in Crap4J XML format..."
-            );
+            $output->write("\nGenerating code coverage report in Crap4J XML format...");
 
             $writer = new Crap4jReport;
             $writer->process($coverage, $input->getOption('crap4j'));
@@ -116,9 +111,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('html')) {
-            $output->write(
-                "\nGenerating code coverage report in HTML format ..."
-            );
+            $output->write("\nGenerating code coverage report in HTML format ...");
 
             $writer = new HtmlReport;
             $writer->process($coverage, $input->getOption('html'));
@@ -127,9 +120,7 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         if ($input->getOption('php')) {
-            $output->write(
-                "\nGenerating code coverage report in PHP format ..."
-            );
+            $output->write("\nGenerating code coverage report in PHP format ...");
 
             $writer = new PhpReport;
             $writer->process($coverage, $input->getOption('php'));
@@ -139,10 +130,11 @@ abstract class BaseCommand extends AbstractCommand
 
         if ($input->getOption('text')) {
             $report = new TextReport;
-            
-            $color=false;
-            if ($input->getOption('ansi')){
-                $color=true;
+
+            $color = false;
+
+            if ($input->getOption('ansi')) {
+                $color = true;
             }
 
             $output->write($report->process($coverage, $color));

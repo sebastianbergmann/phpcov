@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of phpcov.
  *
@@ -17,7 +17,7 @@ class PatchCoverageTest extends TestCase
     /**
      * @dataProvider providerForPatchCoverageIsCalculatedCorrectly
      */
-    public function testPatchCoverageIsCalculatedCorrectly($patchFile)
+    public function testPatchCoverageIsCalculatedCorrectly($patchFile): void
     {
         $pc = new PatchCoverage;
 
@@ -26,8 +26,8 @@ class PatchCoverageTest extends TestCase
                 'numChangedLinesThatAreExecutable' => 2,
                 'numChangedLinesThatWereExecuted'  => 1,
                 'changedLinesThatWereNotExecuted'  => [
-                    'Example.php' => [11]
-                ]
+                    'Example.php' => [11],
+                ],
             ],
             $pc->execute(
                 __DIR__ . '/fixture/coverage.php',
@@ -42,16 +42,16 @@ class PatchCoverageTest extends TestCase
         return [
             // Original patch
             [
-                'patch'
+                'patch',
             ],
             // Patch showing a renamed file
             [
-                'patch2'
+                'patch2',
             ],
             // Patch with different start and end numbers
             [
-                'patch3'
-            ]
+                'patch3',
+            ],
         ];
     }
 }
