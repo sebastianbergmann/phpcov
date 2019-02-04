@@ -15,16 +15,16 @@
     },
     "config": {
         "platform": {
-            "php": "7.1.0"
+            "php": "7.2.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
     },
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
-        "phpunit/phpunit": "^7.0",
-        "phpunit/php-code-coverage": "^6.0",
+        "php": "^7.2",
+        "phpunit/phpunit": "^8.0",
+        "phpunit/php-code-coverage": "^7.0",
         "sebastian/diff": "^3.0",
         "sebastian/finder-facade": "^1.1",
         "sebastian/version": "^2.0",
@@ -40,7 +40,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "5.0-dev"
+            "dev-master": "6.0-dev"
         }
     }
 }
