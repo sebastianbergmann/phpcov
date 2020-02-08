@@ -2,6 +2,16 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [7.0.0] - 2020-02-08
+
+### Added
+
+* Added support for PHPUnit 9
+
+### Removed
+
+* Removed support for PHP 7.2
+
 ## [6.0.1] - 2019-11-18
 
 * No changes; `phpcov.phar` rebuilt with updated dependencies
@@ -16,6 +26,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[7.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.1...7.0.0
 [6.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.0...6.0.1
 [6.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.0...6.0.0
 
