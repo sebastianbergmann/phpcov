@@ -106,6 +106,8 @@ class MergeCommand extends BaseCommand
 
         $this->handleReports($mergedCoverage, $input, $output);
         $this->outputMergeErrors($output);
+        
+        return empty($this->mergeErrors) ? 0 : 1;
     }
 
     protected function outputMergeErrors(OutputInterface $output): void
