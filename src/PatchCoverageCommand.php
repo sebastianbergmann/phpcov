@@ -88,5 +88,7 @@ class PatchCoverageCommand extends AbstractCommand
                 }
             }
         }
+        
+        return 0;
     }
 }
