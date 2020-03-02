@@ -4,26 +4,17 @@
 
 ## Installation
 
-### PHP Archive (PHAR)
+The recommended way to use this tool is a [PHP Archive (PHAR)](https://php.net/phar):
 
-The easiest way to obtain phpcov is to download a [PHP Archive (PHAR)](http://php.net/phar) that has all required dependencies of phpcov bundled in a single file:
+```bash
+$ wget https://phar.phpunit.de/phpcov.phar
 
-    $ wget https://phar.phpunit.de/phpcov.phar
-    $ chmod +x phpcov.phar
-    $ mv phpcov.phar /usr/local/bin/phpcov
+$ php phpcov.phar --version
+```
 
-You can also immediately use the PHAR after you have downloaded it, of course:
+Furthermore, it is recommended to use [Phive](https://phar.io/) for installing and updating the tool dependencies of your project.
 
-    $ wget https://phar.phpunit.de/phpcov.phar
-    $ php phpcov.phar
-
-### Composer
-
-You can add this tool as a local, per-project, development-time dependency to your project using [Composer](https://getcomposer.org/):
-
-    $ composer require --dev phpunit/phpcov
-
-You can then invoke it using the `vendor/bin/phpcov` executable.
+Alternatively, you may use [Composer](https://getcomposer.org/) to download and install this tool as well as its dependencies. [This is not recommended, though.](https://twitter.com/s_bergmann/status/999635212723212288)
 
 ## Usage
 
