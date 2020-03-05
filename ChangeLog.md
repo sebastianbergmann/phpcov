@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [7.0.2] - 2020-03-05
+
+### Fixed
+
+* Fixed [#95](https://github.com/sebastianbergmann/phpcov/pull/95): `TypeError` in commands
+
 ## [7.0.1] - 2020-02-09
 
 ### Fixed
@@ -32,6 +38,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[7.0.2]: https://github.com/sebastianbergmann/phpcpd/compare/7.0.1...7.0.2
 [7.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/7.0.0...7.0.1
 [7.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.1...7.0.0
 [6.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.0...6.0.1
