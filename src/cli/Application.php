@@ -284,7 +284,7 @@ EOT;
     private function handleReports(CodeCoverage $coverage, Arguments $arguments): void
     {
         if ($arguments->clover()) {
-            print PHP_EOL . 'Generating code coverage report in Clover XML format ... ';
+            print 'Generating code coverage report in Clover XML format ... ';
 
             $writer = new CloverReport;
 
@@ -295,7 +295,7 @@ EOT;
         }
 
         if ($arguments->crap4j()) {
-            print PHP_EOL . 'Generating code coverage report in Crap4J XML format ... ';
+            print 'Generating code coverage report in Crap4J XML format ... ';
 
             $writer = new Crap4jReport;
 
@@ -306,7 +306,7 @@ EOT;
         }
 
         if ($arguments->html()) {
-            print PHP_EOL . 'Generating code coverage report in HTML format ... ';
+            print 'Generating code coverage report in HTML format ... ';
 
             $writer = new HtmlReport;
 
@@ -316,7 +316,7 @@ EOT;
         }
 
         if ($arguments->php()) {
-            print PHP_EOL . 'Generating code coverage report in PHP format ... ';
+            print 'Generating code coverage report in PHP format ... ';
 
             $writer = new PhpReport;
 
@@ -327,7 +327,7 @@ EOT;
         }
 
         if ($arguments->text()) {
-            print PHP_EOL . 'Generating code coverage report in text format ... ';
+            print 'Generating code coverage report in text format ... ';
 
             $writer = new TextReport;
 
@@ -340,7 +340,7 @@ EOT;
         }
 
         if ($arguments->xml()) {
-            print PHP_EOL . 'Generating code coverage report in XML format ... ';
+            print 'Generating code coverage report in XML format ... ';
 
             $writer = new XmlReport('unknown');
 
