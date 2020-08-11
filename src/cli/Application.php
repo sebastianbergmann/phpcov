@@ -29,7 +29,7 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    public function run(array $argv): void
+    public function run(array $argv): int
     {
         $this->printVersion();
 
@@ -38,31 +38,37 @@ final class Application
         } catch (Exception $e) {
             print $e->getMessage() . PHP_EOL;
 
-            exit(1);
+            return 1;
         }
 
         if ($arguments->version()) {
-            exit(0);
+            return 0;
         }
 
         if ($arguments->help()) {
             $this->help();
+
+            return 0;
         }
 
         if ($arguments->command() === 'execute') {
-            $this->execute($arguments);
+            return $this->execute($arguments);
         }
 
         if ($arguments->command() === 'merge') {
-            $this->merge($arguments);
+            return $this->merge($arguments);
         }
 
         if ($arguments->command() === 'patch-coverage') {
-            $this->patchCoverage($arguments);
+            return $this->patchCoverage($arguments);
         }
+
+        $this->help();
+
+        return 1;
     }
 
-    private function execute(Arguments $arguments): void
+    private function execute(Arguments $arguments): int
     {
         if (!is_file($arguments->script())) {
             printf(
@@ -70,7 +76,7 @@ final class Application
                 $arguments->script()
             );
 
-            exit(1);
+            return 1;
         }
 
         $filter = new Filter;
@@ -86,7 +92,7 @@ final class Application
         if ($filter->isEmpty()) {
             print 'No list of files to be included in code coverage configured' . PHP_EOL;
 
-            exit(1);
+            return 1;
         }
 
         $coverage->start('phpcov');
@@ -98,10 +104,10 @@ final class Application
 
         $this->handleReports($coverage, $arguments);
 
-        exit(0);
+        return 0;
     }
 
-    private function merge(Arguments $arguments): void
+    private function merge(Arguments $arguments): int
     {
         $finder = new FinderFacade(
             [$arguments->directory()],
@@ -138,7 +144,7 @@ final class Application
                 print 'Failed to merge: ' . $error . PHP_EOL;
             }
 
-            exit(1);
+            return 1;
         }
 
         $this->handleReports($mergedCoverage, $arguments);
@@ -147,10 +153,10 @@ final class Application
             print 'Failed to merge: ' . $error . PHP_EOL;
         }
 
-        exit(empty($errors) ? 0 : 1);
+        return empty($errors) ? 0 : 1;
     }
 
-    private function patchCoverage(Arguments $arguments): void
+    private function patchCoverage(Arguments $arguments): int
     {
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
@@ -181,10 +187,10 @@ final class Application
                 }
             }
 
-            exit(1);
+            return 1;
         }
 
-        exit(0);
+        return 0;
     }
 
     private function help(): void
@@ -216,8 +222,6 @@ Options for "phpcov patch-coverage":
   --path-prefix <prefix> Prefix that needs to be stripped from paths in the patch
 
 EOT;
-
-        exit(0);
     }
 
     private function handleConfiguration(CodeCoverage $coverage, Arguments $arguments): void

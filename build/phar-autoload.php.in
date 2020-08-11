@@ -36,6 +36,6 @@ if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == '--manifest') {
     exit;
 }
 
-(new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']);
+exit((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 
 __HALT_COMPILER();

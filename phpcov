@@ -27,4 +27,4 @@ if (!$loaded) {
     );
 }
 
-(new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']);
+exit((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
