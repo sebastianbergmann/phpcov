@@ -12,6 +12,7 @@ namespace SebastianBergmann\PHPCOV;
 use const PHP_EOL;
 use function file_put_contents;
 use function printf;
+use function realpath;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
@@ -122,11 +123,31 @@ final class Application
 
     private function merge(Arguments $arguments): int
     {
+        if (!\is_dir($arguments->directory())) {
+            printf(
+                '"%s" is not a directory' . PHP_EOL,
+                $arguments->directory()
+            );
+
+            return 1;
+        }
+
         $finder = new FinderFacade(
             [$arguments->directory()],
             [],
             ['*.cov']
         );
+
+        $files = $finder->findFiles();
+
+        if (empty($files)) {
+            printf(
+                'No "%s/*.cov" files found' . PHP_EOL,
+                realpath($arguments->directory())
+            );
+
+            return 1;
+        }
 
         $errors = [];
 
