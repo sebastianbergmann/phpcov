@@ -12,7 +12,7 @@ namespace SebastianBergmann\PHPCOV;
 final class Arguments
 {
     /**
-     * @var string
+     * @var ?string
      */
     private $command;
 
@@ -96,7 +96,7 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, bool $help, ?string $pathPrefix)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command          = $command;
         $this->script           = $script;
@@ -113,11 +113,12 @@ final class Arguments
         $this->php              = $php;
         $this->text             = $text;
         $this->xml              = $xml;
-        $this->help             = $help;
         $this->pathPrefix       = $pathPrefix;
+        $this->help             = $help;
+        $this->version          = $version;
     }
 
-    public function command(): string
+    public function command(): ?string
     {
         return $this->command;
     }
@@ -192,13 +193,18 @@ final class Arguments
         return $this->xml;
     }
 
+    public function pathPrefix(): string
+    {
+        return $this->pathPrefix;
+    }
+
     public function help(): bool
     {
         return $this->help;
     }
 
-    public function pathPrefix(): string
+    public function version(): bool
     {
-        return $this->pathPrefix;
+        return $this->version;
     }
 }

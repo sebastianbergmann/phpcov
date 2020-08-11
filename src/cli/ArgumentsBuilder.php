@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use function array_merge;
+
 final class ArgumentsBuilder
 {
     private const COMMANDS = [
@@ -24,10 +26,8 @@ final class ArgumentsBuilder
                 'php=',
                 'text=',
                 'xml=',
-                'help',
             ],
-            'shortOptions' => '',
-            'arguments'    => [
+            'arguments' => [
                 'script',
             ],
         ],
@@ -40,10 +40,8 @@ final class ArgumentsBuilder
                 'php=',
                 'text=',
                 'xml=',
-                'help',
             ],
-            'shortOptions' => '',
-            'arguments'    => [
+            'arguments' => [
                 'directory',
             ],
         ],
@@ -51,10 +49,8 @@ final class ArgumentsBuilder
         'patch-coverage' => [
             'longOptions' => [
                 'path-prefix=',
-                'help',
             ],
-            'shortOptions' => '',
-            'arguments'    => [
+            'arguments' => [
                 'coverage',
                 'patch',
             ],
@@ -63,30 +59,33 @@ final class ArgumentsBuilder
 
     public function build(array $argv): Arguments
     {
-        if (!isset($argv[1])) {
-            throw new CommandMissingException;
-        }
+        $longOptions = [
+            'help',
+            'version',
+        ];
 
-        if (!isset(self::COMMANDS[$argv[1]])) {
-            throw new UnknownCommandException($argv[1]);
+        if (isset($argv[1], self::COMMANDS[$argv[1]])) {
+            $command     = $argv[1];
+            $longOptions = array_merge($longOptions, self::COMMANDS[$command]);
         }
-
-        $command = $argv[1];
 
         $options = Getopt::parse(
             $argv,
-            self::COMMANDS[$command]['shortOptions'],
-            self::COMMANDS[$command]['longOptions']
+            'hv',
+            $longOptions
         );
 
+        $command   = null;
         $script    = null;
         $directory = null;
         $coverage  = null;
         $patch     = null;
 
-        foreach (self::COMMANDS[$command]['arguments'] as $position => $argument) {
-            if (!isset($options[1][$position + 1])) {
-                throw new RequiredArgumentMissingException($argument);
+        if ($command) {
+            foreach (self::COMMANDS[$command]['arguments'] as $position => $argument) {
+                if (!isset($options[1][$position + 1])) {
+                    throw new RequiredArgumentMissingException($argument);
+                }
             }
         }
 
@@ -118,8 +117,9 @@ final class ArgumentsBuilder
         $php              = null;
         $text             = null;
         $xml              = null;
-        $help             = false;
         $pathPrefix       = null;
+        $help             = false;
+        $version          = false;
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
@@ -140,11 +140,6 @@ final class ArgumentsBuilder
 
                 case '--process-uncovered':
                     $processUncovered = true;
-
-                    break;
-
-                case '--help':
-                    $help = true;
 
                     break;
 
@@ -182,6 +177,18 @@ final class ArgumentsBuilder
                     $pathPrefix = $option[1];
 
                     break;
+
+                case 'h':
+                case '--help':
+                    $help = true;
+
+                    break;
+
+                case 'v':
+                case '--version':
+                    $version = true;
+
+                    break;
             }
         }
 
@@ -201,8 +208,9 @@ final class ArgumentsBuilder
             $php,
             $text,
             $xml,
+            $pathPrefix,
             $help,
-            $pathPrefix
+            $version,
         );
     }
 }
