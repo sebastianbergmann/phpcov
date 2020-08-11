@@ -1,5 +1,5 @@
 --TEST--
-phpcov execute --include ../../fixture/test.php --text php://stdout ../../fixture/test.php
+phpcov execute --include ../../fixture/test.php --text /tmp/file ../../fixture/test.php
 --INI--
 xdebug.overload_var_dump=0
 --FILE--
