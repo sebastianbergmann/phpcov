@@ -91,8 +91,9 @@ class MergeCommand extends BaseCommand
         foreach ($finder->findFiles() as $file) {
             $_coverage = include($file);
 
-            if (!($_coverage instanceof CodeCoverage)) {
+            if (!$_coverage instanceof CodeCoverage) {
                 $this->mergeErrors[] = $file;
+
                 unset($_coverage);
 
                 continue;
@@ -105,6 +106,7 @@ class MergeCommand extends BaseCommand
             }
 
             $mergedCoverage->merge($_coverage);
+
             unset($_coverage);
         }
 
@@ -116,7 +118,7 @@ class MergeCommand extends BaseCommand
 
         $this->handleReports($mergedCoverage, $input, $output);
         $this->outputMergeErrors($output);
-        
+
         return empty($this->mergeErrors) ? 0 : 1;
     }
 

@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use function sprintf;
 use SebastianBergmann\CodeCoverage\Percentage;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -61,7 +62,7 @@ class PatchCoverageCommand extends AbstractCommand
         );
 
         $output->writeln(
-            \sprintf(
+            sprintf(
                 '%d / %d changed executable lines covered (%s)',
                 $pc['numChangedLinesThatWereExecuted'],
                 $pc['numChangedLinesThatAreExecutable'],
@@ -78,7 +79,7 @@ class PatchCoverageCommand extends AbstractCommand
             foreach ($pc['changedLinesThatWereNotExecuted'] as $file => $lines) {
                 foreach ($lines as $line) {
                     $output->writeln(
-                        \sprintf(
+                        sprintf(
                             '  %s:%d',
                             $file,
                             $line
@@ -87,7 +88,7 @@ class PatchCoverageCommand extends AbstractCommand
                 }
             }
         }
-        
+
         return 0;
     }
 }

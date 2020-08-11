@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use function is_dir;
+use function is_file;
 use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
@@ -67,9 +69,9 @@ abstract class BaseCommand extends AbstractCommand
         }
 
         foreach ($input->getOption('include') as $item) {
-            if (\is_dir($item)) {
+            if (is_dir($item)) {
                 $coverage->filter()->includeDirectory($item);
-            } elseif (\is_file($item)) {
+            } elseif (is_file($item)) {
                 $coverage->filter()->includeFile($item);
             }
         }
@@ -131,6 +133,7 @@ abstract class BaseCommand extends AbstractCommand
             );
 
             $writer = new XmlReport('unknown');
+
             $writer->process($coverage, $input->getOption('xml'));
 
             $output->write(" done\n");

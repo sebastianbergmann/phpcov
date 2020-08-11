@@ -9,6 +9,10 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use const DIRECTORY_SEPARATOR;
+use function file_get_contents;
+use function is_array;
+use function substr;
 use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
@@ -29,18 +33,18 @@ class PatchCoverage
             'changedLinesThatWereNotExecuted'  => [],
         ];
 
-        if (\substr($prefix, -1, 1) != \DIRECTORY_SEPARATOR) {
-            $prefix .= \DIRECTORY_SEPARATOR;
+        if (substr($prefix, -1, 1) != DIRECTORY_SEPARATOR) {
+            $prefix .= DIRECTORY_SEPARATOR;
         }
 
         $coverage = include($coverage);
         $coverage = $coverage->getData();
         $parser   = new DiffParser;
-        $patch    = $parser->parse(\file_get_contents($patch));
+        $patch    = $parser->parse(file_get_contents($patch));
         $changes  = [];
 
         foreach ($patch as $diff) {
-            $file           = \substr($diff->getTo(), 2);
+            $file           = substr($diff->getTo(), 2);
             $changes[$file] = [];
 
             foreach ($diff->getChunks() as $chunk) {
@@ -63,7 +67,7 @@ class PatchCoverage
 
             foreach ($lines as $line) {
                 if (isset($coverage[$key][$line]) &&
-                    \is_array($coverage[$key][$line])) {
+                    is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
 
                     if (empty($coverage[$key][$line])) {

@@ -119,7 +119,7 @@ class ExecuteCommand extends BaseCommand
         $coverage->stop();
 
         $this->handleReports($coverage, $input, $output);
-        
+
         return 0;
     }
 }
