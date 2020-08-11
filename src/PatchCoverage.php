@@ -36,7 +36,7 @@ final class PatchCoverage
 
         assert($coverage instanceof CodeCoverage);
 
-        $coverage = $coverage->getData();
+        $coverage = $coverage->getData()->lineCoverage();
         $patch    = (new DiffParser)->parse(file_get_contents($patchFile));
         $changes  = [];
 
