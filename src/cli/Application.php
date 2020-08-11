@@ -17,6 +17,7 @@ use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
 use SebastianBergmann\CodeCoverage\Filter;
+use SebastianBergmann\CodeCoverage\NoCodeCoverageDriverAvailableException;
 use SebastianBergmann\CodeCoverage\Percentage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
@@ -81,10 +82,16 @@ final class Application
 
         $filter = new Filter;
 
-        $coverage = new CodeCoverage(
-            Driver::forLineCoverage($filter),
-            $filter
-        );
+        try {
+            $coverage = new CodeCoverage(
+                Driver::forLineCoverage($filter),
+                $filter
+            );
+        } catch (NoCodeCoverageDriverAvailableException $e) {
+            print $e->getMessage() . PHP_EOL;
+
+            return 1;
+        }
 
         $this->handleConfiguration($coverage, $arguments);
         $this->handleFilter($coverage, $arguments);
