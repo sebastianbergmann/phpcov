@@ -84,8 +84,14 @@
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/nikic-php-parser">
+        <copy todir="${basedir}/build/phar/nikic">
             <fileset dir="${basedir}/vendor/nikic/php-parser/lib">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy todir="${basedir}/build/phar/symfony">
+            <fileset dir="${basedir}/vendor/symfony/finder">
                 <include name="**/*.php" />
             </fileset>
         </copy>
