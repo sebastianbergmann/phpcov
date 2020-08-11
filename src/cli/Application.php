@@ -72,7 +72,7 @@ final class Application
     {
         if (!is_file($arguments->script())) {
             printf(
-                '"%s" does not exist' . PHP_EOL,
+                'File "%s" does not exist' . PHP_EOL,
                 $arguments->script()
             );
 
