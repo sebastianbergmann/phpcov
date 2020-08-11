@@ -195,7 +195,7 @@ final class Application
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
             $arguments->patch(),
-            $arguments->pathPrefix()
+            $arguments->pathPrefix() ?: ''
         );
 
         printf(

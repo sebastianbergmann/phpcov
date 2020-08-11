@@ -193,7 +193,7 @@ final class Arguments
         return $this->xml;
     }
 
-    public function pathPrefix(): string
+    public function pathPrefix(): ?string
     {
         return $this->pathPrefix;
     }
