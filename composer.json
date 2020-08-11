@@ -23,8 +23,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.3",
-        "phpunit/phpunit": "^9.0",
-        "phpunit/php-code-coverage": "^8.0",
+        "phpunit/phpunit": "^9.3",
+        "phpunit/php-code-coverage": "^9.1",
         "sebastian/diff": "^4.0",
         "sebastian/finder-facade": "^2.0",
         "sebastian/version": "^3.0",
@@ -40,7 +40,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-master": "7.0-dev"
+            "dev-master": "8.0-dev"
         }
     }
 }
