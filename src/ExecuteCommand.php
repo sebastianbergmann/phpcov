@@ -116,6 +116,7 @@ class ExecuteCommand extends BaseCommand
 
         require $input->getArgument('script');
 
+        /* @noinspection UnusedFunctionResultInspection */
         $coverage->stop();
 
         $this->handleReports($coverage, $input, $output);

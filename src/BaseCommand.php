@@ -83,6 +83,8 @@ abstract class BaseCommand extends AbstractCommand
             $output->write("\nGenerating code coverage report in Clover XML format ...");
 
             $writer = new CloverReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
             $writer->process($coverage, $input->getOption('clover'));
 
             $output->write(" done\n");
@@ -92,6 +94,8 @@ abstract class BaseCommand extends AbstractCommand
             $output->write("\nGenerating code coverage report in Crap4J XML format...");
 
             $writer = new Crap4jReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
             $writer->process($coverage, $input->getOption('crap4j'));
 
             $output->write(" done\n");
@@ -110,6 +114,8 @@ abstract class BaseCommand extends AbstractCommand
             $output->write("\nGenerating code coverage report in PHP format ...");
 
             $writer = new PhpReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
             $writer->process($coverage, $input->getOption('php'));
 
             $output->write(" done\n");
