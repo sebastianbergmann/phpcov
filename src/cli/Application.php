@@ -31,6 +31,8 @@ use SebastianBergmann\Version;
 
 final class Application
 {
+    private const VERSION = '8.0.0';
+
     public function run(array $argv): int
     {
         $this->printVersion();
@@ -423,6 +425,6 @@ EOT;
 
     private function version(): string
     {
-        return (new Version('8.0', dirname(__DIR__)))->getVersion();
+        return (new Version(self::VERSION, dirname(__DIR__)))->getVersion();
     }
 }
