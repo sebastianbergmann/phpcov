@@ -64,9 +64,11 @@ final class ArgumentsBuilder
             'version',
         ];
 
+        $command = null;
+
         if (isset($argv[1], self::COMMANDS[$argv[1]])) {
             $command     = $argv[1];
-            $longOptions = array_merge($longOptions, self::COMMANDS[$command]);
+            $longOptions = array_merge($longOptions, self::COMMANDS[$command]['longOptions']);
         }
 
         $options = Getopt::parse(
@@ -75,7 +77,6 @@ final class ArgumentsBuilder
             $longOptions
         );
 
-        $command   = null;
         $script    = null;
         $directory = null;
         $coverage  = null;
