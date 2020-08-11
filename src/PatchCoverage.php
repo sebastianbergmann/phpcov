@@ -16,16 +16,9 @@ use function substr;
 use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
-class PatchCoverage
+final class PatchCoverage
 {
-    /**
-     * @param string $coverage
-     * @param string $patch
-     * @param string $prefix
-     *
-     * @return array
-     */
-    public function execute($coverage, $patch, $prefix)
+    public function execute(string $coverageFile, string $patchFile, string $pathPrefix): array
     {
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
@@ -33,14 +26,13 @@ class PatchCoverage
             'changedLinesThatWereNotExecuted'  => [],
         ];
 
-        if (substr($prefix, -1, 1) != DIRECTORY_SEPARATOR) {
-            $prefix .= DIRECTORY_SEPARATOR;
+        if (substr($pathPrefix, -1, 1) !== DIRECTORY_SEPARATOR) {
+            $pathPrefix .= DIRECTORY_SEPARATOR;
         }
 
-        $coverage = include($coverage);
+        $coverage = include($coverageFile);
         $coverage = $coverage->getData();
-        $parser   = new DiffParser;
-        $patch    = $parser->parse(file_get_contents($patch));
+        $patch    = (new DiffParser)->parse(file_get_contents($patchFile));
         $changes  = [];
 
         foreach ($patch as $diff) {
@@ -51,11 +43,11 @@ class PatchCoverage
                 $lineNr = $chunk->getEnd();
 
                 foreach ($chunk->getLines() as $line) {
-                    if ($line->getType() == Line::ADDED) {
+                    if ($line->getType() === Line::ADDED) {
                         $changes[$file][] = $lineNr;
                     }
 
-                    if ($line->getType() != Line::REMOVED) {
+                    if ($line->getType() !== Line::REMOVED) {
                         $lineNr++;
                     }
                 }
@@ -63,7 +55,7 @@ class PatchCoverage
         }
 
         foreach ($changes as $file => $lines) {
-            $key = $prefix . $file;
+            $key = $pathPrefix . $file;
 
             foreach ($lines as $line) {
                 if (isset($coverage[$key][$line]) &&
