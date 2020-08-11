@@ -18,22 +18,12 @@ Alternatively, you may use [Composer](https://getcomposer.org/) to download and 
 
 ## Usage
 
-### Patch Coverage
+### Executing a PHP script and generating code coverage in Clover XML format
 
-    $ git diff HEAD^1 > /tmp/patch.txt
+    $ phpcov execute --clover coverage.xml script.php
+    phpcov 8.0.0 by Sebastian Bergmann.
 
-    $ phpunit --coverage-php /tmp/coverage.cov
-
-    $ phpcov patch-coverage /tmp/coverage.cov              \
-                            --patch /tmp/patch.txt         \
-                            --path-prefix /path/to/project
-    phpcov 2.0.0 by Sebastian Bergmann.
-
-    1 / 2 changed executable lines covered (50.00%)
-
-    Changed executable lines that are not covered:
-
-      Example.php:11
+    Generating code coverage report in Clover XML format ... done
 
 ### Merging exported php-code-coverage objects stored in *.cov files
 
@@ -41,14 +31,22 @@ Alternatively, you may use [Composer](https://getcomposer.org/) to download and 
         'phpunit --coverage-php /tmp/coverage/FooTest.cov tests/FooTest' \
         'phpunit --coverage-php /tmp/coverage/BarTest.cov tests/BarTest'
 
-    $ phpcov merge /tmp/coverage --clover /tmp/clover.xml
-    phpcov 2.0.0 by Sebastian Bergmann.
+    $ phpcov merge --clover /tmp/clover.xml /tmp/coverage
+    phpcov 8.0.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
 
-### Executing a PHP script and generating code coverage in Clover XML format
+### Patch Coverage
 
-    $ phpcov execute script.php --clover coverage.xml
-    phpcov 2.0.0 by Sebastian Bergmann.
+    $ git diff HEAD^1 > /tmp/patch.txt
 
-    Generating code coverage report in Clover XML format ... done
+    $ phpunit --coverage-php /tmp/coverage.cov
+
+    $ phpcov patch-coverage --path-prefix /path/to/project /tmp/coverage.cov /tmp/patch.txt
+    phpcov 8.0.0 by Sebastian Bergmann.
+
+    1 / 2 changed executable lines covered (50.00%)
+
+    Changed executable lines that are not covered:
+
+      Example.php:11
