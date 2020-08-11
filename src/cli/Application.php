@@ -38,7 +38,7 @@ final class Application
         try {
             $arguments = (new ArgumentsBuilder)->build($argv);
         } catch (Exception $e) {
-            print $e->getMessage() . PHP_EOL;
+            print PHP_EOL . $e->getMessage() . PHP_EOL;
 
             return 1;
         }
@@ -46,6 +46,8 @@ final class Application
         if ($arguments->version()) {
             return 0;
         }
+
+        print PHP_EOL;
 
         if ($arguments->help()) {
             $this->help();
@@ -414,7 +416,7 @@ EOT;
     private function printVersion(): void
     {
         printf(
-            "phpcov %s by Sebastian Bergmann.\n\n",
+            'phpcov %s by Sebastian Bergmann.' . PHP_EOL,
             $this->version()
         );
     }
