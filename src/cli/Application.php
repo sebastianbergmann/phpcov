@@ -192,11 +192,44 @@ final class Application
 
     private function patchCoverage(Arguments $arguments): int
     {
+        if (!\is_file($arguments->coverage())) {
+            printf(
+                'Code Coverage file "%s" does not exist' . PHP_EOL,
+                $arguments->coverage()
+            );
+
+            return 1;
+        }
+
+        if (!\is_file($arguments->patch())) {
+            printf(
+                'Patch file "%s" does not exist' . PHP_EOL,
+                $arguments->patch()
+            );
+
+            return 1;
+        }
+
+        $pathPrefix = $arguments->pathPrefix() ?: '';
+
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
             $arguments->patch(),
-            $arguments->pathPrefix() ?: ''
+            $pathPrefix
         );
+
+        if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
+            $patchCoverage['numChangedLinesThatAreExecutable'] === 0) {
+            print 'Unable to detect executable lines that were changed.' . PHP_EOL;
+
+            if ($pathPrefix === '') {
+                print 'Are you sure you do not need to use --path-prefix?' . PHP_EOL;
+            } else {
+                print 'Are you sure your --path-prefix is correct?' . PHP_EOL;
+            }
+
+            return 1;
+        }
 
         printf(
             '%d / %d changed executable lines covered (%s)' . PHP_EOL,
