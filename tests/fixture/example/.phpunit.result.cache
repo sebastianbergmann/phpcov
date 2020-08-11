@@ -1,1 +1,0 @@
-C:37:"PHPUnit\Runner\DefaultTestResultCache":209:{a:2:{s:7:"defects";a:0:{}s:5:"times";a:2:{s:65:"SebastianBergmann\PHPCOV\TestFixture\GreeterTest::testGreetsWorld";d:0.002;s:68:"SebastianBergmann\PHPCOV\TestFixture\GreeterTest::testGreetsWithName";d:0.002;}}}
