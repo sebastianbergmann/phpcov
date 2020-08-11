@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpcov" default="setup">
-    <target name="setup" depends="clean,composer"/>
+    <target name="setup" depends="clean,install-dependencies"/>
 
     <target name="clean" description="Cleanup build artifacts">
         <delete file="${basedir}/composer.lock"/>
@@ -14,8 +14,20 @@
         </delete>
     </target>
 
-    <target name="composer" depends="clean" description="Install dependencies with Composer">
-        <exec executable="composer" taskname="composer">
+    <target name="update-tools" description="Update tools">
+        <exec executable="phive" taskname="phive">
+            <arg value="--no-progress"/>
+            <arg value="update"/>
+            <arg value="--force-accept-unsigned"/>
+        </exec>
+
+        <exec executable="${basedir}/tools/composer" taskname="composer">
+            <arg value="self-update"/>
+        </exec>
+    </target>
+
+    <target name="install-dependencies" depends="clean" description="Install dependencies with Composer">
+        <exec executable="${basedir}/tools/composer" taskname="composer">
             <arg value="update"/>
             <arg value="--no-interaction"/>
             <arg value="--no-progress"/>
@@ -41,7 +53,7 @@
 
     <target name="phar"
             description="Create PHAR archive of phpcov and all its dependencies"
-            depends="clean,composer,phar-build">
+            depends="clean,install-dependencies,phar-build">
         <mkdir dir="${basedir}/build/phar"/>
     </target>
 
