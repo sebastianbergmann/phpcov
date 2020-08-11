@@ -106,5 +106,25 @@
 
         <chmod file="${basedir}/build/phpcov-${version}.phar" perm="ugo+rx"/>
     </target>
+
+    <target name="update-fixture">
+        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/tests/fixture/example/phpunit.xml"/>
+            <arg value="--coverage-php"/>
+            <arg path="${basedir}/tests/fixture/example/coverage/testGreetsWorld.cov"/>
+            <arg value="--filter"/>
+            <arg value="testGreetsWorld"/>
+        </exec>
+
+        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/tests/fixture/example/phpunit.xml"/>
+            <arg value="--coverage-php"/>
+            <arg path="${basedir}/tests/fixture/example/coverage/testGreetsWithName.cov"/>
+            <arg value="--filter"/>
+            <arg value="testGreetsWithName"/>
+        </exec>
+    </target>
 </project>
 
