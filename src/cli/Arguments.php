@@ -207,4 +207,9 @@ final class Arguments
     {
         return $this->version;
     }
+
+    public function reportConfigured(): bool
+    {
+        return $this->clover() || $this->crap4j() || $this->html() || $this->php() || $this->text() || $this->xml();
+    }
 }

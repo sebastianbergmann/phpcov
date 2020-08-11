@@ -95,6 +95,12 @@ final class Application
             return 1;
         }
 
+        if (!$arguments->reportConfigured()) {
+            print 'No code coverage report configured' . PHP_EOL;
+
+            return 1;
+        }
+
         $coverage->start('phpcov');
 
         require $arguments->script();
