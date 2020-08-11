@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use SebastianBergmann\CodeCoverage\Util;
+use SebastianBergmann\CodeCoverage\Percentage;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,11 +65,10 @@ class PatchCoverageCommand extends AbstractCommand
                 '%d / %d changed executable lines covered (%s)',
                 $pc['numChangedLinesThatWereExecuted'],
                 $pc['numChangedLinesThatAreExecutable'],
-                Util::percent(
+                Percentage::fromFractionAndTotal(
                     $pc['numChangedLinesThatWereExecuted'],
-                    $pc['numChangedLinesThatAreExecutable'],
-                    true
-                )
+                    $pc['numChangedLinesThatAreExecutable']
+                )->asFixedWidthString()
             )
         );
 

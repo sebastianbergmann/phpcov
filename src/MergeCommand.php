@@ -82,8 +82,6 @@ class MergeCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $mergedCoverage = new CodeCoverage;
-
         $finder = new FinderFacade(
             [$input->getArgument('directory')],
             [],
@@ -100,8 +98,20 @@ class MergeCommand extends BaseCommand
                 continue;
             }
 
+            if (!isset($mergedCoverage)) {
+                $mergedCoverage = $_coverage;
+
+                continue;
+            }
+
             $mergedCoverage->merge($_coverage);
             unset($_coverage);
+        }
+
+        if (!isset($mergedCoverage)) {
+            $this->outputMergeErrors($output);
+
+            return 1;
         }
 
         $this->handleReports($mergedCoverage, $input, $output);

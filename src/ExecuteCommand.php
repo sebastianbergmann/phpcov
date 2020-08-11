@@ -10,6 +10,8 @@
 namespace SebastianBergmann\PHPCOV;
 
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Driver\Driver;
+use SebastianBergmann\CodeCoverage\Filter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -100,7 +102,12 @@ class ExecuteCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $coverage = new CodeCoverage;
+        $filter = new Filter;
+
+        $coverage = new CodeCoverage(
+            Driver::forLineCoverage($filter),
+            $filter
+        );
 
         $this->handleConfiguration($coverage, $input);
         $this->handleFilter($coverage, $input);

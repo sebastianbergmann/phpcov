@@ -9,7 +9,8 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use PHPUnit\Util\Configuration;
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
+use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
@@ -31,61 +32,45 @@ abstract class BaseCommand extends AbstractCommand
             return;
         }
 
-        $filter        = $coverage->filter();
-        $configuration = Configuration::getInstance($configuration);
+        $configuration = (new Loader)->load($configuration);
 
-        $filterConfiguration = $configuration->getFilterConfiguration();
-
-        $coverage->setAddUncoveredFilesFromWhitelist(
-            $filterConfiguration['whitelist']['addUncoveredFilesFromWhitelist']
+        (new FilterMapper)->map(
+            $coverage->filter(),
+            $configuration->codeCoverage()
         );
 
-        $coverage->setProcessUncoveredFilesFromWhitelist(
-            $filterConfiguration['whitelist']['processUncoveredFilesFromWhitelist']
-        );
-
-        foreach ($filterConfiguration['whitelist']['include']['directory'] as $dir) {
-            $filter->addDirectoryToWhitelist(
-                $dir['path'],
-                $dir['suffix'],
-                $dir['prefix']
-            );
+        if ($configuration->codeCoverage()->includeUncoveredFiles()) {
+            $coverage->includeUncoveredFiles();
+        } else {
+            $coverage->excludeUncoveredFiles();
         }
 
-        foreach ($filterConfiguration['whitelist']['include']['file'] as $file) {
-            $filter->addFileToWhitelist($file);
-        }
-
-        foreach ($filterConfiguration['whitelist']['exclude']['directory'] as $dir) {
-            $filter->removeDirectoryFromWhitelist(
-                $dir['path'],
-                $dir['suffix'],
-                $dir['prefix']
-            );
-        }
-
-        foreach ($filterConfiguration['whitelist']['exclude']['file'] as $file) {
-            $filter->removeFileFromWhitelist($file);
+        if ($configuration->codeCoverage()->processUncoveredFiles()) {
+            $coverage->processUncoveredFiles();
+        } else {
+            $coverage->doNotProcessUncoveredFiles();
         }
     }
 
     protected function handleFilter(CodeCoverage $coverage, InputInterface $input): void
     {
-        $filter = $coverage->filter();
+        if ($input->getOption('add-uncovered')) {
+            $coverage->includeUncoveredFiles();
+        } else {
+            $coverage->excludeUncoveredFiles();
+        }
 
-        $coverage->setAddUncoveredFilesFromWhitelist(
-            $input->getOption('add-uncovered')
-        );
-
-        $coverage->setProcessUncoveredFilesFromWhitelist(
-            $input->getOption('process-uncovered')
-        );
+        if ($input->getOption('process-uncovered')) {
+            $coverage->processUncoveredFiles();
+        } else {
+            $coverage->doNotProcessUncoveredFiles();
+        }
 
         foreach ($input->getOption('whitelist') as $item) {
             if (\is_dir($item)) {
-                $filter->addDirectoryToWhitelist($item);
+                $coverage->filter()->includeDirectory($item);
             } elseif (\is_file($item)) {
-                $filter->addFileToWhitelist($item);
+                $coverage->filter()->includeFile($item);
             }
         }
     }
