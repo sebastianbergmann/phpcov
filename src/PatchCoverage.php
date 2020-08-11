@@ -10,9 +10,11 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
+use function assert;
 use function file_get_contents;
 use function is_array;
 use function substr;
+use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
@@ -31,6 +33,9 @@ final class PatchCoverage
         }
 
         $coverage = include($coverageFile);
+
+        assert($coverage instanceof CodeCoverage);
+
         $coverage = $coverage->getData();
         $patch    = (new DiffParser)->parse(file_get_contents($patchFile));
         $changes  = [];
