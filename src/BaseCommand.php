@@ -66,7 +66,7 @@ abstract class BaseCommand extends AbstractCommand
             $coverage->doNotProcessUncoveredFiles();
         }
 
-        foreach ($input->getOption('whitelist') as $item) {
+        foreach ($input->getOption('include') as $item) {
             if (\is_dir($item)) {
                 $coverage->filter()->includeDirectory($item);
             } elseif (\is_file($item)) {

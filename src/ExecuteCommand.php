@@ -37,22 +37,22 @@ class ExecuteCommand extends BaseCommand
                  'Read configuration from XML file'
              )
              ->addOption(
-                 'whitelist',
+                 'include',
                  null,
                  InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                 'Add directory or file to the whitelist'
+                 'Include directory or file'
              )
              ->addOption(
                  'add-uncovered',
                  null,
                  InputOption::VALUE_NONE,
-                 'Add whitelisted files that are not covered'
+                 'Add included files that are not covered'
              )
              ->addOption(
                  'process-uncovered',
                  null,
                  InputOption::VALUE_NONE,
-                 'Process whitelisted files that are not covered'
+                 'Process included files that are not covered'
              )
              ->addOption(
                  'clover',
