@@ -48,10 +48,10 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
-[8.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/7.0.2...8.0.0
-[7.0.2]: https://github.com/sebastianbergmann/phpcpd/compare/7.0.1...7.0.2
-[7.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/7.0.0...7.0.1
-[7.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.1...7.0.0
-[6.0.1]: https://github.com/sebastianbergmann/phpcpd/compare/6.0.0...6.0.1
-[6.0.0]: https://github.com/sebastianbergmann/phpcpd/compare/5.0.0...6.0.0
+[8.0.0]: https://github.com/sebastianbergmann/phpcov/compare/7.0.2...8.0.0
+[7.0.2]: https://github.com/sebastianbergmann/phpcov/compare/7.0.1...7.0.2
+[7.0.1]: https://github.com/sebastianbergmann/phpcov/compare/7.0.0...7.0.1
+[7.0.0]: https://github.com/sebastianbergmann/phpcov/compare/6.0.1...7.0.0
+[6.0.1]: https://github.com/sebastianbergmann/phpcov/compare/6.0.0...6.0.1
+[6.0.0]: https://github.com/sebastianbergmann/phpcov/compare/5.0.0...6.0.0
 
