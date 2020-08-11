@@ -84,13 +84,6 @@
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/symfony">
-            <fileset dir="${basedir}/vendor/symfony">
-                <include name="**/*.php"/>
-                <exclude name="**/Tests/**"/>
-            </fileset>
-        </copy>
-
         <copy todir="${basedir}/build/phar/theseer-fdomdocument">
             <fileset dir="${basedir}/vendor/theseer/fdomdocument/src"/>
         </copy>
