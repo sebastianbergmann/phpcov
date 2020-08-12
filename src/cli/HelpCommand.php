@@ -23,6 +23,7 @@ Options for "phpcov execute":
 
   --configuration <file> Load PHPUnit configuration from XML configuration
   --include <directory>  Include <directory> in code coverage analysis
+  --path-coverage        Perform path coverage analysis
   --add-uncovered        Include uncovered files in code coverage report
   --process-uncovered    Process uncovered file for code coverage report
 

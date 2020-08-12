@@ -20,6 +20,7 @@ final class ArgumentsBuilder
                 'include=',
                 'add-uncovered',
                 'process-uncovered',
+                'path-coverage',
                 'clover=',
                 'crap4j=',
                 'html=',
@@ -110,6 +111,7 @@ final class ArgumentsBuilder
 
         $configuration    = null;
         $include          = [];
+        $pathCoverage     = false;
         $addUncovered     = false;
         $processUncovered = false;
         $clover           = null;
@@ -131,6 +133,11 @@ final class ArgumentsBuilder
 
                 case '--include':
                     $include[] = $option[1];
+
+                    break;
+
+                case '--path-coverage':
+                    $pathCoverage = true;
 
                     break;
 
@@ -201,6 +208,7 @@ final class ArgumentsBuilder
             $patch,
             $configuration,
             $include,
+            $pathCoverage,
             $addUncovered,
             $processUncovered,
             $clover,

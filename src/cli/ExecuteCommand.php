@@ -32,10 +32,13 @@ final class ExecuteCommand extends Command
         $filter = new Filter;
 
         try {
-            $coverage = new CodeCoverage(
-                Driver::forLineCoverage($filter),
-                $filter
-            );
+            if ($arguments->pathCoverage()) {
+                $driver = Driver::forLineAndPathCoverage($filter);
+            } else {
+                $driver = Driver::forLineCoverage($filter);
+            }
+
+            $coverage = new CodeCoverage($driver, $filter);
         } catch (NoCodeCoverageDriverAvailableException $e) {
             print $e->getMessage() . PHP_EOL;
 

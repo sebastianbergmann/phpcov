@@ -4,6 +4,10 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 ## [8.1.0] - 2020-MM-DD
 
+### Added
+
+* Added `--path-coverage` option for the `execute` command to enable branch and path coverage analysis
+
 ## [8.0.0] - 2020-08-11
 
 ### Added

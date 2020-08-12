@@ -49,6 +49,11 @@ final class Arguments
     /**
      * @var bool
      */
+    private $pathCoverage;
+
+    /**
+     * @var bool
+     */
     private $addUncovered;
 
     /**
@@ -96,7 +101,7 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command          = $command;
         $this->script           = $script;
@@ -105,6 +110,7 @@ final class Arguments
         $this->patch            = $patch;
         $this->configuration    = $configuration;
         $this->include          = $include;
+        $this->pathCoverage     = $pathCoverage;
         $this->addUncovered     = $addUncovered;
         $this->processUncovered = $processUncovered;
         $this->clover           = $clover;
@@ -151,6 +157,11 @@ final class Arguments
     public function include(): array
     {
         return $this->include;
+    }
+
+    public function pathCoverage(): bool
+    {
+        return $this->pathCoverage;
     }
 
     public function addUncovered(): bool
