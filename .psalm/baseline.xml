@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.13.1@afd8874a9e4562eac42a02de90e42e430c3a1db1">
+  <file src="src/PatchCoverage.php">
+    <MixedArgument occurrences="1">
+      <code>$diff-&gt;getTo()</code>
+    </MixedArgument>
+    <MixedArrayOffset occurrences="1">
+      <code>$coverage[$key][$line]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="9">
+      <code>$coverage</code>
+      <code>$patch</code>
+      <code>$diff</code>
+      <code>$chunk</code>
+      <code>$lineNr</code>
+      <code>$line</code>
+      <code>$changes[$file][]</code>
+      <code>$line</code>
+      <code>$result['changedLinesThatWereNotExecuted'][$file][]</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$lineNr</code>
+    </MixedOperand>
+    <UnresolvableInclude occurrences="1">
+      <code>include($coverageFile)</code>
+    </UnresolvableInclude>
+  </file>
+  <file src="src/cli/Application.php">
+    <InternalClass occurrences="2">
+      <code>new Loader</code>
+      <code>new FilterMapper</code>
+    </InternalClass>
+    <InternalMethod occurrences="7">
+      <code>load</code>
+      <code>codeCoverage</code>
+      <code>map</code>
+      <code>codeCoverage</code>
+      <code>includeUncoveredFiles</code>
+      <code>codeCoverage</code>
+      <code>processUncoveredFiles</code>
+    </InternalMethod>
+    <InvalidCatch occurrences="1"/>
+    <MixedArgument occurrences="11">
+      <code>$mergedCoverage</code>
+      <code>$patchCoverage['numChangedLinesThatWereExecuted']</code>
+      <code>$patchCoverage['numChangedLinesThatAreExecutable']</code>
+      <code>$patchCoverage['numChangedLinesThatWereExecuted']</code>
+      <code>$patchCoverage['numChangedLinesThatAreExecutable']</code>
+      <code>$file</code>
+      <code>$line</code>
+      <code>$item</code>
+      <code>$item</code>
+      <code>$item</code>
+      <code>$item</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$lines</code>
+      <code>$line</code>
+      <code>$item</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>int</code>
+    </MixedInferredReturnType>
+    <PossiblyNullArgument occurrences="11">
+      <code>$arguments-&gt;script()</code>
+      <code>$arguments-&gt;script()</code>
+      <code>$arguments-&gt;directory()</code>
+      <code>$arguments-&gt;directory()</code>
+      <code>$arguments-&gt;directory()</code>
+      <code>$arguments-&gt;coverage()</code>
+      <code>$arguments-&gt;coverage()</code>
+      <code>$arguments-&gt;patch()</code>
+      <code>$arguments-&gt;patch()</code>
+      <code>$arguments-&gt;coverage()</code>
+      <code>$arguments-&gt;patch()</code>
+    </PossiblyNullArgument>
+    <UnresolvableInclude occurrences="2">
+      <code>require $arguments-&gt;script()</code>
+      <code>include($file)</code>
+    </UnresolvableInclude>
+  </file>
+  <file src="src/cli/Arguments.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>bool</code>
+    </MixedInferredReturnType>
+    <MixedPropertyTypeCoercion occurrences="1">
+      <code>$include</code>
+    </MixedPropertyTypeCoercion>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;version</code>
+    </MixedReturnStatement>
+    <UndefinedThisPropertyAssignment occurrences="1">
+      <code>$this-&gt;version</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="1">
+      <code>$this-&gt;version</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="src/cli/ArgumentsBuilder.php">
+    <MixedArgument occurrences="13">
+      <code>$command</code>
+      <code>$script</code>
+      <code>$directory</code>
+      <code>$coverage</code>
+      <code>$patch</code>
+      <code>$configuration</code>
+      <code>$clover</code>
+      <code>$crap4j</code>
+      <code>$html</code>
+      <code>$php</code>
+      <code>$text</code>
+      <code>$xml</code>
+      <code>$pathPrefix</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="14">
+      <code>$options[1][1]</code>
+      <code>$options[1][1]</code>
+      <code>$options[1][1]</code>
+      <code>$options[1][2]</code>
+      <code>$option[0]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+      <code>$option[1]</code>
+    </MixedArrayAccess>
+    <MixedArrayOffset occurrences="3">
+      <code>self::COMMANDS[$argv[1]]</code>
+      <code>self::COMMANDS[$command]</code>
+      <code>self::COMMANDS[$command]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="15">
+      <code>$command</code>
+      <code>$script</code>
+      <code>$directory</code>
+      <code>$coverage</code>
+      <code>$patch</code>
+      <code>$option</code>
+      <code>$configuration</code>
+      <code>$include[]</code>
+      <code>$clover</code>
+      <code>$crap4j</code>
+      <code>$html</code>
+      <code>$php</code>
+      <code>$text</code>
+      <code>$xml</code>
+      <code>$pathPrefix</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/cli/Getopt.php">
+    <InvalidOperand occurrences="3">
+      <code>$i</code>
+      <code>$i</code>
+      <code>$i</code>
+    </InvalidOperand>
+    <InvalidThrow occurrences="2">
+      <code>Exception</code>
+      <code>Exception</code>
+    </InvalidThrow>
+    <MixedArgument occurrences="6">
+      <code>$args</code>
+      <code>$i + 1</code>
+      <code>$spec</code>
+      <code>$spec</code>
+      <code>$long_opt</code>
+      <code>$long_options[$i + 1]</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$spec[1]</code>
+      <code>$spec[2]</code>
+    </MixedArrayAccess>
+    <MixedArrayOffset occurrences="1">
+      <code>$long_options[$i + 1]</code>
+    </MixedArrayOffset>
+    <MixedAssignment occurrences="4">
+      <code>$arg</code>
+      <code>$opt_arg</code>
+      <code>$long_opt</code>
+      <code>$opt_arg</code>
+    </MixedAssignment>
+    <PossiblyNullArgument occurrences="1">
+      <code>$long_options</code>
+    </PossiblyNullArgument>
+  </file>
+</files>
