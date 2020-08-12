@@ -136,41 +136,6 @@
       <code>require $arguments-&gt;script()</code>
     </UnresolvableInclude>
   </file>
-  <file src="src/cli/Getopt.php">
-    <InvalidOperand occurrences="3">
-      <code>$i</code>
-      <code>$i</code>
-      <code>$i</code>
-    </InvalidOperand>
-    <InvalidThrow occurrences="2">
-      <code>Exception</code>
-      <code>Exception</code>
-    </InvalidThrow>
-    <MixedArgument occurrences="6">
-      <code>$args</code>
-      <code>$i + 1</code>
-      <code>$spec</code>
-      <code>$spec</code>
-      <code>$long_opt</code>
-      <code>$long_options[$i + 1]</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$spec[1]</code>
-      <code>$spec[2]</code>
-    </MixedArrayAccess>
-    <MixedArrayOffset occurrences="1">
-      <code>$long_options[$i + 1]</code>
-    </MixedArrayOffset>
-    <MixedAssignment occurrences="4">
-      <code>$arg</code>
-      <code>$opt_arg</code>
-      <code>$long_opt</code>
-      <code>$opt_arg</code>
-    </MixedAssignment>
-    <PossiblyNullArgument occurrences="1">
-      <code>$long_options</code>
-    </PossiblyNullArgument>
-  </file>
   <file src="src/cli/MergeCommand.php">
     <MixedArgument occurrences="1">
       <code>$mergedCoverage</code>

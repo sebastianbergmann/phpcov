@@ -10,6 +10,7 @@
 namespace SebastianBergmann\PHPCOV;
 
 use function array_merge;
+use SebastianBergmann\CliParser\Parser as CliParser;
 
 final class ArgumentsBuilder
 {
@@ -72,7 +73,7 @@ final class ArgumentsBuilder
             $longOptions = array_merge($longOptions, self::COMMANDS[$command]['longOptions']);
         }
 
-        $options = Getopt::parse(
+        $options = (new CliParser)->parse(
             $argv,
             'hv',
             $longOptions
