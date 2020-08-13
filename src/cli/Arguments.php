@@ -97,6 +97,11 @@ final class Arguments
     private $help;
 
     /**
+     * @var bool
+     */
+    private $version;
+
+    /**
      * @var ?string
      */
     private $pathPrefix;
