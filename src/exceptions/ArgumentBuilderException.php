@@ -9,18 +9,8 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use function sprintf;
 use RuntimeException;
 
-final class AmbiguousOptionException extends RuntimeException implements Exception
+final class ArgumentBuilderException extends RuntimeException implements Exception
 {
-    public function __construct(string $option)
-    {
-        parent::__construct(
-            sprintf(
-                'Option "--%s" is ambiguous',
-                $option
-            )
-        );
-    }
 }

@@ -10,6 +10,7 @@
 namespace SebastianBergmann\PHPCOV;
 
 use function array_merge;
+use SebastianBergmann\CliParser\Exception as CliParserException;
 use SebastianBergmann\CliParser\Parser as CliParser;
 
 final class ArgumentsBuilder
@@ -59,6 +60,9 @@ final class ArgumentsBuilder
         ],
     ];
 
+    /**
+     * @throws ArgumentBuilderException
+     */
     public function build(array $argv): Arguments
     {
         $longOptions = [
@@ -73,11 +77,19 @@ final class ArgumentsBuilder
             $longOptions = array_merge($longOptions, self::COMMANDS[$command]['longOptions']);
         }
 
-        $options = (new CliParser)->parse(
-            $argv,
-            'hv',
-            $longOptions
-        );
+        try {
+            $options = (new CliParser)->parse(
+                $argv,
+                'hv',
+                $longOptions
+            );
+        } catch (CliParserException $e) {
+            throw new ArgumentBuilderException(
+                $e->getMessage(),
+                (int) $e->getCode(),
+                $e
+            );
+        }
 
         $script    = null;
         $directory = null;
