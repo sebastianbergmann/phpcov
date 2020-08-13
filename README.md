@@ -21,7 +21,7 @@ Alternatively, you may use [Composer](https://getcomposer.org/) to download and 
 ### Executing a PHP script and generating code coverage in Clover XML format
 
     $ phpcov execute --clover coverage.xml script.php
-    phpcov 8.0.0 by Sebastian Bergmann.
+    phpcov 8.1.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
 
@@ -32,7 +32,7 @@ Alternatively, you may use [Composer](https://getcomposer.org/) to download and 
         'phpunit --coverage-php /tmp/coverage/BarTest.cov tests/BarTest'
 
     $ phpcov merge --clover /tmp/clover.xml /tmp/coverage
-    phpcov 8.0.0 by Sebastian Bergmann.
+    phpcov 8.1.0 by Sebastian Bergmann.
 
     Generating code coverage report in Clover XML format ... done
 
@@ -43,7 +43,7 @@ Alternatively, you may use [Composer](https://getcomposer.org/) to download and 
     $ phpunit --coverage-php /tmp/coverage.cov
 
     $ phpcov patch-coverage --path-prefix /path/to/project /tmp/coverage.cov /tmp/patch.txt
-    phpcov 8.0.0 by Sebastian Bergmann.
+    phpcov 8.1.0 by Sebastian Bergmann.
 
     1 / 2 changed executable lines covered (50.00%)
 
