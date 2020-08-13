@@ -11,6 +11,6 @@ namespace SebastianBergmann\PHPCOV;
 
 use RuntimeException;
 
-final class ArgumentBuilderException extends RuntimeException implements Exception
+final class ArgumentsBuilderException extends RuntimeException implements Exception
 {
 }

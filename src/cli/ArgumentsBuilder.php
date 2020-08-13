@@ -61,7 +61,7 @@ final class ArgumentsBuilder
     ];
 
     /**
-     * @throws ArgumentBuilderException
+     * @throws ArgumentsBuilderException
      */
     public function build(array $argv): Arguments
     {
@@ -84,7 +84,7 @@ final class ArgumentsBuilder
                 $longOptions
             );
         } catch (CliParserException $e) {
-            throw new ArgumentBuilderException(
+            throw new ArgumentsBuilderException(
                 $e->getMessage(),
                 (int) $e->getCode(),
                 $e
