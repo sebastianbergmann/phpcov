@@ -29,6 +29,12 @@ final class MergeCommand extends Command
             return 1;
         }
 
+        if (!$arguments->reportConfigured()) {
+            print 'No code coverage report configured' . PHP_EOL;
+
+            return 1;
+        }
+
         $files = (new Facade)->getFilesAsArray(
             $arguments->directory(),
             ['.cov']

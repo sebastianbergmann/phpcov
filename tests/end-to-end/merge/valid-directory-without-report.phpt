@@ -1,5 +1,5 @@
 --TEST--
-phpcov merge --text coverage.txt ../../fixture/empty-directory
+phpcov merge --text /tmp/file ../../fixture/example/coverage
 --INI--
 xdebug.overload_var_dump=0
 --FILE--
@@ -7,13 +7,11 @@ xdebug.overload_var_dump=0
 require __DIR__ . '/../../../vendor/autoload.php';
 
 $_SERVER['argv'][1] = 'merge';
-$_SERVER['argv'][2] = '--text';
-$_SERVER['argv'][3] = 'coverage.txt';
-$_SERVER['argv'][4] = __DIR__ . '/../../fixture/empty-directory';
+$_SERVER['argv'][2] = __DIR__ . '/../../fixture/example/coverage';
 
 var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 --EXPECTF--
 phpcov %s by Sebastian Bergmann.
 
-No "%s*.cov" files found
+No code coverage report configured
 int(1)
