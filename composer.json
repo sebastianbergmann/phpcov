@@ -25,9 +25,9 @@
         "php": "^7.3",
         "phpunit/phpunit": "^9.3",
         "phpunit/php-code-coverage": "^9.1",
+        "phpunit/php-file-iterator": "^3.0",
         "sebastian/cli-parser": "^1.0",
         "sebastian/diff": "^4.0",
-        "sebastian/finder-facade": "^2.0",
         "sebastian/version": "^3.0"
     },
     "autoload": {

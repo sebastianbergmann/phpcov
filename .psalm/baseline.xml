@@ -32,21 +32,9 @@
     </MixedInferredReturnType>
   </file>
   <file src="src/cli/Arguments.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>bool</code>
-    </MixedInferredReturnType>
     <MixedPropertyTypeCoercion occurrences="1">
       <code>$include</code>
     </MixedPropertyTypeCoercion>
-    <MixedReturnStatement occurrences="1">
-      <code>$this-&gt;version</code>
-    </MixedReturnStatement>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;version</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;version</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="src/cli/ArgumentsBuilder.php">
     <MixedArgument occurrences="13">
@@ -140,7 +128,18 @@
     <MixedArgument occurrences="1">
       <code>$mergedCoverage</code>
     </MixedArgument>
-    <PossiblyNullArgument occurrences="3">
+    <MixedAssignment occurrences="4">
+      <code>$file</code>
+      <code>$errors[]</code>
+      <code>$error</code>
+      <code>$error</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="2">
+      <code>$error</code>
+      <code>$error</code>
+    </MixedOperand>
+    <PossiblyNullArgument occurrences="4">
+      <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>

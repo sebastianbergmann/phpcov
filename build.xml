@@ -90,12 +90,6 @@
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/symfony">
-            <fileset dir="${basedir}/vendor/symfony/finder">
-                <include name="**/*.php" />
-            </fileset>
-        </copy>
-
         <copy todir="${basedir}/build/phar/theseer">
             <fileset dir="${basedir}/vendor/theseer">
                 <include name="**/src/*.php"/>

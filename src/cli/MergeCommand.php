@@ -14,7 +14,7 @@ use function is_dir;
 use function printf;
 use function realpath;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\FinderFacade\FinderFacade;
+use SebastianBergmann\FileIterator\Facade;
 
 final class MergeCommand extends Command
 {
@@ -29,13 +29,10 @@ final class MergeCommand extends Command
             return 1;
         }
 
-        $finder = new FinderFacade(
-            [$arguments->directory()],
-            [],
-            ['*.cov']
+        $files = (new Facade)->getFilesAsArray(
+            $arguments->directory(),
+            ['.cov']
         );
-
-        $files = $finder->findFiles();
 
         if (empty($files)) {
             printf(
@@ -48,7 +45,7 @@ final class MergeCommand extends Command
 
         $errors = [];
 
-        foreach ($finder->findFiles() as $file) {
+        foreach ($files as $file) {
             $_coverage = include($file);
 
             if (!$_coverage instanceof CodeCoverage) {
