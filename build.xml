@@ -80,7 +80,7 @@
 
         <copy todir="${basedir}/build/phar/sebastian">
             <fileset dir="${basedir}/vendor/sebastian">
-                <include name="**/src/*.php"/>
+                <include name="**/src/**/*.php"/>
             </fileset>
         </copy>
 
@@ -92,7 +92,7 @@
 
         <copy todir="${basedir}/build/phar/theseer">
             <fileset dir="${basedir}/vendor/theseer">
-                <include name="**/src/*.php"/>
+                <include name="**/src/**/*.php"/>
             </fileset>
         </copy>
 
