@@ -22,7 +22,7 @@
     },
     "prefer-stable": true,
     "require": {
-        "php": "^7.3",
+        "php": ">=7.3",
         "phpunit/phpunit": "^9.3",
         "phpunit/php-code-coverage": "^9.1.11",
         "phpunit/php-file-iterator": "^3.0",
