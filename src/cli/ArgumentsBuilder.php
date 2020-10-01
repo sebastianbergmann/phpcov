@@ -128,6 +128,7 @@ final class ArgumentsBuilder
         $addUncovered     = false;
         $processUncovered = false;
         $clover           = null;
+        $cobertura        = null;
         $crap4j           = null;
         $html             = null;
         $php              = null;
@@ -166,6 +167,11 @@ final class ArgumentsBuilder
 
                 case '--clover':
                     $clover = $option[1];
+
+                    break;
+
+                case '--cobertura':
+                    $cobertura = $option[1];
 
                     break;
 
@@ -225,6 +231,7 @@ final class ArgumentsBuilder
             $addUncovered,
             $processUncovered,
             $clover,
+            $cobertura,
             $crap4j,
             $html,
             $php,

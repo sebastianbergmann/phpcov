@@ -15,6 +15,7 @@ use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
+use SebastianBergmann\CodeCoverage\Report\Cobertura as CoberturaReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
 use SebastianBergmann\CodeCoverage\Report\PHP as PhpReport;
@@ -85,6 +86,17 @@ abstract class Command
 
             /* @noinspection UnusedFunctionResultInspection */
             $writer->process($coverage, $arguments->clover());
+
+            print 'done' . PHP_EOL;
+        }
+
+        if ($arguments->cobertura()) {
+            print 'Generating code coverage report in Cobertura XML format ... ';
+
+            $writer = new CoberturaReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
+            $writer->process($coverage, $arguments->cobertura());
 
             print 'done' . PHP_EOL;
         }
