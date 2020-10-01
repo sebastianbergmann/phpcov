@@ -1,4 +1,4 @@
-# phpcov
+# phpcov update
 
 **phpcov** is a command-line frontend for the php-code-coverage library.
 
