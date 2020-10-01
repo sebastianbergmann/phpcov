@@ -106,7 +106,7 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command          = $command;
         $this->script           = $script;
@@ -119,6 +119,7 @@ final class Arguments
         $this->addUncovered     = $addUncovered;
         $this->processUncovered = $processUncovered;
         $this->clover           = $clover;
+        $this->cobertura        = $cobertura;
         $this->crap4j           = $crap4j;
         $this->html             = $html;
         $this->php              = $php;
@@ -184,6 +185,11 @@ final class Arguments
         return $this->clover;
     }
 
+    public function cobertura(): ?string
+    {
+        return $this->cobertura;
+    }
+
     public function crap4j(): ?string
     {
         return $this->crap4j;
@@ -226,6 +232,6 @@ final class Arguments
 
     public function reportConfigured(): bool
     {
-        return $this->clover() || $this->crap4j() || $this->html() || $this->php() || $this->text() || $this->xml();
+        return $this->clover() || $this->cobertura() || $this->crap4j() || $this->html() || $this->php() || $this->text() || $this->xml();
     }
 }
