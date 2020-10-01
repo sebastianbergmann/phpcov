@@ -24,6 +24,7 @@ final class ArgumentsBuilder
                 'process-uncovered',
                 'path-coverage',
                 'clover=',
+                'cobertura=',
                 'crap4j=',
                 'html=',
                 'php=',
@@ -38,6 +39,7 @@ final class ArgumentsBuilder
         'merge' => [
             'longOptions' => [
                 'clover=',
+                'cobertura=',
                 'crap4j=',
                 'html=',
                 'php=',
