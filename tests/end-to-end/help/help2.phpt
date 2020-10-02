@@ -28,6 +28,7 @@ Options for "phpcov execute":
 Options common for both "phpcov execute" and "phpcov merge":
 
   --clover <file>        Generate code coverage report in Clover XML format
+  --cobertura <file>     Generate code coverage report in Cobertura XML format
   --crap4j <file>        Generate code coverage report in Crap4J XML format
   --html <directory>     Generate code coverage report in HTML format
   --php <file>           Export php-code-coverage object
