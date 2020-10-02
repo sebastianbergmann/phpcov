@@ -15,7 +15,7 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const VERSION = '8.2';
+    private const VERSION = '8.2.0';
 
     public function run(array $argv): int
     {

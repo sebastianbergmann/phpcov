@@ -21,7 +21,6 @@
         "sort-packages": true
     },
     "prefer-stable": true,
-    "minimum-stability": "dev",
     "require": {
         "php": ">=7.3",
         "phpunit/phpunit": "^9.3",
