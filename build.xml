@@ -20,10 +20,6 @@
             <arg value="update"/>
             <arg value="--force-accept-unsigned"/>
         </exec>
-
-        <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="self-update"/>
-        </exec>
     </target>
 
     <target name="install-dependencies" depends="clean" description="Install dependencies with Composer">
