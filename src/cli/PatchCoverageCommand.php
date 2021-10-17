@@ -41,7 +41,9 @@ final class PatchCoverageCommand extends Command
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
             $arguments->patch(),
-            $pathPrefix
+            $pathPrefix,
+            $arguments->mapFrom(),
+            $arguments->mapTo()
         );
 
         if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&

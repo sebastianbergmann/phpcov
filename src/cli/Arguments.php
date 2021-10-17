@@ -106,7 +106,17 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    /**
+     * @var ?string
+     */
+    private $mapFrom;
+
+    /**
+     * @var ?string
+     */
+    private $mapTo;
+
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $mapFrom, ?string $mapTo, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command          = $command;
         $this->script           = $script;
@@ -125,6 +135,8 @@ final class Arguments
         $this->php              = $php;
         $this->text             = $text;
         $this->xml              = $xml;
+        $this->mapFrom          = $mapFrom;
+        $this->mapTo            = $mapTo;
         $this->pathPrefix       = $pathPrefix;
         $this->help             = $help;
         $this->version          = $version;
@@ -233,5 +245,15 @@ final class Arguments
     public function reportConfigured(): bool
     {
         return $this->clover() || $this->cobertura() || $this->crap4j() || $this->html() || $this->php() || $this->text() || $this->xml();
+    }
+
+    public function mapFrom(): ?string
+    {
+        return $this->mapFrom;
+    }
+
+    public function mapTo(): ?string
+    {
+        return $this->mapTo;
     }
 }

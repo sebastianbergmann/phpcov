@@ -20,7 +20,7 @@ use SebastianBergmann\Diff\Parser as DiffParser;
 
 final class PatchCoverage
 {
-    public function execute(string $coverageFile, string $patchFile, string $pathPrefix): array
+    public function execute(string $coverageFile, string $patchFile, string $pathPrefix, string $mapFrom, string $mapTo): array
     {
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
@@ -32,7 +32,7 @@ final class PatchCoverage
             $pathPrefix .= DIRECTORY_SEPARATOR;
         }
 
-        $coverage = include($coverageFile);
+        $coverage = $this->loadCodeCoverage($coverageFile, $mapFrom, $mapTo);
 
         assert($coverage instanceof CodeCoverage);
 

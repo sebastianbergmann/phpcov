@@ -45,6 +45,8 @@ final class ArgumentsBuilder
                 'php=',
                 'text=',
                 'xml=',
+                'mapFrom=',
+                'mapTo=',
             ],
             'arguments' => [
                 'directory',
@@ -136,6 +138,8 @@ final class ArgumentsBuilder
         $php              = null;
         $text             = null;
         $xml              = null;
+        $mapFrom          = null;
+        $mapTo            = null;
         $pathPrefix       = null;
         $help             = false;
         $version          = false;
@@ -202,6 +206,16 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--mapFrom':
+                    $mapFrom = $option[1];
+
+                    break;
+
+                case '--mapTo':
+                    $mapTo = $option[1];
+
+                    break;
+
                 case '--path-prefix':
                     $pathPrefix = $option[1];
 
@@ -239,6 +253,8 @@ final class ArgumentsBuilder
             $php,
             $text,
             $xml,
+            $mapFrom,
+            $mapTo,
             $pathPrefix,
             $help,
             $version,

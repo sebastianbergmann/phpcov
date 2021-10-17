@@ -37,7 +37,7 @@ final class MergeCommand extends Command
 
         $files = (new Facade)->getFilesAsArray(
             $arguments->directory(),
-            ['.cov']
+            ['.cov', '.json']
         );
 
         if (empty($files)) {
@@ -52,7 +52,7 @@ final class MergeCommand extends Command
         $errors = [];
 
         foreach ($files as $file) {
-            $_coverage = include($file);
+            $_coverage = $this->loadCodeCoverage($file, $arguments->mapFrom(), $arguments->mapTo());
 
             if (!$_coverage instanceof CodeCoverage) {
                 $errors[] = $file;
