@@ -87,6 +87,11 @@ final class Arguments
     private $text;
 
     /**
+     * @var bool
+     */
+    private $textSummaryOnly;
+
+    /**
      * @var ?string
      */
     private $xml;
@@ -106,7 +111,12 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    /**
+     * @var ?string
+     */
+    private $cobertura;
+
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, bool $textSummaryOnly, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command          = $command;
         $this->script           = $script;
@@ -124,6 +134,7 @@ final class Arguments
         $this->html             = $html;
         $this->php              = $php;
         $this->text             = $text;
+        $this->textSummaryOnly  = $textSummaryOnly;
         $this->xml              = $xml;
         $this->pathPrefix       = $pathPrefix;
         $this->help             = $help;
@@ -208,6 +219,11 @@ final class Arguments
     public function text(): ?string
     {
         return $this->text;
+    }
+
+    public function textSummaryOnly(): bool
+    {
+        return $this->textSummaryOnly;
     }
 
     public function xml(): ?string

@@ -136,7 +136,7 @@ abstract class Command
         if ($arguments->text()) {
             print 'Generating code coverage report in text format ... ';
 
-            $writer = new TextReport;
+            $writer = new TextReport(50, 90, false, $arguments->textSummaryOnly());
 
             file_put_contents(
                 $arguments->text(),
