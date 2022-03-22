@@ -12,7 +12,7 @@ namespace SebastianBergmann\PHPCOV;
 use const PHP_EOL;
 use function is_file;
 use function printf;
-use SebastianBergmann\CodeCoverage\Percentage;
+use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 final class PatchCoverageCommand extends Command
 {
