@@ -12,7 +12,6 @@ namespace SebastianBergmann\PHPCOV;
 use const PHP_EOL;
 use function is_file;
 use function printf;
-use SebastianBergmann\CodeCoverage\Percentage;
 
 final class PatchCoverageCommand extends Command
 {
@@ -61,10 +60,10 @@ final class PatchCoverageCommand extends Command
             '%d / %d changed executable lines covered (%s)' . PHP_EOL,
             $patchCoverage['numChangedLinesThatWereExecuted'],
             $patchCoverage['numChangedLinesThatAreExecutable'],
-            Percentage::fromFractionAndTotal(
+            $this->percentage(
                 $patchCoverage['numChangedLinesThatWereExecuted'],
                 $patchCoverage['numChangedLinesThatAreExecutable']
-            )->asFixedWidthString()
+            )
         );
 
         if (!empty($patchCoverage['changedLinesThatWereNotExecuted'])) {
@@ -84,5 +83,14 @@ final class PatchCoverageCommand extends Command
         }
 
         return 0;
+    }
+
+    private function percentage(float $fraction, float $total): string
+    {
+        if ($total > 0) {
+            return sprintf('%6.2F%%', ($fraction / $total) * 100);
+        }
+
+        return '';
     }
 }
