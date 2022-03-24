@@ -52,7 +52,7 @@ final class MergeCommand extends Command
         $errors = [];
 
         foreach ($files as $file) {
-            $_coverage = include($file);
+            $_coverage = include $file;
 
             if (!$_coverage instanceof CodeCoverage) {
                 $errors[] = $file;

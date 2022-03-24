@@ -32,7 +32,7 @@ final class PatchCoverage
             $pathPrefix .= DIRECTORY_SEPARATOR;
         }
 
-        $coverage = include($coverageFile);
+        $coverage = include $coverageFile;
 
         assert($coverage instanceof CodeCoverage);
 
