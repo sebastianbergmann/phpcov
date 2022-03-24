@@ -2,6 +2,10 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [8.2.1] - 2022-03-24
+
+* No changes; `phpcov.phar` rebuilt with updated dependencies
+
 ## [8.2.0] - 2020-10-02
 
 ### Added
@@ -70,6 +74,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[8.2.1]: https://github.com/sebastianbergmann/phpcov/compare/8.2.0...8.2.1
 [8.2.0]: https://github.com/sebastianbergmann/phpcov/compare/8.1.2...8.2.0
 [8.1.2]: https://github.com/sebastianbergmann/phpcov/compare/8.1.1...8.1.2
 [8.1.1]: https://github.com/sebastianbergmann/phpcov/compare/8.1.0...8.1.1
