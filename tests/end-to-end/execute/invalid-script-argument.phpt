@@ -1,7 +1,7 @@
 --TEST--
 phpcov execute does-not-exist.php
 --INI--
-xdebug.overload_var_dump=0
+xdebug.mode=debug
 --FILE--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../vendor/autoload.php';

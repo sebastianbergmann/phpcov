@@ -56,3 +56,9 @@ $ ./tools/phpcov --version
     Changed executable lines that are not covered:
 
       Example.php:11
+
+### Build this phar
+
+    `phive install`
+    `tools/phing phar`
+    

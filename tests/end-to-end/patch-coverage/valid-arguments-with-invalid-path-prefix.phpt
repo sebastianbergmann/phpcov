@@ -1,7 +1,7 @@
 --TEST--
 phpcov patch-coverage --path-prefix invalid ../../fixture/example/coverage/testGreetsWorld.cov ../../fixture/example/patch
 --INI--
-xdebug.overload_var_dump=0
+xdebug.mode=debug
 --FILE--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../vendor/autoload.php';

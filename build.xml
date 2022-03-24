@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="phpcov" default="setup">
+<project name="phpcov" basedir="." default="setup">
     <target name="setup" depends="clean,install-dependencies"/>
 
     <target name="clean" description="Cleanup build artifacts">
-        <delete file="${basedir}/composer.lock"/>
-        <delete dir="${basedir}/vendor"/>
-        <delete dir="${basedir}/build/phar"/>
+        <delete file="${project.basedir}/composer.lock"/>
+        <delete dir="${project.basedir}/vendor"/>
+        <delete dir="${project.basedir}/build/phar"/>
         <delete>
-            <fileset dir="${basedir}/build">
+            <fileset dir="${project.basedir}/build">
                 <include name="**/phpcov*.phar"/>
                 <include name="**/phpcov*.phar.asc"/>
             </fileset>
@@ -23,7 +23,7 @@
     </target>
 
     <target name="install-dependencies" depends="clean" description="Install dependencies with Composer">
-        <exec executable="${basedir}/tools/composer" taskname="composer">
+        <exec executable="${project.basedir}/tools/composer" taskname="composer">
             <arg value="update"/>
             <arg value="--no-interaction"/>
             <arg value="--no-progress"/>
@@ -37,36 +37,36 @@
             depends="phar">
         <exec executable="bash" outputproperty="version">
             <arg value="-c" />
-            <arg value="${basedir}/phpcov --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
+            <arg value="${project.basedir}/phpcov --version | head -n 1 | awk '{print \$2}'" />
         </exec>
 
-        <exec executable="gpg" failonerror="true">
+        <exec executable="gpg">
             <arg value="--armor" />
             <arg value="--detach-sign" />
-            <arg path="${basedir}/build/phpcov-${version}.phar" />
+            <arg path="${project.basedir}/build/phpcov-${version}.phar" />
         </exec>
     </target>
 
     <target name="phar"
             description="Create PHAR archive of phpcov and all its dependencies"
             depends="clean,install-dependencies,phar-build">
-        <mkdir dir="${basedir}/build/phar"/>
+        <mkdir dir="${project.basedir}/build/phar"/>
     </target>
 
     <target name="phar-build">
         <exec executable="bash" outputproperty="version">
             <arg value="-c"/>
-            <arg value="${basedir}/phpcov --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'"/>
+            <arg value="${project.basedir}/phpcov --version | head -n 1 | awk '{print \$2}'"/>
         </exec>
 
-        <copy todir="${basedir}/build/phar/src">
-            <fileset dir="${basedir}/src">
+        <copy todir="${project.basedir}/build/phar/src">
+            <fileset dir="${project.basedir}/src">
                 <include name="**/*.php"/>
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/phpunit">
-            <fileset dir="${basedir}/vendor/phpunit">
+        <copy todir="${project.basedir}/build/phar/phpunit">
+            <fileset dir="${project.basedir}/vendor/phpunit">
                 <include name="**/*.php"/>
                 <include name="php-code-coverage/src/Report/Html/Renderer/Template/**"/>
                 <exclude name="**/build/**"/>
@@ -74,56 +74,56 @@
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/sebastian">
-            <fileset dir="${basedir}/vendor/sebastian">
+        <copy todir="${project.basedir}/build/phar/sebastian">
+            <fileset dir="${project.basedir}/vendor/sebastian">
                 <include name="**/src/**/*.php"/>
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/nikic">
-            <fileset dir="${basedir}/vendor/nikic/php-parser/lib">
+        <copy todir="${project.basedir}/build/phar/nikic">
+            <fileset dir="${project.basedir}/vendor/nikic/php-parser/lib">
                 <include name="**/*.php" />
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/theseer">
-            <fileset dir="${basedir}/vendor/theseer">
+        <copy todir="${project.basedir}/build/phar/theseer">
+            <fileset dir="${project.basedir}/vendor/theseer">
                 <include name="**/src/**/*.php"/>
             </fileset>
         </copy>
 
-        <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
+        <exec executable="${project.basedir}/build/phar-manifest.php" output="${project.basedir}/build/phar/manifest.txt"/>
 
-        <exec executable="${basedir}/tools/phpab">
+        <exec executable="${project.basedir}/tools/phpab">
             <arg value="--all"/>
             <arg value="--phar"/>
             <arg value="--output"/>
-            <arg path="${basedir}/build/phpcov-${version}.phar"/>
+            <arg path="${project.basedir}/build/phpcov-${version}.phar"/>
             <arg value="--template"/>
-            <arg path="${basedir}/build/phar-autoload.php.in"/>
+            <arg path="${project.basedir}/build/phar-autoload.php.in"/>
             <arg value="--indent"/>
             <arg value="            "/>
-            <arg path="${basedir}/build/phar"/>
+            <arg path="${project.basedir}/build/phar"/>
         </exec>
 
-        <chmod file="${basedir}/build/phpcov-${version}.phar" perm="ugo+rx"/>
+        <chmod file="${project.basedir}/build/phpcov-${version}.phar" mode="0555"/>
     </target>
 
     <target name="update-fixture">
-        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+        <exec executable="${project.basedir}/vendor/bin/phpunit" taskname="phpunit">
             <arg value="--configuration"/>
-            <arg path="${basedir}/tests/fixture/example/phpunit.xml"/>
+            <arg path="${project.basedir}/tests/fixture/example/phpunit.xml"/>
             <arg value="--coverage-php"/>
-            <arg path="${basedir}/tests/fixture/example/coverage/testGreetsWorld.cov"/>
+            <arg path="${project.basedir}/tests/fixture/example/coverage/testGreetsWorld.cov"/>
             <arg value="--filter"/>
             <arg value="testGreetsWorld"/>
         </exec>
 
-        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+        <exec executable="${project.basedir}/vendor/bin/phpunit" taskname="phpunit">
             <arg value="--configuration"/>
-            <arg path="${basedir}/tests/fixture/example/phpunit.xml"/>
+            <arg path="${project.basedir}/tests/fixture/example/phpunit.xml"/>
             <arg value="--coverage-php"/>
-            <arg path="${basedir}/tests/fixture/example/coverage/testGreetsWithName.cov"/>
+            <arg path="${project.basedir}/tests/fixture/example/coverage/testGreetsWithName.cov"/>
             <arg value="--filter"/>
             <arg value="testGreetsWithName"/>
         </exec>

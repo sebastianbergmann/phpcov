@@ -1,7 +1,8 @@
 --TEST--
 phpcov execute --include ../../fixture/test.php --text /tmp/file ../../fixture/test.php
 --INI--
-xdebug.overload_var_dump=0
+xdebug.mode=debug
+xdebug.mode=coverage
 --SKIPIF--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../vendor/autoload.php';
