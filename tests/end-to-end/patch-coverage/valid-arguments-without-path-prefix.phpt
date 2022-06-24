@@ -16,4 +16,4 @@ phpcov %s by Sebastian Bergmann.
 
 Unable to detect executable lines that were changed.
 Are you sure you do not need to use --path-prefix?
-int(1)
+int(2)
