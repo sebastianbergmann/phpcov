@@ -23,7 +23,7 @@ final class PatchCoverageCommand extends Command
                 $arguments->coverage()
             );
 
-            return 1;
+            return 255;
         }
 
         if (!is_file($arguments->patch())) {
@@ -32,7 +32,7 @@ final class PatchCoverageCommand extends Command
                 $arguments->patch()
             );
 
-            return 1;
+            return 255;
         }
 
         $pathPrefix = $arguments->pathPrefix() ?: '';
@@ -53,7 +53,7 @@ final class PatchCoverageCommand extends Command
                 print 'Are you sure your --path-prefix is correct?' . PHP_EOL;
             }
 
-            return 1;
+            return 2;
         }
 
         printf(
