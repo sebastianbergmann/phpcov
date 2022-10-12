@@ -78,7 +78,7 @@ final class PatchCoverage
                         $result['numChangedLinesThatWereExecuted']++;
                     }
                 }
-                if (!isset($coverage[$key][$line])) {
+                if (isset($coverage[$key]) && !isset($coverage[$key][$line])) {
                     $result['numChangedLinesNotCovered']++;
                 }
             }
