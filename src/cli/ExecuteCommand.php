@@ -29,7 +29,19 @@ final class ExecuteCommand extends Command
             return 1;
         }
 
-        $filter = new Filter;
+        if (!$arguments->reportConfigured()) {
+            print 'No code coverage report configured' . PHP_EOL;
+
+            return 1;
+        }
+
+        $filter = $this->createFilter($arguments);
+
+        if ($filter->isEmpty()) {
+            print 'No list of files to be included in code coverage configured' . PHP_EOL;
+
+            return 1;
+        }
 
         try {
             if ($arguments->pathCoverage()) {
@@ -45,20 +57,8 @@ final class ExecuteCommand extends Command
             return 1;
         }
 
+        $this->configureCodeCoverageCollection($coverage, $arguments);
         $this->handleConfiguration($coverage, $arguments);
-        $this->handleFilter($coverage, $arguments);
-
-        if ($filter->isEmpty()) {
-            print 'No list of files to be included in code coverage configured' . PHP_EOL;
-
-            return 1;
-        }
-
-        if (!$arguments->reportConfigured()) {
-            print 'No code coverage report configured' . PHP_EOL;
-
-            return 1;
-        }
 
         $coverage->start('phpcov');
 
@@ -72,7 +72,22 @@ final class ExecuteCommand extends Command
         return 0;
     }
 
-    private function handleFilter(CodeCoverage $coverage, Arguments $arguments): void
+    private function createFilter(Arguments $arguments): Filter
+    {
+        $filter = new Filter;
+
+        foreach ($arguments->include() as $item) {
+            if (is_dir($item)) {
+                $filter->includeDirectory($item);
+            } elseif (is_file($item)) {
+                $filter->includeFile($item);
+            }
+        }
+
+        return $filter;
+    }
+
+    private function configureCodeCoverageCollection(CodeCoverage $coverage, Arguments $arguments): void
     {
         if ($arguments->addUncovered()) {
             $coverage->includeUncoveredFiles();
@@ -84,14 +99,6 @@ final class ExecuteCommand extends Command
             $coverage->processUncoveredFiles();
         } else {
             $coverage->doNotProcessUncoveredFiles();
-        }
-
-        foreach ($arguments->include() as $item) {
-            if (is_dir($item)) {
-                $coverage->filter()->includeDirectory($item);
-            } elseif (is_file($item)) {
-                $coverage->filter()->includeFile($item);
-            }
         }
     }
 }

@@ -1,5 +1,5 @@
 --TEST--
-phpcov execute ../../fixture/test.php
+phpcov execute --text /tmp/file ../../fixture/test.php
 --INI--
 xdebug.overload_var_dump=0
 --SKIPIF--
@@ -25,7 +25,9 @@ try {
 require __DIR__ . '/../../../vendor/autoload.php';
 
 $_SERVER['argv'][1] = 'execute';
-$_SERVER['argv'][2] = __DIR__ . '/../../fixture/test.php';
+$_SERVER['argv'][2] = '--text';
+$_SERVER['argv'][3] = '/tmp/file';
+$_SERVER['argv'][4] = __DIR__ . '/../../fixture/test.php';
 
 var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 --EXPECTF--
