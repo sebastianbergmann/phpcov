@@ -6,17 +6,11 @@ xdebug.overload_var_dump=0
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../vendor/autoload.php';
 
-use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Driver\Driver;
+use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;
 use SebastianBergmann\CodeCoverage\Filter;
 
 try {
-    $filter = new Filter;
-
-    new CodeCoverage(
-        Driver::forLineCoverage($filter),
-        $filter
-    );
+    (new DriverSelector)->forLineCoverage(new Filter);
 } catch (Exception $e) {
     print 'skip: ' . $e->getMessage();
 }
