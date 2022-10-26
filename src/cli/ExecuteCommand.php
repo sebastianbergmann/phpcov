@@ -71,4 +71,27 @@ final class ExecuteCommand extends Command
 
         return 0;
     }
+
+    private function handleFilter(CodeCoverage $coverage, Arguments $arguments): void
+    {
+        if ($arguments->addUncovered()) {
+            $coverage->includeUncoveredFiles();
+        } else {
+            $coverage->excludeUncoveredFiles();
+        }
+
+        if ($arguments->processUncovered()) {
+            $coverage->processUncoveredFiles();
+        } else {
+            $coverage->doNotProcessUncoveredFiles();
+        }
+
+        foreach ($arguments->include() as $item) {
+            if (is_dir($item)) {
+                $coverage->filter()->includeDirectory($item);
+            } elseif (is_file($item)) {
+                $coverage->filter()->includeFile($item);
+            }
+        }
+    }
 }
