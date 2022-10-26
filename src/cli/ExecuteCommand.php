@@ -12,7 +12,7 @@ namespace SebastianBergmann\PHPCOV;
 use const PHP_EOL;
 use function printf;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Driver\Driver;
+use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\NoCodeCoverageDriverAvailableException;
 
@@ -33,9 +33,9 @@ final class ExecuteCommand extends Command
 
         try {
             if ($arguments->pathCoverage()) {
-                $driver = Driver::forLineAndPathCoverage($filter);
+                $driver = (new DriverSelector)->forLineAndPathCoverage($filter);
             } else {
-                $driver = Driver::forLineCoverage($filter);
+                $driver = (new DriverSelector)->forLineCoverage($filter);
             }
 
             $coverage = new CodeCoverage($driver, $filter);
