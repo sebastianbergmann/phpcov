@@ -69,6 +69,11 @@ final class Arguments
     /**
      * @var ?string
      */
+    private $cobertura;
+
+    /**
+     * @var ?string
+     */
     private $crap4j;
 
     /**
