@@ -29,6 +29,7 @@ final class ArgumentsBuilder
                 'html=',
                 'php=',
                 'text=',
+                'summary-only',
                 'xml=',
             ],
             'arguments' => [
@@ -44,6 +45,7 @@ final class ArgumentsBuilder
                 'html=',
                 'php=',
                 'text=',
+                'summary-only',
                 'xml=',
             ],
             'arguments' => [
@@ -135,6 +137,7 @@ final class ArgumentsBuilder
         $html             = null;
         $php              = null;
         $text             = null;
+        $textSummaryOnly  = false;
         $xml              = null;
         $pathPrefix       = null;
         $help             = false;
@@ -197,6 +200,11 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--summary-only':
+                    $textSummaryOnly = true;
+
+                    break;
+
                 case '--xml':
                     $xml = $option[1];
 
@@ -238,6 +246,7 @@ final class ArgumentsBuilder
             $html,
             $php,
             $text,
+            $textSummaryOnly,
             $xml,
             $pathPrefix,
             $help,

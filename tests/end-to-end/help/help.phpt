@@ -31,6 +31,7 @@ Options common for both "phpcov execute" and "phpcov merge":
   --html <directory>     Generate code coverage report in HTML format
   --php <file>           Export php-code-coverage object
   --text <file>          Generate code coverage report in text format
+  --summary-only         Output only summary in the text format report
   --xml <directory>      Generate code coverage report in PHPUnit XML format
 
 Options for "phpcov patch-coverage":
