@@ -94,11 +94,5 @@ final class ExecuteCommand extends Command
         } else {
             $coverage->excludeUncoveredFiles();
         }
-
-        if ($arguments->processUncovered()) {
-            $coverage->processUncoveredFiles();
-        } else {
-            $coverage->doNotProcessUncoveredFiles();
-        }
     }
 }

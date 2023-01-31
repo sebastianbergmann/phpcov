@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
+<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
   <file src="src/PatchCoverage.php">
-    <UnresolvableInclude occurrences="1">
-      <code>include($coverageFile)</code>
+    <UnresolvableInclude>
+      <code>include $coverageFile</code>
     </UnresolvableInclude>
   </file>
   <file src="src/cli/Application.php">
-    <InvalidCatch occurrences="1"/>
+    <InvalidCatch>
+      <code>try {
+            $arguments = (new ArgumentsBuilder)-&gt;build($argv);
+        } catch (Exception $e) {
+            print PHP_EOL . $e-&gt;getMessage() . PHP_EOL;
+
+            return 1;
+        }</code>
+    </InvalidCatch>
   </file>
-  <file src="src/cli/Arguments.php">
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;cobertura</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="1">
-      <code>$this-&gt;cobertura</code>
-    </UndefinedThisPropertyFetch>
+  <file src="src/cli/ArgumentsBuilder.php">
+    <ArgumentTypeCoercion>
+      <code>$argv</code>
+    </ArgumentTypeCoercion>
   </file>
   <file src="src/cli/Command.php">
-    <InternalClass occurrences="2">
-      <code>new FilterMapper</code>
+    <InternalClass>
+      <code>new CliConfigurationBuilder</code>
       <code>new Loader</code>
+      <code>new Merger</code>
     </InternalClass>
-    <InternalMethod occurrences="7">
-      <code>codeCoverage</code>
-      <code>codeCoverage</code>
-      <code>codeCoverage</code>
-      <code>includeUncoveredFiles</code>
+    <InternalMethod>
+      <code>fromParameters</code>
       <code>load</code>
-      <code>map</code>
-      <code>processUncoveredFiles</code>
+      <code>merge</code>
     </InternalMethod>
   </file>
   <file src="src/cli/ExecuteCommand.php">
-    <DeprecatedMethod occurrences="2">
-      <code>Driver::forLineAndPathCoverage($filter)</code>
-      <code>Driver::forLineCoverage($filter)</code>
-    </DeprecatedMethod>
-    <PossiblyNullArgument occurrences="2">
+    <PossiblyNullArgument>
       <code>$arguments-&gt;script()</code>
       <code>$arguments-&gt;script()</code>
     </PossiblyNullArgument>
   </file>
   <file src="src/cli/MergeCommand.php">
-    <PossiblyNullArgument occurrences="4">
+    <PossiblyNullArgument>
       <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>
       <code>$arguments-&gt;directory()</code>
     </PossiblyNullArgument>
-    <UnresolvableInclude occurrences="1">
-      <code>include($file)</code>
+    <UnresolvableInclude>
+      <code>include $file</code>
     </UnresolvableInclude>
   </file>
   <file src="src/cli/PatchCoverageCommand.php">
-    <PossiblyNullArgument occurrences="6">
+    <PossiblyNullArgument>
       <code>$arguments-&gt;coverage()</code>
       <code>$arguments-&gt;coverage()</code>
       <code>$arguments-&gt;coverage()</code>

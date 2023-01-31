@@ -21,7 +21,6 @@ final class ArgumentsBuilder
                 'configuration=',
                 'include=',
                 'add-uncovered',
-                'process-uncovered',
                 'path-coverage',
                 'clover=',
                 'cobertura=',
@@ -88,7 +87,7 @@ final class ArgumentsBuilder
         } catch (CliParserException $e) {
             throw new ArgumentsBuilderException(
                 $e->getMessage(),
-                (int) $e->getCode(),
+                $e->getCode(),
                 $e
             );
         }
@@ -124,21 +123,20 @@ final class ArgumentsBuilder
                 break;
         }
 
-        $configuration    = null;
-        $include          = [];
-        $pathCoverage     = false;
-        $addUncovered     = false;
-        $processUncovered = false;
-        $clover           = null;
-        $cobertura        = null;
-        $crap4j           = null;
-        $html             = null;
-        $php              = null;
-        $text             = null;
-        $xml              = null;
-        $pathPrefix       = null;
-        $help             = false;
-        $version          = false;
+        $configuration = null;
+        $include       = [];
+        $pathCoverage  = false;
+        $addUncovered  = false;
+        $clover        = null;
+        $cobertura     = null;
+        $crap4j        = null;
+        $html          = null;
+        $php           = null;
+        $text          = null;
+        $xml           = null;
+        $pathPrefix    = null;
+        $help          = false;
+        $version       = false;
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
@@ -159,11 +157,6 @@ final class ArgumentsBuilder
 
                 case '--add-uncovered':
                     $addUncovered = true;
-
-                    break;
-
-                case '--process-uncovered':
-                    $processUncovered = true;
 
                     break;
 
@@ -231,7 +224,6 @@ final class ArgumentsBuilder
             $include,
             $pathCoverage,
             $addUncovered,
-            $processUncovered,
             $clover,
             $cobertura,
             $crap4j,

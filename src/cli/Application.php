@@ -15,7 +15,7 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const VERSION = '8.2.1';
+    private const VERSION = '9.0';
 
     public function run(array $argv): int
     {
@@ -60,7 +60,7 @@ final class Application
     {
         printf(
             'phpcov %s by Sebastian Bergmann.' . PHP_EOL,
-            (new Version(self::VERSION, dirname(__DIR__)))->getVersion()
+            (new Version(self::VERSION, dirname(__DIR__)))->asString()
         );
     }
 }

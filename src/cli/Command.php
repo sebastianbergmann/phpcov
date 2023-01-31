@@ -11,7 +11,8 @@ namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
 use function file_put_contents;
-use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\FilterMapper;
+use PHPUnit\TextUI\CliArguments\Builder as CliConfigurationBuilder;
+use PHPUnit\TextUI\Configuration\Merger;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
@@ -20,6 +21,7 @@ use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
 use SebastianBergmann\CodeCoverage\Report\PHP as PhpReport;
 use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
+use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 
 abstract class Command
@@ -34,23 +36,40 @@ abstract class Command
             return;
         }
 
-        $configuration = (new Loader)->load($configuration);
+        $cliConfiguration = (new CliConfigurationBuilder)->fromParameters([]);
+        $xmlConfiguration = (new Loader)->load($configuration);
+        $configuration    = (new Merger)->merge($cliConfiguration, $xmlConfiguration);
 
-        (new FilterMapper)->map(
-            $coverage->filter(),
-            $configuration->codeCoverage()
-        );
-
-        if ($configuration->codeCoverage()->includeUncoveredFiles()) {
+        if ($configuration->includeUncoveredFiles()) {
             $coverage->includeUncoveredFiles();
         } else {
             $coverage->excludeUncoveredFiles();
         }
 
-        if ($configuration->codeCoverage()->processUncoveredFiles()) {
-            $coverage->processUncoveredFiles();
-        } else {
-            $coverage->doNotProcessUncoveredFiles();
+        if ($configuration->hasNonEmptyListOfFilesToBeIncludedInCodeCoverageReport()) {
+            foreach ($configuration->coverageIncludeDirectories() as $directory) {
+                $coverage->filter()->includeDirectory(
+                    $directory->path(),
+                    $directory->suffix(),
+                    $directory->prefix()
+                );
+            }
+
+            foreach ($configuration->coverageIncludeFiles() as $file) {
+                $coverage->filter()->includeFile($file->path());
+            }
+
+            foreach ($configuration->coverageExcludeDirectories() as $directory) {
+                $coverage->filter()->excludeDirectory(
+                    $directory->path(),
+                    $directory->suffix(),
+                    $directory->prefix()
+                );
+            }
+
+            foreach ($configuration->coverageExcludeFiles() as $file) {
+                $coverage->filter()->excludeFile($file->path());
+            }
         }
     }
 
@@ -113,11 +132,11 @@ abstract class Command
         if ($arguments->text()) {
             print 'Generating code coverage report in text format ... ';
 
-            $writer = new TextReport;
+            $writer = new TextReport(Thresholds::default());
 
             file_put_contents(
                 $arguments->text(),
-                $writer->process($coverage, false)
+                $writer->process($coverage)
             );
 
             print 'done' . PHP_EOL;

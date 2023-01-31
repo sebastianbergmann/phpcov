@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [9.0.0] - 2023-MM-DD
+
+### Removed
+
+* PHP 7.3, PHP 7.4, and PHP 8.0 are no longer supported
+
 ## [8.2.1] - 2022-03-24
 
 * No changes; `phpcov.phar` rebuilt with updated dependencies
@@ -74,6 +80,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[9.0.0]: https://github.com/sebastianbergmann/phpcov/compare/8.2.1...main
 [8.2.1]: https://github.com/sebastianbergmann/phpcov/compare/8.2.0...8.2.1
 [8.2.0]: https://github.com/sebastianbergmann/phpcov/compare/8.1.2...8.2.0
 [8.1.2]: https://github.com/sebastianbergmann/phpcov/compare/8.1.1...8.1.2

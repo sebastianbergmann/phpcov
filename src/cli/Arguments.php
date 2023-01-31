@@ -57,11 +57,6 @@ final class Arguments
     private $addUncovered;
 
     /**
-     * @var bool
-     */
-    private $processUncovered;
-
-    /**
      * @var ?string
      */
     private $clover;
@@ -111,28 +106,27 @@ final class Arguments
      */
     private $pathPrefix;
 
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, bool $processUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
-        $this->command          = $command;
-        $this->script           = $script;
-        $this->directory        = $directory;
-        $this->coverage         = $coverage;
-        $this->patch            = $patch;
-        $this->configuration    = $configuration;
-        $this->include          = $include;
-        $this->pathCoverage     = $pathCoverage;
-        $this->addUncovered     = $addUncovered;
-        $this->processUncovered = $processUncovered;
-        $this->clover           = $clover;
-        $this->cobertura        = $cobertura;
-        $this->crap4j           = $crap4j;
-        $this->html             = $html;
-        $this->php              = $php;
-        $this->text             = $text;
-        $this->xml              = $xml;
-        $this->pathPrefix       = $pathPrefix;
-        $this->help             = $help;
-        $this->version          = $version;
+        $this->command       = $command;
+        $this->script        = $script;
+        $this->directory     = $directory;
+        $this->coverage      = $coverage;
+        $this->patch         = $patch;
+        $this->configuration = $configuration;
+        $this->include       = $include;
+        $this->pathCoverage  = $pathCoverage;
+        $this->addUncovered  = $addUncovered;
+        $this->clover        = $clover;
+        $this->cobertura     = $cobertura;
+        $this->crap4j        = $crap4j;
+        $this->html          = $html;
+        $this->php           = $php;
+        $this->text          = $text;
+        $this->xml           = $xml;
+        $this->pathPrefix    = $pathPrefix;
+        $this->help          = $help;
+        $this->version       = $version;
     }
 
     public function command(): ?string
@@ -178,11 +172,6 @@ final class Arguments
     public function addUncovered(): bool
     {
         return $this->addUncovered;
-    }
-
-    public function processUncovered(): bool
-    {
-        return $this->processUncovered;
     }
 
     public function clover(): ?string
