@@ -3,5 +3,5 @@
   <phar name="phpab" version="^1.27" installed="1.27.1" location="./tools/phpab" copy="true"/>
   <phar name="php-cs-fixer" version="^3.14" installed="3.14.3" location="./tools/php-cs-fixer" copy="true"/>
   <phar name="psalm" version="^5.6" installed="5.6.0" location="./tools/psalm" copy="true"/>
-  <phar name="composer" version="^2.5" installed="2.5.1" location="./tools/composer" copy="true"/>
+  <phar name="composer" version="^2.5" installed="2.5.2" location="./tools/composer" copy="true"/>
 </phive>
