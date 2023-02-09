@@ -10,6 +10,7 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function dirname;
 use function printf;
 use SebastianBergmann\Version;
 

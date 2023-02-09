@@ -10,6 +10,8 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function is_dir;
+use function is_file;
 use function printf;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;

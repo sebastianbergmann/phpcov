@@ -12,6 +12,7 @@ namespace SebastianBergmann\PHPCOV;
 use const PHP_EOL;
 use function is_file;
 use function printf;
+use function sprintf;
 
 final class PatchCoverageCommand extends Command
 {
