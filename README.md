@@ -25,7 +25,7 @@ $ phive install phpcov
 $ ./tools/phpcov --version
 ```
 
-**It is not recommended to use Composer to download and install this tool.**
+**[It is not recommended to use Composer to download and install this tool.](https://twitter.com/s_bergmann/status/999635212723212288)**
 
 ## Usage
 
