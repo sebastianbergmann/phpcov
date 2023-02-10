@@ -8,7 +8,7 @@ require __DIR__ . '/../../../vendor/autoload.php';
 
 $_SERVER['argv'][1] = 'patch-coverage';
 $_SERVER['argv'][2] = '--path-prefix';
-$_SERVER['argv'][3] = '/usr/local/src/phpcov';
+$_SERVER['argv'][3] = dirname(__DIR__, 3);
 $_SERVER['argv'][4] = __DIR__ . '/../../fixture/example/coverage/testGreetsWorld.cov';
 $_SERVER['argv'][5] = __DIR__ . '/../../fixture/example/patch';
 
