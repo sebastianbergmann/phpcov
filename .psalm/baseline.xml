@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.6.0@e784128902dfe01d489c4123d69918a9f3c1eac5">
+<files psalm-version="5.12.0@f90118cdeacd0088e7215e64c0c99ceca819e176">
   <file src="src/PatchCoverage.php">
     <UnresolvableInclude>
       <code>include $coverageFile</code>
@@ -7,13 +7,13 @@
   </file>
   <file src="src/cli/Application.php">
     <InvalidCatch>
-      <code>try {
-            $arguments = (new ArgumentsBuilder)-&gt;build($argv);
+      <code><![CDATA[try {
+            $arguments = (new ArgumentsBuilder)->build($argv);
         } catch (Exception $e) {
-            print PHP_EOL . $e-&gt;getMessage() . PHP_EOL;
+            print PHP_EOL . $e->getMessage() . PHP_EOL;
 
             return 1;
-        }</code>
+        }]]></code>
     </InvalidCatch>
   </file>
   <file src="src/cli/ArgumentsBuilder.php">
@@ -22,6 +22,16 @@
     </ArgumentTypeCoercion>
   </file>
   <file src="src/cli/Command.php">
+    <DeprecatedMethod>
+      <code>coverageExcludeDirectories</code>
+      <code>coverageExcludeFiles</code>
+      <code>coverageIncludeDirectories</code>
+      <code>coverageIncludeFiles</code>
+      <code>excludeDirectory</code>
+      <code>excludeFile</code>
+      <code>hasNonEmptyListOfFilesToBeIncludedInCodeCoverageReport</code>
+      <code>includeDirectory</code>
+    </DeprecatedMethod>
     <InternalClass>
       <code>new CliConfigurationBuilder</code>
       <code>new Loader</code>
@@ -34,17 +44,20 @@
     </InternalMethod>
   </file>
   <file src="src/cli/ExecuteCommand.php">
+    <DeprecatedMethod>
+      <code>includeDirectory</code>
+    </DeprecatedMethod>
     <PossiblyNullArgument>
-      <code>$arguments-&gt;script()</code>
-      <code>$arguments-&gt;script()</code>
+      <code><![CDATA[$arguments->script()]]></code>
+      <code><![CDATA[$arguments->script()]]></code>
     </PossiblyNullArgument>
   </file>
   <file src="src/cli/MergeCommand.php">
     <PossiblyNullArgument>
-      <code>$arguments-&gt;directory()</code>
-      <code>$arguments-&gt;directory()</code>
-      <code>$arguments-&gt;directory()</code>
-      <code>$arguments-&gt;directory()</code>
+      <code><![CDATA[$arguments->directory()]]></code>
+      <code><![CDATA[$arguments->directory()]]></code>
+      <code><![CDATA[$arguments->directory()]]></code>
+      <code><![CDATA[$arguments->directory()]]></code>
     </PossiblyNullArgument>
     <UnresolvableInclude>
       <code>include $file</code>
@@ -52,12 +65,12 @@
   </file>
   <file src="src/cli/PatchCoverageCommand.php">
     <PossiblyNullArgument>
-      <code>$arguments-&gt;coverage()</code>
-      <code>$arguments-&gt;coverage()</code>
-      <code>$arguments-&gt;coverage()</code>
-      <code>$arguments-&gt;patch()</code>
-      <code>$arguments-&gt;patch()</code>
-      <code>$arguments-&gt;patch()</code>
+      <code><![CDATA[$arguments->coverage()]]></code>
+      <code><![CDATA[$arguments->coverage()]]></code>
+      <code><![CDATA[$arguments->coverage()]]></code>
+      <code><![CDATA[$arguments->patch()]]></code>
+      <code><![CDATA[$arguments->patch()]]></code>
+      <code><![CDATA[$arguments->patch()]]></code>
     </PossiblyNullArgument>
   </file>
 </files>
