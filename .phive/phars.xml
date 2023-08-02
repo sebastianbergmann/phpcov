@@ -2,6 +2,6 @@
 <phive xmlns="https://phar.io/phive">
   <phar name="phpab" version="^1.27" installed="1.28.0" location="./tools/phpab" copy="true"/>
   <phar name="php-cs-fixer" version="^3.14" installed="3.22.0" location="./tools/php-cs-fixer" copy="true"/>
-  <phar name="psalm" version="^5.6" installed="5.13.1" location="./tools/psalm" copy="true"/>
+  <phar name="psalm" version="^5.6" installed="5.14.1" location="./tools/psalm" copy="true"/>
   <phar name="composer" version="^2.5" installed="2.5.8" location="./tools/composer" copy="true"/>
 </phive>
