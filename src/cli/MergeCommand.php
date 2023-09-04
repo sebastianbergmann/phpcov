@@ -23,7 +23,7 @@ final class MergeCommand extends Command
         if (!is_dir($arguments->directory())) {
             printf(
                 '"%s" is not a directory' . PHP_EOL,
-                $arguments->directory()
+                $arguments->directory(),
             );
 
             return 1;
@@ -37,13 +37,13 @@ final class MergeCommand extends Command
 
         $files = (new Facade)->getFilesAsArray(
             $arguments->directory(),
-            ['.cov']
+            ['.cov'],
         );
 
         if (empty($files)) {
             printf(
                 'No "%s/*.cov" files found' . PHP_EOL,
-                realpath($arguments->directory())
+                realpath($arguments->directory()),
             );
 
             return 1;

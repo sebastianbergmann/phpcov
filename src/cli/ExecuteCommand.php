@@ -25,7 +25,7 @@ final class ExecuteCommand extends Command
         if (!is_file($arguments->script())) {
             printf(
                 'File "%s" does not exist' . PHP_EOL,
-                $arguments->script()
+                $arguments->script(),
             );
 
             return 1;

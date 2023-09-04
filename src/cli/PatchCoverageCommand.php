@@ -21,7 +21,7 @@ final class PatchCoverageCommand extends Command
         if (!is_file($arguments->coverage())) {
             printf(
                 'Code Coverage file "%s" does not exist' . PHP_EOL,
-                $arguments->coverage()
+                $arguments->coverage(),
             );
 
             return 255;
@@ -30,7 +30,7 @@ final class PatchCoverageCommand extends Command
         if (!is_file($arguments->patch())) {
             printf(
                 'Patch file "%s" does not exist' . PHP_EOL,
-                $arguments->patch()
+                $arguments->patch(),
             );
 
             return 255;
@@ -41,7 +41,7 @@ final class PatchCoverageCommand extends Command
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
             $arguments->patch(),
-            $pathPrefix
+            $pathPrefix,
         );
 
         if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
@@ -63,8 +63,8 @@ final class PatchCoverageCommand extends Command
             $patchCoverage['numChangedLinesThatAreExecutable'],
             $this->percentage(
                 $patchCoverage['numChangedLinesThatWereExecuted'],
-                $patchCoverage['numChangedLinesThatAreExecutable']
-            )
+                $patchCoverage['numChangedLinesThatAreExecutable'],
+            ),
         );
 
         if (!empty($patchCoverage['changedLinesThatWereNotExecuted'])) {
@@ -75,7 +75,7 @@ final class PatchCoverageCommand extends Command
                     printf(
                         '  %s:%d' . PHP_EOL,
                         $file,
-                        $line
+                        $line,
                     );
                 }
             }

@@ -19,8 +19,8 @@ final class RequiredArgumentMissingException extends RuntimeException implements
         parent::__construct(
             sprintf(
                 'Required argument "%s" is missing',
-                $argument
-            )
+                $argument,
+            ),
         );
     }
 }

@@ -82,13 +82,13 @@ final class ArgumentsBuilder
             $options = (new CliParser)->parse(
                 $argv,
                 'hv',
-                $longOptions
+                $longOptions,
             );
         } catch (CliParserException $e) {
             throw new ArgumentsBuilderException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e
+                $e,
             );
         }
 

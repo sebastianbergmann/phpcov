@@ -51,7 +51,7 @@ abstract class Command
                 $coverage->filter()->includeDirectory(
                     $directory->path(),
                     $directory->suffix(),
-                    $directory->prefix()
+                    $directory->prefix(),
                 );
             }
 
@@ -63,7 +63,7 @@ abstract class Command
                 $coverage->filter()->excludeDirectory(
                     $directory->path(),
                     $directory->suffix(),
-                    $directory->prefix()
+                    $directory->prefix(),
                 );
             }
 
@@ -136,7 +136,7 @@ abstract class Command
 
             file_put_contents(
                 $arguments->text(),
-                $writer->process($coverage)
+                $writer->process($coverage),
             );
 
             print 'done' . PHP_EOL;

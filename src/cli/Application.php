@@ -61,7 +61,7 @@ final class Application
     {
         printf(
             'phpcov %s by Sebastian Bergmann.' . PHP_EOL,
-            (new Version(self::VERSION, dirname(__DIR__)))->asString()
+            (new Version(self::VERSION, dirname(__DIR__)))->asString(),
         );
     }
 }
