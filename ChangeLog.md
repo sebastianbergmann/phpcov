@@ -2,7 +2,7 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [9.0.2] - 2023-MM-DD
+## [9.0.2] - 2023-09-12
 
 ### Changed
 
@@ -90,7 +90,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
-[9.0.2]: https://github.com/sebastianbergmann/phpcov/compare/9.0.1...main
+[9.0.2]: https://github.com/sebastianbergmann/phpcov/compare/9.0.1...9.0.2
 [9.0.1]: https://github.com/sebastianbergmann/phpcov/compare/9.0.0...9.0.1
 [9.0.0]: https://github.com/sebastianbergmann/phpcov/compare/8.2.1...9.0.0
 [8.2.1]: https://github.com/sebastianbergmann/phpcov/compare/8.2.0...8.2.1
