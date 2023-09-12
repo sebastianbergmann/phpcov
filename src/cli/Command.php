@@ -75,6 +75,17 @@ abstract class Command
 
     protected function handleReports(CodeCoverage $coverage, Arguments $arguments): void
     {
+        if ($arguments->php()) {
+            print 'Generating code coverage report in PHP format ... ';
+
+            $writer = new PhpReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
+            $writer->process($coverage, $arguments->php());
+
+            print 'done' . PHP_EOL;
+        }
+
         if ($arguments->clover()) {
             print 'Generating code coverage report in Clover XML format ... ';
 
@@ -114,17 +125,6 @@ abstract class Command
             $writer = new HtmlReport;
 
             $writer->process($coverage, $arguments->html());
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->php()) {
-            print 'Generating code coverage report in PHP format ... ';
-
-            $writer = new PhpReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($coverage, $arguments->php());
 
             print 'done' . PHP_EOL;
         }
