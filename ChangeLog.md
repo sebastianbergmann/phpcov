@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [9.0.2] - 2023-MM-DD
+
+### Changed
+
+* [#134](https://github.com/sebastianbergmann/phpcov/pull/134): Generate code coverage report in PHP format as first in list to avoid serializing cache data
+
 ## [9.0.1] - 2023-09-08
 
 * No changes; `phpcov.phar` rebuilt with updated dependencies
@@ -84,6 +90,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[9.0.2]: https://github.com/sebastianbergmann/phpcov/compare/9.0.1...main
 [9.0.1]: https://github.com/sebastianbergmann/phpcov/compare/9.0.0...9.0.1
 [9.0.0]: https://github.com/sebastianbergmann/phpcov/compare/8.2.1...9.0.0
 [8.2.1]: https://github.com/sebastianbergmann/phpcov/compare/8.2.0...8.2.1
