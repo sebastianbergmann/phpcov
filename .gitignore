@@ -4,7 +4,6 @@
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 /.phpunit.cache
-/composer.lock
 /vendor
 
 .phpunit.result.cache

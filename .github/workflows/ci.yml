@@ -44,7 +44,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies with Composer
-        run: ./tools/composer update --no-interaction --no-ansi --no-progress
+        run: ./tools/composer install --no-interaction --no-ansi --no-progress
 
       - name: Run Psalm
         run: ./tools/psalm --config=.psalm/config.xml --no-progress --shepherd --show-info=false --stats
@@ -80,7 +80,7 @@ jobs:
           coverage: "xdebug3"
 
       - name: "Install dependencies with Composer"
-        run: "./tools/composer update --no-ansi --no-interaction --no-progress"
+        run: "./tools/composer install --no-ansi --no-interaction --no-progress"
 
       - name: Update test fixture
         run: ant update-fixture
