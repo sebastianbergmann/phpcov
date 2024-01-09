@@ -41,18 +41,18 @@ final class PatchCoverage
         $changes  = [];
 
         foreach ($patch as $diff) {
-            $file           = substr($diff->getTo(), 2);
+            $file           = substr($diff->to(), 2);
             $changes[$file] = [];
 
-            foreach ($diff->getChunks() as $chunk) {
-                $lineNr = $chunk->getEnd();
+            foreach ($diff->chunks() as $chunk) {
+                $lineNr = $chunk->end();
 
-                foreach ($chunk->getLines() as $line) {
-                    if ($line->getType() === Line::ADDED) {
+                foreach ($chunk->lines() as $line) {
+                    if ($line->type() === Line::ADDED) {
                         $changes[$file][] = $lineNr;
                     }
 
-                    if ($line->getType() !== Line::REMOVED) {
+                    if ($line->type() !== Line::REMOVED) {
                         $lineNr++;
                     }
                 }
