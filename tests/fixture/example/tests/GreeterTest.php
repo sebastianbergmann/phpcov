@@ -9,11 +9,10 @@
  */
 namespace SebastianBergmann\PHPCOV\TestFixture;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \SebastianBergmann\PHPCOV\TestFixture\Greeter
- */
+#[CoversClass(Greeter::class)]
 final class GreeterTest extends TestCase
 {
     public function testGreetsWorld(): void
