@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbe43a20fcfaca127d5d1030cd335b4d",
+    "content-hash": "7d45d0cfed9cccaae21b11d8c876c736",
     "packages": [
         {
             "name": "myclabs/deep-copy",
@@ -559,16 +559,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "dev-main",
+            "version": "11.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c9f35fe778ad19242c1acddc635976e4e40379a4"
+                "reference": "ece3536c22fc5113906a42e7e82de00baaef36d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c9f35fe778ad19242c1acddc635976e4e40379a4",
-                "reference": "c9f35fe778ad19242c1acddc635976e4e40379a4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ece3536c22fc5113906a42e7e82de00baaef36d0",
+                "reference": "ece3536c22fc5113906a42e7e82de00baaef36d0",
                 "shasum": ""
             },
             "require": {
@@ -601,7 +601,6 @@
             "suggest": {
                 "ext-soap": "To be able to generate mocks based on WSDL files"
             },
-            "default-branch": true,
             "bin": [
                 "phpunit"
             ],
@@ -640,7 +639,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/main"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.0.0"
             },
             "funding": [
                 {
@@ -656,7 +655,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-01T13:08:27+00:00"
+            "time": "2024-02-02T06:12:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1634,7 +1633,7 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,

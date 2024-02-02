@@ -2,7 +2,7 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [10.0.0] - 2024-MM-DD
+## [10.0.0] - 2024-02-02
 
 ### Added
 
@@ -101,7 +101,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
-[10.0.0]: https://github.com/sebastianbergmann/phpcov/compare/9.0.2...main
+[10.0.0]: https://github.com/sebastianbergmann/phpcov/compare/9.0.2...10.0.0
 [9.0.2]: https://github.com/sebastianbergmann/phpcov/compare/9.0.1...9.0.2
 [9.0.1]: https://github.com/sebastianbergmann/phpcov/compare/9.0.0...9.0.1
 [9.0.0]: https://github.com/sebastianbergmann/phpcov/compare/8.2.1...9.0.0
