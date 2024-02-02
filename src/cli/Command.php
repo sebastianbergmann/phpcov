@@ -10,9 +10,11 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function array_keys;
 use function file_put_contents;
 use PHPUnit\TextUI\CliArguments\Builder as CliConfigurationBuilder;
 use PHPUnit\TextUI\Configuration\Merger;
+use PHPUnit\TextUI\Configuration\SourceMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
@@ -46,30 +48,14 @@ abstract class Command
             $coverage->excludeUncoveredFiles();
         }
 
-        if ($configuration->hasNonEmptyListOfFilesToBeIncludedInCodeCoverageReport()) {
-            foreach ($configuration->coverageIncludeDirectories() as $directory) {
-                $coverage->filter()->includeDirectory(
-                    $directory->path(),
-                    $directory->suffix(),
-                    $directory->prefix(),
-                );
-            }
-
-            foreach ($configuration->coverageIncludeFiles() as $file) {
-                $coverage->filter()->includeFile($file->path());
-            }
-
-            foreach ($configuration->coverageExcludeDirectories() as $directory) {
-                $coverage->filter()->excludeDirectory(
-                    $directory->path(),
-                    $directory->suffix(),
-                    $directory->prefix(),
-                );
-            }
-
-            foreach ($configuration->coverageExcludeFiles() as $file) {
-                $coverage->filter()->excludeFile($file->path());
-            }
+        if ($configuration->source()->notEmpty()) {
+            $coverage->filter()->includeFiles(
+                array_keys(
+                    (new SourceMapper)->map(
+                        $configuration->source(),
+                    ),
+                ),
+            );
         }
     }
 

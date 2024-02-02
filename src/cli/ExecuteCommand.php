@@ -10,13 +10,16 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function assert;
 use function is_dir;
 use function is_file;
+use function is_string;
 use function printf;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\NoCodeCoverageDriverAvailableException;
+use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 final class ExecuteCommand extends Command
 {
@@ -80,7 +83,11 @@ final class ExecuteCommand extends Command
 
         foreach ($arguments->include() as $item) {
             if (is_dir($item)) {
-                $filter->includeDirectory($item);
+                assert(is_string($item) && !empty($item));
+
+                foreach ((new FileIteratorFacade)->getFilesAsArray($item) as $file) {
+                    $filter->includeFile($file);
+                }
             } elseif (is_file($item)) {
                 $filter->includeFile($item);
             }
