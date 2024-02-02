@@ -95,6 +95,7 @@
 
         <exec executable="${basedir}/tools/phpab">
             <arg value="--all"/>
+            <arg value="--tolerant" />
             <arg value="--phar"/>
             <arg value="--output"/>
             <arg path="${basedir}/build/phpcov-${version}.phar"/>
