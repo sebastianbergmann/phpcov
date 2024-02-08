@@ -25,7 +25,7 @@ $ phive install phpcov
 $ ./tools/phpcov --version
 ```
 
-**[It is not recommended to use Composer to download and install this tool.](https://phpunit.readthedocs.io/en/10.0/installation.html#phar-or-composer)**
+**[It is not recommended to use Composer to download and install this tool.](https://phpunit.readthedocs.io/en/11.0/installation.html#phar-or-composer)**
 
 ## Usage
 
