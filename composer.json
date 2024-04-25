@@ -15,7 +15,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.3.0"
+            "php": ">=7.3.0"
         },
         "optimize-autoloader": true,
         "sort-packages": true
@@ -23,9 +23,10 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.3",
-        "phpunit/phpunit": "^9.3",
+        "nikic/php-parser": "5.0.2",
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/php-file-iterator": "^3.0",
+        "phpunit/phpunit": "^9.3",
         "sebastian/cli-parser": "^1.0",
         "sebastian/diff": "^4.0",
         "sebastian/version": "^3.0"
@@ -44,4 +45,3 @@
         }
     }
 }
-
