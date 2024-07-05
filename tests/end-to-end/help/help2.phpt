@@ -13,9 +13,9 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 Usage:
-  phpcov execute       [options] <script>
-  phpcov merge         [options] <directory with *.cov files>
-  phpcov path-coverage [options] <coverage file> <patch file>
+  phpcov execute        [options] <script>
+  phpcov merge          [options] <directory with *.cov files>
+  phpcov patch-coverage [options] <coverage file> <patch file>
 
 Options for "phpcov execute":
 
