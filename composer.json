@@ -23,12 +23,12 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
-        "phpunit/phpunit": "^11.0",
-        "phpunit/php-code-coverage": "^11.0",
-        "phpunit/php-file-iterator": "^5.0",
-        "sebastian/cli-parser": "^3.0",
-        "sebastian/diff": "^6.0",
-        "sebastian/version": "^5.0"
+        "phpunit/phpunit": "^11.5.1",
+        "phpunit/php-code-coverage": "^11.0.8",
+        "phpunit/php-file-iterator": "^5.1",
+        "sebastian/cli-parser": "^3.0.2",
+        "sebastian/diff": "^6.0.2",
+        "sebastian/version": "^5.0.2"
     },
     "autoload": {
         "classmap": [
@@ -44,4 +44,3 @@
         }
     }
 }
-
