@@ -2,6 +2,17 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [11.0.0] - 2024-02-07
+
+### Added
+
+* Added support for PHPUnit 12
+
+### Removed
+
+* PHPUnit 11 is no longer supported
+* PHP 8.2 is no longer supported
+
 ## [10.0.1] - 2024-12-20
 
 ### Added
@@ -107,6 +118,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[11.0.0]: https://github.com/sebastianbergmann/phpcov/compare/10.0.1...11.0.0
 [10.0.1]: https://github.com/sebastianbergmann/phpcov/compare/10.0.0...10.0.1
 [10.0.0]: https://github.com/sebastianbergmann/phpcov/compare/9.0.2...10.0.0
 [9.0.2]: https://github.com/sebastianbergmann/phpcov/compare/9.0.1...9.0.2

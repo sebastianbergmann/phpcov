@@ -16,7 +16,7 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const VERSION = '10.0.1';
+    private const VERSION = '11.0.0';
 
     public function run(array $argv): int
     {
