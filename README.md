@@ -11,11 +11,13 @@
 
 This tool is distributed as a [PHP Archive (PHAR)](https://php.net/phar):
 
-```
-$ wget https://phar.phpunit.de/phpcov.phar
+```bash
+$ wget https://phar.phpunit.de/phpcov-X.Y.phar
 
-$ php phpcov.phar --version
+$ php phpcov-X.Y.phar --version
 ```
+
+Please replace `X.Y` with the version of PHPCOV you are interested in.
 
 Using [Phive](https://phar.io/) is the recommended way for managing the tool dependencies of your project:
 
