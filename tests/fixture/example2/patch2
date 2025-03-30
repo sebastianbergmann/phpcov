@@ -1,0 +1,13 @@
+diff --git a/tests/fixture/example2/src/Greeter2.php b/tests/fixture/example2/src/Greeter2.php
+index 36e0a2e..ab7b878 100644
+--- a/tests/fixture/example2/src/Greeter2.php
++++ b/tests/fixture/example2/src/Greeter2.php
+@@ -4,7 +4,7 @@
+ 
+ final class Greeter2
+ {
+-    public const GREETING='Hello world!';
++    public const GREETING='Hello wonderful world!';
+ 
+     public function greetWorld(): string
+     {
