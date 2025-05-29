@@ -44,5 +44,11 @@ parameters:
         property: 100
         constant: 100
 
+    ignoreErrors:
+        -
+            identifier: new.internalClass
+        -
+            identifier: method.internalClass
+
 includes:
     - phar://phpstan.phar/conf/bleedingEdge.neon
