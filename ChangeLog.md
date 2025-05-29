@@ -2,6 +2,10 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [11.0.1] - 2025-02-29
+
+* No changes; `phpcov.phar` rebuilt with updated dependencies
+
 ## [11.0.0] - 2025-02-07
 
 ### Added
@@ -118,6 +122,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[11.0.1]: https://github.com/sebastianbergmann/phpcov/compare/11.0.0...11.0.1
 [11.0.0]: https://github.com/sebastianbergmann/phpcov/compare/10.0.1...11.0.0
 [10.0.1]: https://github.com/sebastianbergmann/phpcov/compare/10.0.0...10.0.1
 [10.0.0]: https://github.com/sebastianbergmann/phpcov/compare/9.0.2...10.0.0
