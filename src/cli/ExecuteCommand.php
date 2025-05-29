@@ -10,10 +10,8 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
-use function assert;
 use function is_dir;
 use function is_file;
-use function is_string;
 use function printf;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;
@@ -83,8 +81,6 @@ final class ExecuteCommand extends Command
 
         foreach ($arguments->include() as $item) {
             if (is_dir($item)) {
-                assert(is_string($item) && !empty($item));
-
                 foreach ((new FileIteratorFacade)->getFilesAsArray($item) as $file) {
                     $filter->includeFile($file);
                 }

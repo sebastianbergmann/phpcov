@@ -36,7 +36,11 @@ final class PatchCoverageCommand extends Command
             return 255;
         }
 
-        $pathPrefix = $arguments->pathPrefix() ?: '';
+        $pathPrefix = '';
+
+        if ($arguments->pathPrefix() !== null) {
+            $pathPrefix = $arguments->pathPrefix();
+        }
 
         $patchCoverage = (new PatchCoverage)->execute(
             $arguments->coverage(),
@@ -67,7 +71,7 @@ final class PatchCoverageCommand extends Command
             ),
         );
 
-        if (!empty($patchCoverage['changedLinesThatWereNotExecuted'])) {
+        if ($patchCoverage['changedLinesThatWereNotExecuted'] !== []) {
             print PHP_EOL . 'Changed executable lines that are not covered:' . PHP_EOL;
 
             foreach ($patchCoverage['changedLinesThatWereNotExecuted'] as $file => $lines) {

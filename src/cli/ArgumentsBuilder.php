@@ -15,7 +15,7 @@ use SebastianBergmann\CliParser\Parser as CliParser;
 
 final class ArgumentsBuilder
 {
-    private const COMMANDS = [
+    private const array COMMANDS = [
         'execute' => [
             'longOptions' => [
                 'configuration=',
@@ -62,6 +62,8 @@ final class ArgumentsBuilder
     ];
 
     /**
+     * @param list<string> $argv
+     *
      * @throws ArgumentsBuilderException
      */
     public function build(array $argv): Arguments
@@ -97,7 +99,7 @@ final class ArgumentsBuilder
         $coverage  = null;
         $patch     = null;
 
-        if ($command) {
+        if ($command !== null) {
             foreach (self::COMMANDS[$command]['arguments'] as $position => $argument) {
                 if (!isset($options[1][$position + 1])) {
                     throw new RequiredArgumentMissingException($argument);

@@ -16,8 +16,11 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const VERSION = '11.0.0';
+    private const string VERSION = '11.0.0';
 
+    /**
+     * @param list<string> $argv
+     */
     public function run(array $argv): int
     {
         $this->printVersion();

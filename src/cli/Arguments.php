@@ -11,101 +11,33 @@ namespace SebastianBergmann\PHPCOV;
 
 final class Arguments
 {
-    /**
-     * @var ?string
-     */
-    private $command;
+    private ?string $command;
+    private ?string $script;
+    private ?string $directory;
+    private ?string $coverage;
+    private ?string $patch;
+    private ?string $configuration;
 
     /**
-     * @var ?string
+     * @var list<non-empty-string>
      */
-    private $script;
+    private array $include;
+    private bool $pathCoverage;
+    private bool $addUncovered;
+    private ?string $clover;
+    private ?string $cobertura;
+    private ?string $crap4j;
+    private ?string $html;
+    private ?string $php;
+    private ?string $text;
+    private ?string $xml;
+    private bool $help;
+    private bool $version;
+    private ?string $pathPrefix;
 
     /**
-     * @var ?string
+     * @param list<non-empty-string> $include
      */
-    private $directory;
-
-    /**
-     * @var ?string
-     */
-    private $coverage;
-
-    /**
-     * @var ?string
-     */
-    private $patch;
-
-    /**
-     * @var ?string
-     */
-    private $configuration;
-
-    /**
-     * @var string[]
-     */
-    private $include;
-
-    /**
-     * @var bool
-     */
-    private $pathCoverage;
-
-    /**
-     * @var bool
-     */
-    private $addUncovered;
-
-    /**
-     * @var ?string
-     */
-    private $clover;
-
-    /**
-     * @var ?string
-     */
-    private $cobertura;
-
-    /**
-     * @var ?string
-     */
-    private $crap4j;
-
-    /**
-     * @var ?string
-     */
-    private $html;
-
-    /**
-     * @var ?string
-     */
-    private $php;
-
-    /**
-     * @var ?string
-     */
-    private $text;
-
-    /**
-     * @var ?string
-     */
-    private $xml;
-
-    /**
-     * @var bool
-     */
-    private $help;
-
-    /**
-     * @var bool
-     */
-    private $version;
-
-    /**
-     * @var ?string
-     */
-    private $pathPrefix;
-
     public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command       = $command;
@@ -159,6 +91,9 @@ final class Arguments
         return $this->configuration;
     }
 
+    /**
+     * @return list<non-empty-string>
+     */
     public function include(): array
     {
         return $this->include;
@@ -226,6 +161,12 @@ final class Arguments
 
     public function reportConfigured(): bool
     {
-        return $this->clover() || $this->cobertura() || $this->crap4j() || $this->html() || $this->php() || $this->text() || $this->xml();
+        return $this->clover() !== null ||
+               $this->cobertura() !== null ||
+               $this->crap4j() !== null ||
+               $this->html() !== null ||
+               $this->php() !== null ||
+               $this->text() !== null ||
+               $this->xml() !== null;
     }
 }

@@ -40,7 +40,7 @@ final class MergeCommand extends Command
             ['.cov'],
         );
 
-        if (empty($files)) {
+        if ($files === []) {
             printf(
                 'No "%s/*.cov" files found' . PHP_EOL,
                 realpath($arguments->directory()),
@@ -87,6 +87,6 @@ final class MergeCommand extends Command
             print 'Failed to merge: ' . $error . PHP_EOL;
         }
 
-        return empty($errors) ? 0 : 1;
+        return $errors === [] ? 0 : 1;
     }
 }

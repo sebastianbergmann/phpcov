@@ -34,7 +34,7 @@ abstract class Command
     {
         $configuration = $arguments->configuration();
 
-        if (!$configuration) {
+        if ($configuration === null) {
             return;
         }
 
@@ -61,7 +61,7 @@ abstract class Command
 
     protected function handleReports(CodeCoverage $coverage, Arguments $arguments): void
     {
-        if ($arguments->php()) {
+        if ($arguments->php() !== null) {
             print 'Generating code coverage report in PHP format ... ';
 
             $writer = new PhpReport;
@@ -72,7 +72,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->clover()) {
+        if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
 
             $writer = new CloverReport;
@@ -83,7 +83,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->cobertura()) {
+        if ($arguments->cobertura() !== null) {
             print 'Generating code coverage report in Cobertura XML format ... ';
 
             $writer = new CoberturaReport;
@@ -94,7 +94,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->crap4j()) {
+        if ($arguments->crap4j() !== null) {
             print 'Generating code coverage report in Crap4J XML format ... ';
 
             $writer = new Crap4jReport;
@@ -105,7 +105,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->html()) {
+        if ($arguments->html() !== null) {
             print 'Generating code coverage report in HTML format ... ';
 
             $writer = new HtmlReport;
@@ -115,7 +115,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->text()) {
+        if ($arguments->text() !== null) {
             print 'Generating code coverage report in text format ... ';
 
             $writer = new TextReport(Thresholds::default());
@@ -128,7 +128,7 @@ abstract class Command
             print 'done' . PHP_EOL;
         }
 
-        if ($arguments->xml()) {
+        if ($arguments->xml() !== null) {
             print 'Generating code coverage report in XML format ... ';
 
             $writer = new XmlReport('unknown');

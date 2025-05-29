@@ -20,6 +20,9 @@ use SebastianBergmann\Diff\Parser as DiffParser;
 
 final class PatchCoverage
 {
+    /**
+     * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
+     */
     public function execute(string $coverageFile, string $patchFile, string $pathPrefix): array
     {
         $result = [
@@ -67,7 +70,7 @@ final class PatchCoverage
                     is_array($coverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
 
-                    if (empty($coverage[$key][$line])) {
+                    if ($coverage[$key][$line] === []) {
                         if (!isset($result['changedLinesThatWereNotExecuted'][$file])) {
                             $result['changedLinesThatWereNotExecuted'][$file] = [];
                         }
