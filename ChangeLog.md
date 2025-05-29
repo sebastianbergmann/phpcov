@@ -2,7 +2,7 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-## [11.0.0] - 2024-02-07
+## [11.0.0] - 2025-02-07
 
 ### Added
 
