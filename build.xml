@@ -3,7 +3,6 @@
     <target name="setup" depends="clean,install-dependencies"/>
 
     <target name="clean" description="Cleanup build artifacts">
-        <delete file="${basedir}/composer.lock"/>
         <delete dir="${basedir}/vendor"/>
         <delete dir="${basedir}/build/phar"/>
         <delete>
@@ -41,7 +40,7 @@
 
     <target name="install-dependencies" depends="clean" description="Install dependencies with Composer">
         <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="update"/>
+            <arg value="install"/>
             <arg value="--no-interaction"/>
             <arg value="--no-progress"/>
             <arg value="--no-ansi"/>
