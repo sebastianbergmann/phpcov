@@ -49,7 +49,8 @@ final class PatchCoverageCommand extends Command
         );
 
         if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
-            $patchCoverage['numChangedLinesThatAreExecutable'] === 0) {
+            $patchCoverage['numChangedLinesThatAreExecutable'] === 0 &&
+            $patchCoverage['numChangedLinesNotCovered'] === 0) {
             print 'Unable to detect executable lines that were changed.' . PHP_EOL;
 
             if ($pathPrefix === '') {
