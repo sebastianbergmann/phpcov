@@ -4,6 +4,8 @@ parameters:
     paths:
         - src
 
+    resultCachePath: %tmpDir%/phpcov.php
+
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     reportAlwaysTrueInLastCondition: true
     reportPossiblyNonexistentConstantArrayOffset: true
