@@ -5,12 +5,7 @@
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${basedir}/vendor"/>
         <delete dir="${basedir}/build/phar"/>
-        <delete>
-            <fileset dir="${basedir}/build">
-                <include name="**/phpcov*.phar"/>
-                <include name="**/phpcov*.phar.asc"/>
-            </fileset>
-        </delete>
+        <delete dir="${basedir}/build/artifacts"/>
     </target>
 
     <target name="update-tools" description="Update tools">
@@ -73,7 +68,7 @@
         <exec executable="gpg" failonerror="true">
             <arg value="--armor" />
             <arg value="--detach-sign" />
-            <arg path="${basedir}/build/phpcov-${version}.phar" />
+            <arg path="${basedir}/build/artifacts/phpcov-${version}.phar" />
         </exec>
     </target>
 
@@ -84,6 +79,8 @@
     </target>
 
     <target name="phar-build">
+        <mkdir dir="${basedir}/build/artifacts"/>
+
         <exec executable="bash" outputproperty="version">
             <arg value="-c"/>
             <arg value="${basedir}/phpcov --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'"/>
@@ -129,7 +126,7 @@
             <arg value="--tolerant" />
             <arg value="--phar"/>
             <arg value="--output"/>
-            <arg path="${basedir}/build/phpcov-${version}.phar"/>
+            <arg path="${basedir}/build/artifacts/phpcov-${version}.phar"/>
             <arg value="--template"/>
             <arg path="${basedir}/build/phar-autoload.php.in"/>
             <arg value="--indent"/>
@@ -137,7 +134,7 @@
             <arg path="${basedir}/build/phar"/>
         </exec>
 
-        <chmod file="${basedir}/build/phpcov-${version}.phar" perm="ugo+rx"/>
+        <chmod file="${basedir}/build/artifacts/phpcov-${version}.phar" perm="ugo+rx"/>
     </target>
 
     <target name="update-fixture">
