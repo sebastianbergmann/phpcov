@@ -92,6 +92,36 @@ final class PharAutoloader
 				require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php81/Php81.php';
 				require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php81/bootstrap.php';
 			}
+
+            if (
+                PHP_VERSION_ID < 80300
+                && empty ($GLOBALS['__composer_autoload_files']['662a729f963d39afe703c9d9b7ab4a8c'])
+                && !class_exists(\Symfony\Polyfill\Php83\Php83::class, false)
+            ) {
+                $GLOBALS['__composer_autoload_files']['662a729f963d39afe703c9d9b7ab4a8c'] = true;
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php83/Php83.php';
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php83/bootstrap.php';
+            }
+
+            if (
+                PHP_VERSION_ID < 80400
+                && empty ($GLOBALS['__composer_autoload_files']['9d2b9fc6db0f153a0a149fefb182415e'])
+                && !class_exists(\Symfony\Polyfill\Php83\Php84::class, false)
+            ) {
+                $GLOBALS['__composer_autoload_files']['9d2b9fc6db0f153a0a149fefb182415e'] = true;
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php84/Php84.php';
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php84/bootstrap.php';
+            }
+
+            if (
+                PHP_VERSION_ID < 80500
+                && empty ($GLOBALS['__composer_autoload_files']['606a39d89246991a373564698c2d8383'])
+                && !class_exists(\Symfony\Polyfill\Php83\Php85::class, false)
+            ) {
+                $GLOBALS['__composer_autoload_files']['606a39d89246991a373564698c2d8383'] = true;
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php85/Php85.php';
+                require_once 'phar://' . __DIR__ . '/phpstan.phar/vendor/symfony/polyfill-php85/bootstrap.php';
+            }
 		}
 
 		$filename = str_replace('\\', DIRECTORY_SEPARATOR, $class);
