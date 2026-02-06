@@ -16,7 +16,7 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const string VERSION = '11.0.4';
+    private const string VERSION = '12.0';
 
     /**
      * @param list<string> $argv
