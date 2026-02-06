@@ -1,6 +1,5 @@
 [![Latest Stable Version](https://poser.pugx.org/phpunit/phpcov/v)](https://packagist.org/packages/phpunit/phpcov)
 [![CI Status](https://github.com/sebastianbergmann/phpcov/workflows/CI/badge.svg)](https://github.com/sebastianbergmann/phpcov/actions)
-[![Type Coverage](https://shepherd.dev/github/sebastianbergmann/phpcov/coverage.svg)](https://shepherd.dev/github/sebastianbergmann/phpcov)
 [![codecov](https://codecov.io/gh/sebastianbergmann/phpcov/branch/main/graph/badge.svg)](https://codecov.io/gh/sebastianbergmann/phpcov)
 
 # phpcov
