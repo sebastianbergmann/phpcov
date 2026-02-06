@@ -119,7 +119,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: none
+          coverage: xdebug3
           tools: none
 
       - name: Get Composer cache directory
