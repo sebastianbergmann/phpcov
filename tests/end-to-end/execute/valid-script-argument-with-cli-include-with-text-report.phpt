@@ -39,10 +39,10 @@ Generating code coverage report in text format ... done
 int(0)
 
 
-Code Coverage Report:  
-  %s  
-                       
- Summary:              
+Code Coverage Report:
+  %s
+
+ Summary:
   Classes:        (0/0)
   Methods:        (0/0)
   Lines:   50.00% (1/2)

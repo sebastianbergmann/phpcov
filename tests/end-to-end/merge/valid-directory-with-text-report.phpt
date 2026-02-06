@@ -25,13 +25,13 @@ Generating code coverage report in text format ... done
 int(0)
 
 
-Code Coverage Report:   
-  %s   
-                        
- Summary:               
+Code Coverage Report:
+  %s
+
+ Summary:
   Classes: 100.00% (1/1)
   Methods: 100.00% (2/2)
-  Lines:   66.67% (2/3) 
+  Lines:   66.67% (2/3)
 
 SebastianBergmann\PHPCOV\TestFixture\Greeter
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
