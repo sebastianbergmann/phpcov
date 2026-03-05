@@ -9,30 +9,13 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use const PHP_EOL;
 use function array_keys;
-use function file_put_contents;
 use PHPUnit\TextUI\CliArguments\Builder as CliConfigurationBuilder;
 use PHPUnit\TextUI\Configuration\Merger;
 use PHPUnit\TextUI\Configuration\SourceMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
-use SebastianBergmann\CodeCoverage\Node\Builder;
-use SebastianBergmann\CodeCoverage\Node\Directory;
-use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
-use SebastianBergmann\CodeCoverage\Report\Cobertura as CoberturaReport;
-use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
-use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
-use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
-use SebastianBergmann\CodeCoverage\Report\Thresholds;
-use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
-use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
-use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingSourceAnalyser;
 
-/**
- * @phpstan-import-type TestType from CodeCoverage
- */
 abstract class Command
 {
     abstract public function run(Arguments $arguments): int;
@@ -64,87 +47,5 @@ abstract class Command
                 ),
             );
         }
-    }
-
-    /**
-     * @param array<string, TestType> $testResults
-     */
-    protected function handleReports(ProcessedCodeCoverageData $codeCoverage, array $testResults, Arguments $arguments): void
-    {
-        $report = $this->buildReport($codeCoverage, $testResults);
-
-        if ($arguments->clover() !== null) {
-            print 'Generating code coverage report in Clover XML format ... ';
-
-            $writer = new CloverReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->clover());
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->cobertura() !== null) {
-            print 'Generating code coverage report in Cobertura XML format ... ';
-
-            $writer = new CoberturaReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->cobertura());
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->crap4j() !== null) {
-            print 'Generating code coverage report in Crap4J XML format ... ';
-
-            $writer = new Crap4jReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->crap4j());
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->html() !== null) {
-            print 'Generating code coverage report in HTML format ... ';
-
-            $writer = new HtmlReport;
-
-            $writer->process($report, $arguments->html());
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->text() !== null) {
-            print 'Generating code coverage report in text format ... ';
-
-            $writer = new TextReport(Thresholds::default());
-
-            file_put_contents(
-                $arguments->text(),
-                $writer->process($report),
-            );
-
-            print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->xml() !== null) {
-            print 'Generating code coverage report in XML format ... ';
-
-            $writer = new XmlReport;
-
-            $writer->process($arguments->xml(), $report, $testResults);
-
-            print 'done' . PHP_EOL;
-        }
-    }
-
-    /**
-     * @param array<string, TestType> $testResults
-     */
-    private function buildReport(ProcessedCodeCoverageData $codeCoverage, array $testResults): Directory
-    {
-        return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($codeCoverage, $testResults);
     }
 }
