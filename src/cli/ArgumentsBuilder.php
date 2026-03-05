@@ -16,25 +16,6 @@ use SebastianBergmann\CliParser\Parser as CliParser;
 final class ArgumentsBuilder
 {
     private const array COMMANDS = [
-        'execute' => [
-            'longOptions' => [
-                'configuration=',
-                'include=',
-                'add-uncovered',
-                'path-coverage',
-                'clover=',
-                'cobertura=',
-                'crap4j=',
-                'html=',
-                'php=',
-                'text=',
-                'xml=',
-            ],
-            'arguments' => [
-                'script',
-            ],
-        ],
-
         'merge' => [
             'longOptions' => [
                 'clover=',
@@ -108,11 +89,6 @@ final class ArgumentsBuilder
         }
 
         switch ($command) {
-            case 'execute':
-                $script = $options[1][1];
-
-                break;
-
             case 'merge':
                 $directory = $options[1][1];
 

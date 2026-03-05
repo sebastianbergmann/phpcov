@@ -62,11 +62,11 @@ final class MergeCommand extends Command
 
         try {
             $merged = (new CoverageMerger)->merge($files);
-        } catch (DriverMismatchException|RuntimeMismatchException|GitInformationMismatchException|MixedGitInformationException $e) {
+        } catch (DriverMismatchException|GitInformationMismatchException|MixedGitInformationException|RuntimeMismatchException $e) {
             print $e->getMessage() . PHP_EOL;
 
             return 1;
-        } catch (FileCouldNotBeReadException|VersionMismatchException|InvalidCoverageDataException $e) {
+        } catch (FileCouldNotBeReadException|InvalidCoverageDataException|VersionMismatchException $e) {
             print 'Failed to merge: ' . $e->getMessage() . PHP_EOL;
 
             return 1;

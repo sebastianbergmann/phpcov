@@ -43,10 +43,6 @@ final class Application
             return (new HelpCommand)->run($arguments);
         }
 
-        if ($arguments->command() === 'execute') {
-            return (new ExecuteCommand)->run($arguments);
-        }
-
         if ($arguments->command() === 'merge') {
             return (new MergeCommand)->run($arguments);
         }

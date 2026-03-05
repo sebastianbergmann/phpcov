@@ -51,7 +51,7 @@ final class PatchCoverageCommand extends Command
                 $arguments->patch(),
                 $pathPrefix,
             );
-        } catch (VersionMismatchException|FileCouldNotBeReadException|InvalidCoverageDataException $e) {
+        } catch (FileCouldNotBeReadException|InvalidCoverageDataException|VersionMismatchException $e) {
             print $e->getMessage() . PHP_EOL;
 
             return 255;

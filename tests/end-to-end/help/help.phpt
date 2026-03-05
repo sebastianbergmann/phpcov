@@ -11,19 +11,10 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 Usage:
-  phpcov execute        [options] <script>
   phpcov merge          [options] <directory with *.cov files>
   phpcov patch-coverage [options] <coverage file> <patch file>
 
-Options for "phpcov execute":
-
-  --configuration <file> Load PHPUnit configuration from XML configuration
-  --include <directory>  Include <directory> in code coverage analysis
-  --path-coverage        Perform path coverage analysis
-  --add-uncovered        Include uncovered files in code coverage report
-  --process-uncovered    Process uncovered file for code coverage report
-
-Options common for both "phpcov execute" and "phpcov merge":
+Options for "phpcov merge":
 
   --clover <file>        Generate code coverage report in Clover XML format
   --cobertura <file>     Generate code coverage report in Cobertura XML format
