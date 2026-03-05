@@ -9,7 +9,7 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-final class HelpCommand extends Command
+final class HelpCommand implements Command
 {
     public function run(Arguments $arguments): int
     {

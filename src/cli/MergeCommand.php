@@ -34,7 +34,7 @@ use SebastianBergmann\FileIterator\Facade;
 /**
  * @phpstan-import-type TestType from CodeCoverage
  */
-final class MergeCommand extends Command
+final class MergeCommand implements Command
 {
     public function run(Arguments $arguments): int
     {

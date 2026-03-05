@@ -9,43 +9,7 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use function array_keys;
-use PHPUnit\TextUI\CliArguments\Builder as CliConfigurationBuilder;
-use PHPUnit\TextUI\Configuration\Merger;
-use PHPUnit\TextUI\Configuration\SourceMapper;
-use PHPUnit\TextUI\XmlConfiguration\Loader;
-use SebastianBergmann\CodeCoverage\CodeCoverage;
-
-abstract class Command
+interface Command
 {
-    abstract public function run(Arguments $arguments): int;
-
-    protected function handleConfiguration(CodeCoverage $coverage, Arguments $arguments): void
-    {
-        $configuration = $arguments->configuration();
-
-        if ($configuration === null) {
-            return;
-        }
-
-        $cliConfiguration = (new CliConfigurationBuilder)->fromParameters([]);
-        $xmlConfiguration = (new Loader)->load($configuration);
-        $configuration    = (new Merger)->merge($cliConfiguration, $xmlConfiguration);
-
-        if ($configuration->includeUncoveredFiles()) {
-            $coverage->includeUncoveredFiles();
-        } else {
-            $coverage->excludeUncoveredFiles();
-        }
-
-        if ($configuration->source()->notEmpty()) {
-            $coverage->filter()->includeFiles(
-                array_keys(
-                    (new SourceMapper)->map(
-                        $configuration->source(),
-                    ),
-                ),
-            );
-        }
-    }
+    public function run(Arguments $arguments): int;
 }

@@ -17,7 +17,7 @@ use SebastianBergmann\CodeCoverage\Serialization\FileCouldNotBeReadException;
 use SebastianBergmann\CodeCoverage\Serialization\InvalidCoverageDataException;
 use SebastianBergmann\CodeCoverage\Serialization\VersionMismatchException;
 
-final class PatchCoverageCommand extends Command
+final class PatchCoverageCommand implements Command
 {
     public function run(Arguments $arguments): int
     {
