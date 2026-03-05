@@ -28,7 +28,6 @@ final class Arguments
     private ?string $cobertura;
     private ?string $crap4j;
     private ?string $html;
-    private ?string $php;
     private ?string $text;
     private ?string $xml;
     private bool $help;
@@ -38,7 +37,7 @@ final class Arguments
     /**
      * @param list<non-empty-string> $include
      */
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command       = $command;
         $this->script        = $script;
@@ -53,7 +52,6 @@ final class Arguments
         $this->cobertura     = $cobertura;
         $this->crap4j        = $crap4j;
         $this->html          = $html;
-        $this->php           = $php;
         $this->text          = $text;
         $this->xml           = $xml;
         $this->pathPrefix    = $pathPrefix;
@@ -129,11 +127,6 @@ final class Arguments
         return $this->html;
     }
 
-    public function php(): ?string
-    {
-        return $this->php;
-    }
-
     public function text(): ?string
     {
         return $this->text;
@@ -165,7 +158,6 @@ final class Arguments
                $this->cobertura() !== null ||
                $this->crap4j() !== null ||
                $this->html() !== null ||
-               $this->php() !== null ||
                $this->text() !== null ||
                $this->xml() !== null;
     }
