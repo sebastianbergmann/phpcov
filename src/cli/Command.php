@@ -30,6 +30,9 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingSourceAnalyser;
 
+/**
+ * @phpstan-import-type TestType from CodeCoverage
+ */
 abstract class Command
 {
     abstract public function run(Arguments $arguments): int;
@@ -63,9 +66,12 @@ abstract class Command
         }
     }
 
-    protected function handleReports(ProcessedCodeCoverageData $data, array $tests, Arguments $arguments): void
+    /**
+     * @param array<string, TestType> $testResults
+     */
+    protected function handleReports(ProcessedCodeCoverageData $codeCoverage, array $testResults, Arguments $arguments): void
     {
-        $report = $this->buildReport($data, $tests);
+        $report = $this->buildReport($codeCoverage, $testResults);
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
@@ -128,14 +134,17 @@ abstract class Command
 
             $writer = new XmlReport;
 
-            $writer->process($arguments->xml(), $report, $tests);
+            $writer->process($arguments->xml(), $report, $testResults);
 
             print 'done' . PHP_EOL;
         }
     }
 
-    private function buildReport(ProcessedCodeCoverageData $data, array $tests): Directory
+    /**
+     * @param array<string, TestType> $testResults
+     */
+    private function buildReport(ProcessedCodeCoverageData $codeCoverage, array $testResults): Directory
     {
-        return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($data, $tests);
+        return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($codeCoverage, $testResults);
     }
 }
