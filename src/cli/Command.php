@@ -17,14 +17,18 @@ use PHPUnit\TextUI\Configuration\Merger;
 use PHPUnit\TextUI\Configuration\SourceMapper;
 use PHPUnit\TextUI\XmlConfiguration\Loader;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
+use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
+use SebastianBergmann\CodeCoverage\Node\Builder;
+use SebastianBergmann\CodeCoverage\Node\Directory;
 use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
 use SebastianBergmann\CodeCoverage\Report\Cobertura as CoberturaReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
-use SebastianBergmann\CodeCoverage\Report\PHP as PhpReport;
 use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingSourceAnalyser;
 
 abstract class Command
 {
@@ -59,18 +63,9 @@ abstract class Command
         }
     }
 
-    protected function handleReports(CodeCoverage $coverage, Arguments $arguments): void
+    protected function handleReports(ProcessedCodeCoverageData $data, array $tests, Arguments $arguments): void
     {
-        if ($arguments->php() !== null) {
-            print 'Generating code coverage report in PHP format ... ';
-
-            $writer = new PhpReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($coverage, $arguments->php());
-
-            print 'done' . PHP_EOL;
-        }
+        $report = $this->buildReport($data, $tests);
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
@@ -78,7 +73,7 @@ abstract class Command
             $writer = new CloverReport;
 
             /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($coverage, $arguments->clover());
+            $writer->process($report, $arguments->clover());
 
             print 'done' . PHP_EOL;
         }
@@ -89,7 +84,7 @@ abstract class Command
             $writer = new CoberturaReport;
 
             /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($coverage, $arguments->cobertura());
+            $writer->process($report, $arguments->cobertura());
 
             print 'done' . PHP_EOL;
         }
@@ -100,7 +95,7 @@ abstract class Command
             $writer = new Crap4jReport;
 
             /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($coverage, $arguments->crap4j());
+            $writer->process($report, $arguments->crap4j());
 
             print 'done' . PHP_EOL;
         }
@@ -110,7 +105,7 @@ abstract class Command
 
             $writer = new HtmlReport;
 
-            $writer->process($coverage, $arguments->html());
+            $writer->process($report, $arguments->html());
 
             print 'done' . PHP_EOL;
         }
@@ -122,7 +117,7 @@ abstract class Command
 
             file_put_contents(
                 $arguments->text(),
-                $writer->process($coverage),
+                $writer->process($report),
             );
 
             print 'done' . PHP_EOL;
@@ -131,11 +126,16 @@ abstract class Command
         if ($arguments->xml() !== null) {
             print 'Generating code coverage report in XML format ... ';
 
-            $writer = new XmlReport('unknown');
+            $writer = new XmlReport;
 
-            $writer->process($coverage, $arguments->xml());
+            $writer->process($arguments->xml(), $report, $tests);
 
             print 'done' . PHP_EOL;
         }
+    }
+
+    private function buildReport(ProcessedCodeCoverageData $data, array $tests): Directory
+    {
+        return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($data, $tests);
     }
 }

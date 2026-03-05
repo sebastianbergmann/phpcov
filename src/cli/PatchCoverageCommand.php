@@ -13,6 +13,9 @@ use const PHP_EOL;
 use function is_file;
 use function printf;
 use function sprintf;
+use SebastianBergmann\CodeCoverage\Serialization\FileCouldNotBeReadException;
+use SebastianBergmann\CodeCoverage\Serialization\InvalidCoverageDataException;
+use SebastianBergmann\CodeCoverage\Serialization\VersionMismatchException;
 
 final class PatchCoverageCommand extends Command
 {
@@ -42,11 +45,17 @@ final class PatchCoverageCommand extends Command
             $pathPrefix = $arguments->pathPrefix();
         }
 
-        $patchCoverage = (new PatchCoverage)->execute(
-            $arguments->coverage(),
-            $arguments->patch(),
-            $pathPrefix,
-        );
+        try {
+            $patchCoverage = (new PatchCoverage)->execute(
+                $arguments->coverage(),
+                $arguments->patch(),
+                $pathPrefix,
+            );
+        } catch (VersionMismatchException|FileCouldNotBeReadException|InvalidCoverageDataException $e) {
+            print $e->getMessage() . PHP_EOL;
+
+            return 255;
+        }
 
         if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
             $patchCoverage['numChangedLinesThatAreExecutable'] === 0) {

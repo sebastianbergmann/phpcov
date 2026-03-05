@@ -17,6 +17,7 @@ use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Driver\Selector as DriverSelector;
 use SebastianBergmann\CodeCoverage\Filter;
 use SebastianBergmann\CodeCoverage\NoCodeCoverageDriverAvailableException;
+use SebastianBergmann\CodeCoverage\Serialization\Serializer;
 use SebastianBergmann\FileIterator\Facade as FileIteratorFacade;
 
 final class ExecuteCommand extends Command
@@ -70,7 +71,15 @@ final class ExecuteCommand extends Command
         /* @noinspection UnusedFunctionResultInspection */
         $coverage->stop();
 
-        $this->handleReports($coverage, $arguments);
+        if ($arguments->php() !== null) {
+            print 'Generating code coverage report in PHP format ... ';
+
+            (new Serializer)->serialize($arguments->php(), $coverage);
+
+            print 'done' . PHP_EOL;
+        }
+
+        $this->handleReports($coverage->getData(), $coverage->getTests(), $arguments);
 
         return 0;
     }
