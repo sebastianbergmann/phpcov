@@ -27,7 +27,7 @@ final class PatchCoverageCalculator
      * @param LineCoverageType $lineCoverage
      * @param list<Diff>       $patch
      *
-     * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
+     * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, numChangedLinesNotCovered: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
      */
     public function calculate(array $lineCoverage, array $patch, string $basePath, string $pathPrefix): array
     {
@@ -87,7 +87,8 @@ final class PatchCoverageCalculator
                         $result['numChangedLinesThatWereExecuted']++;
                     }
                 }
-                if (isset($coverage[$key]) && !isset($coverage[$key][$line])) {
+
+                if (isset($lineCoverage[$key]) && !isset($lineCoverage[$key][$line])) {
                     $result['numChangedLinesNotCovered']++;
                 }
             }
