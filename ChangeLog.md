@@ -11,6 +11,10 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 * [#109](https://github.com/sebastianbergmann/phpcov/issues/109): Support for merging serialized code coverage files generated using PHPUnit's PHAR
 * [#115](https://github.com/sebastianbergmann/phpcov/issues/115): Support for merging of serialized code coverage data files generated with different base paths
 
+### Fixed
+
+* [#153](https://github.com/sebastianbergmann/phpcov/pull/153): Patches modifying only uncovered lines are not handled correctly
+
 ### Removed
 
 * The "execute" command has been removed
