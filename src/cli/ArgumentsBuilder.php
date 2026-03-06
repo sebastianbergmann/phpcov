@@ -22,6 +22,7 @@ final class ArgumentsBuilder
                 'cobertura=',
                 'crap4j=',
                 'html=',
+                'php=',
                 'text=',
                 'xml=',
             ],
@@ -108,6 +109,7 @@ final class ArgumentsBuilder
         $cobertura     = null;
         $crap4j        = null;
         $html          = null;
+        $php           = null;
         $text          = null;
         $xml           = null;
         $pathPrefix    = null;
@@ -156,6 +158,11 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--php':
+                    $php = $option[1];
+
+                    break;
+
                 case '--text':
                     $text = $option[1];
 
@@ -199,6 +206,7 @@ final class ArgumentsBuilder
             $cobertura,
             $crap4j,
             $html,
+            $php,
             $text,
             $xml,
             $pathPrefix,

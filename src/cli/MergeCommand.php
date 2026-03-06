@@ -14,6 +14,7 @@ use function file_put_contents;
 use function is_dir;
 use function printf;
 use function realpath;
+use function serialize;
 use SebastianBergmann\CodeCoverage\CodeCoverage;
 use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
@@ -29,6 +30,8 @@ use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 use SebastianBergmann\CodeCoverage\Serialization\Merger as CoverageMerger;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
 use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingSourceAnalyser;
+use SebastianBergmann\CodeCoverage\Util\Filesystem;
+use SebastianBergmann\CodeCoverage\Version;
 use SebastianBergmann\FileIterator\Facade;
 
 /**
@@ -73,6 +76,21 @@ final class MergeCommand implements Command
             print $e->getMessage() . PHP_EOL;
 
             return 1;
+        }
+
+        if ($arguments->php() !== null) {
+            print 'Generating code coverage report in PHP format ... ';
+
+            Filesystem::write(
+                $arguments->php(),
+                '<?php // phpunit/php-code-coverage version ' . Version::id() . PHP_EOL .
+                "return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'" . PHP_EOL .
+                serialize($merged) . PHP_EOL .
+                'END_OF_COVERAGE_SERIALIZATION' . PHP_EOL .
+                ');',
+            );
+
+            print 'done' . PHP_EOL;
         }
 
         $this->handleReports($merged['codeCoverage'], $merged['testResults'], $arguments);

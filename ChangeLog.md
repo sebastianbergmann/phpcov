@@ -11,7 +11,6 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 ### Removed
 
 * The "execute" command has been removed
-* The "merge --php <file>" CLI option has been removed
 * PHPUnit 13.0 and phpunit/php-code-coverage 13.0 are no longer supported
 
 ## [12.0.0] - 2026-02-06
