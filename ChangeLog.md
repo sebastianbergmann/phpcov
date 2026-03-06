@@ -7,6 +7,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 ### Added
 
 * Added support for PHPUnit 13.1 and phpunit/php-code-coverage 14.0
+* Added `--openclover` CLI option for merging into OpenClover XML format
 
 ### Removed
 

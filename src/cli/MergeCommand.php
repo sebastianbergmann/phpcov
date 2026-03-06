@@ -24,6 +24,7 @@ use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
 use SebastianBergmann\CodeCoverage\Report\Cobertura as CoberturaReport;
 use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
 use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
+use SebastianBergmann\CodeCoverage\Report\OpenClover as OpenCloverReport;
 use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
@@ -109,6 +110,17 @@ final class MergeCommand implements Command
             print 'Generating code coverage report in Clover XML format ... ';
 
             $writer = new CloverReport;
+
+            /* @noinspection UnusedFunctionResultInspection */
+            $writer->process($report, $arguments->clover());
+
+            print 'done' . PHP_EOL;
+        }
+
+        if ($arguments->openClover() !== null) {
+            print 'Generating code coverage report in OpenClover XML format ... ';
+
+            $writer = new OpenCloverReport;
 
             /* @noinspection UnusedFunctionResultInspection */
             $writer->process($report, $arguments->clover());

@@ -19,6 +19,7 @@ final class ArgumentsBuilder
         'merge' => [
             'longOptions' => [
                 'clover=',
+                'openclover=',
                 'cobertura=',
                 'crap4j=',
                 'html=',
@@ -106,6 +107,7 @@ final class ArgumentsBuilder
         $pathCoverage  = false;
         $addUncovered  = false;
         $clover        = null;
+        $openClover    = null;
         $cobertura     = null;
         $crap4j        = null;
         $html          = null;
@@ -140,6 +142,11 @@ final class ArgumentsBuilder
 
                 case '--clover':
                     $clover = $option[1];
+
+                    break;
+
+                case '--openclover':
+                    $openClover = $option[1];
 
                     break;
 
@@ -203,6 +210,7 @@ final class ArgumentsBuilder
             $pathCoverage,
             $addUncovered,
             $clover,
+            $openClover,
             $cobertura,
             $crap4j,
             $html,

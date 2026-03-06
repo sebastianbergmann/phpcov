@@ -25,6 +25,7 @@ final class Arguments
     private bool $pathCoverage;
     private bool $addUncovered;
     private ?string $clover;
+    private ?string $openClover;
     private ?string $cobertura;
     private ?string $crap4j;
     private ?string $html;
@@ -38,7 +39,7 @@ final class Arguments
     /**
      * @param list<non-empty-string> $include
      */
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command       = $command;
         $this->script        = $script;
@@ -50,6 +51,7 @@ final class Arguments
         $this->pathCoverage  = $pathCoverage;
         $this->addUncovered  = $addUncovered;
         $this->clover        = $clover;
+        $this->openClover    = $openClover;
         $this->cobertura     = $cobertura;
         $this->crap4j        = $crap4j;
         $this->html          = $html;
@@ -114,6 +116,11 @@ final class Arguments
         return $this->clover;
     }
 
+    public function openClover(): ?string
+    {
+        return $this->openClover;
+    }
+
     public function cobertura(): ?string
     {
         return $this->cobertura;
@@ -162,6 +169,7 @@ final class Arguments
     public function reportConfigured(): bool
     {
         return $this->clover() !== null ||
+               $this->openClover() !== null ||
                $this->cobertura() !== null ||
                $this->crap4j() !== null ||
                $this->html() !== null ||

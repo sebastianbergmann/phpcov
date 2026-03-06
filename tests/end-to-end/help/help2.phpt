@@ -19,6 +19,7 @@ Usage:
 Options for "phpcov merge":
 
   --clover <file>        Generate code coverage report in Clover XML format
+  --openclover <file>    Generate code coverage report in OpenClover XML format
   --cobertura <file>     Generate code coverage report in Cobertura XML format
   --crap4j <file>        Generate code coverage report in Crap4J XML format
   --html <directory>     Generate code coverage report in HTML format
