@@ -9,6 +9,7 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
 use function file_put_contents;
 use function is_dir;
@@ -94,7 +95,7 @@ final class MergeCommand implements Command
             print 'done' . PHP_EOL;
         }
 
-        $this->handleReports($merged['codeCoverage'], $merged['testResults'], $arguments);
+        $this->handleReports($merged['codeCoverage'], $merged['testResults'], $merged['basePath'], $arguments);
 
         return 0;
     }
@@ -102,9 +103,9 @@ final class MergeCommand implements Command
     /**
      * @param array<string, TestType> $testResults
      */
-    private function handleReports(ProcessedCodeCoverageData $codeCoverage, array $testResults, Arguments $arguments): void
+    private function handleReports(ProcessedCodeCoverageData $codeCoverage, array $testResults, string $basePath, Arguments $arguments): void
     {
-        $report = $this->buildReport($codeCoverage, $testResults);
+        $report = $this->buildReport($codeCoverage, $testResults, $basePath);
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
@@ -187,8 +188,16 @@ final class MergeCommand implements Command
     /**
      * @param array<string, TestType> $testResults
      */
-    private function buildReport(ProcessedCodeCoverageData $codeCoverage, array $testResults): Directory
+    private function buildReport(ProcessedCodeCoverageData $codeCoverage, array $testResults, string $basePath): Directory
     {
+        if ($basePath !== '') {
+            $codeCoverage = clone $codeCoverage;
+
+            foreach ($codeCoverage->coveredFiles() as $relPath) {
+                $codeCoverage->renameFile($relPath, $basePath . DIRECTORY_SEPARATOR . $relPath);
+            }
+        }
+
         return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($codeCoverage, $testResults);
     }
 }

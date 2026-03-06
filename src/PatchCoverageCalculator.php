@@ -11,6 +11,8 @@ namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
 use function is_array;
+use function str_starts_with;
+use function strlen;
 use function substr;
 use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
 use SebastianBergmann\Diff\Diff;
@@ -27,7 +29,7 @@ final class PatchCoverageCalculator
      *
      * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
      */
-    public function calculate(array $lineCoverage, array $patch, string $pathPrefix): array
+    public function calculate(array $lineCoverage, array $patch, string $basePath, string $pathPrefix): array
     {
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
@@ -61,7 +63,13 @@ final class PatchCoverageCalculator
         }
 
         foreach ($changes as $file => $lines) {
-            $key = $pathPrefix . $file;
+            $fullPath = $pathPrefix . $file;
+
+            if ($basePath !== '' && str_starts_with($fullPath, $basePath . DIRECTORY_SEPARATOR)) {
+                $key = substr($fullPath, strlen($basePath) + 1);
+            } else {
+                $key = $fullPath;
+            }
 
             foreach ($lines as $line) {
                 if (isset($lineCoverage[$key][$line]) &&

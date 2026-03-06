@@ -49,9 +49,11 @@ final class PatchCoverageCommand implements Command
         }
 
         try {
+            $data          = (new Unserializer)->unserialize($arguments->coverage());
             $patchCoverage = (new PatchCoverageCalculator)->calculate(
-                (new Unserializer)->unserialize($arguments->coverage())['codeCoverage']->lineCoverage(),
+                $data['codeCoverage']->lineCoverage(),
                 (new DiffParser)->parse(file_get_contents($arguments->patch())),
+                $data['basePath'],
                 $pathPrefix,
             );
         } catch (FileCouldNotBeReadException|InvalidCoverageDataException|VersionMismatchException $e) {
