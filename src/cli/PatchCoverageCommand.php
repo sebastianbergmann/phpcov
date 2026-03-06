@@ -10,12 +10,15 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function file_get_contents;
 use function is_file;
 use function printf;
 use function sprintf;
 use SebastianBergmann\CodeCoverage\Serialization\FileCouldNotBeReadException;
 use SebastianBergmann\CodeCoverage\Serialization\InvalidCoverageDataException;
+use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
 use SebastianBergmann\CodeCoverage\Serialization\VersionMismatchException;
+use SebastianBergmann\Diff\Parser as DiffParser;
 
 final class PatchCoverageCommand implements Command
 {
@@ -46,9 +49,9 @@ final class PatchCoverageCommand implements Command
         }
 
         try {
-            $patchCoverage = (new PatchCoverage)->execute(
-                $arguments->coverage(),
-                $arguments->patch(),
+            $patchCoverage = (new PatchCoverageCalculator)->calculate(
+                (new Unserializer)->unserialize($arguments->coverage())['codeCoverage']->lineCoverage(),
+                (new DiffParser)->parse(file_get_contents($arguments->patch())),
                 $pathPrefix,
             );
         } catch (FileCouldNotBeReadException|InvalidCoverageDataException|VersionMismatchException $e) {

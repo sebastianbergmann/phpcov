@@ -10,19 +10,24 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
-use function file_get_contents;
 use function is_array;
 use function substr;
-use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
+use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
+use SebastianBergmann\Diff\Diff;
 use SebastianBergmann\Diff\Line;
-use SebastianBergmann\Diff\Parser as DiffParser;
 
-final class PatchCoverage
+/**
+ * @phpstan-import-type LineCoverageType from ProcessedCodeCoverageData
+ */
+final class PatchCoverageCalculator
 {
     /**
+     * @param LineCoverageType $lineCoverage
+     * @param list<Diff>       $patch
+     *
      * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
      */
-    public function execute(string $coverageFile, string $patchFile, string $pathPrefix): array
+    public function calculate(array $lineCoverage, array $patch, string $pathPrefix): array
     {
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
@@ -34,10 +39,7 @@ final class PatchCoverage
             $pathPrefix .= DIRECTORY_SEPARATOR;
         }
 
-        $data     = (new Unserializer)->unserialize($coverageFile);
-        $coverage = $data['codeCoverage']->lineCoverage();
-        $patch    = (new DiffParser)->parse(file_get_contents($patchFile));
-        $changes  = [];
+        $changes = [];
 
         foreach ($patch as $diff) {
             $file           = substr($diff->to(), 2);
@@ -62,11 +64,11 @@ final class PatchCoverage
             $key = $pathPrefix . $file;
 
             foreach ($lines as $line) {
-                if (isset($coverage[$key][$line]) &&
-                    is_array($coverage[$key][$line])) {
+                if (isset($lineCoverage[$key][$line]) &&
+                    is_array($lineCoverage[$key][$line])) {
                     $result['numChangedLinesThatAreExecutable']++;
 
-                    if ($coverage[$key][$line] === []) {
+                    if ($lineCoverage[$key][$line] === []) {
                         if (!isset($result['changedLinesThatWereNotExecuted'][$file])) {
                             $result['changedLinesThatWereNotExecuted'][$file] = [];
                         }
