@@ -24,12 +24,14 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4",
-        "phpunit/phpunit": "^13.1",
         "phpunit/php-code-coverage": "^14.0",
         "phpunit/php-file-iterator": "^7.0.0",
         "sebastian/cli-parser": "^5.0.0",
         "sebastian/diff": "^8.0.0",
         "sebastian/version": "^7.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^13.1"
     },
     "autoload": {
         "classmap": [
