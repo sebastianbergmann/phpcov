@@ -76,7 +76,6 @@ final class ArgumentsBuilder
             );
         }
 
-        $script    = null;
         $directory = null;
         $coverage  = null;
         $patch     = null;
@@ -120,26 +119,6 @@ final class ArgumentsBuilder
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
-                case '--configuration':
-                    $configuration = $option[1];
-
-                    break;
-
-                case '--include':
-                    $include[] = $option[1];
-
-                    break;
-
-                case '--path-coverage':
-                    $pathCoverage = true;
-
-                    break;
-
-                case '--add-uncovered':
-                    $addUncovered = true;
-
-                    break;
-
                 case '--clover':
                     $clover = $option[1];
 
@@ -201,14 +180,9 @@ final class ArgumentsBuilder
 
         return new Arguments(
             $command,
-            $script,
             $directory,
             $coverage,
             $patch,
-            $configuration,
-            $include,
-            $pathCoverage,
-            $addUncovered,
             $clover,
             $openClover,
             $cobertura,

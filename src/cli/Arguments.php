@@ -12,18 +12,9 @@ namespace SebastianBergmann\PHPCOV;
 final class Arguments
 {
     private ?string $command;
-    private ?string $script;
     private ?string $directory;
     private ?string $coverage;
     private ?string $patch;
-    private ?string $configuration;
-
-    /**
-     * @var list<non-empty-string>
-     */
-    private array $include;
-    private bool $pathCoverage;
-    private bool $addUncovered;
     private ?string $clover;
     private ?string $openClover;
     private ?string $cobertura;
@@ -36,41 +27,28 @@ final class Arguments
     private bool $version;
     private ?string $pathPrefix;
 
-    /**
-     * @param list<non-empty-string> $include
-     */
-    public function __construct(?string $command, ?string $script, ?string $directory, ?string $coverage, ?string $patch, ?string $configuration, array $include, bool $pathCoverage, bool $addUncovered, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
-        $this->command       = $command;
-        $this->script        = $script;
-        $this->directory     = $directory;
-        $this->coverage      = $coverage;
-        $this->patch         = $patch;
-        $this->configuration = $configuration;
-        $this->include       = $include;
-        $this->pathCoverage  = $pathCoverage;
-        $this->addUncovered  = $addUncovered;
-        $this->clover        = $clover;
-        $this->openClover    = $openClover;
-        $this->cobertura     = $cobertura;
-        $this->crap4j        = $crap4j;
-        $this->html          = $html;
-        $this->php           = $php;
-        $this->text          = $text;
-        $this->xml           = $xml;
-        $this->pathPrefix    = $pathPrefix;
-        $this->help          = $help;
-        $this->version       = $version;
+        $this->command    = $command;
+        $this->directory  = $directory;
+        $this->coverage   = $coverage;
+        $this->patch      = $patch;
+        $this->clover     = $clover;
+        $this->openClover = $openClover;
+        $this->cobertura  = $cobertura;
+        $this->crap4j     = $crap4j;
+        $this->html       = $html;
+        $this->php        = $php;
+        $this->text       = $text;
+        $this->xml        = $xml;
+        $this->pathPrefix = $pathPrefix;
+        $this->help       = $help;
+        $this->version    = $version;
     }
 
     public function command(): ?string
     {
         return $this->command;
-    }
-
-    public function script(): ?string
-    {
-        return $this->script;
     }
 
     public function directory(): ?string
@@ -86,29 +64,6 @@ final class Arguments
     public function patch(): ?string
     {
         return $this->patch;
-    }
-
-    public function configuration(): ?string
-    {
-        return $this->configuration;
-    }
-
-    /**
-     * @return list<non-empty-string>
-     */
-    public function include(): array
-    {
-        return $this->include;
-    }
-
-    public function pathCoverage(): bool
-    {
-        return $this->pathCoverage;
-    }
-
-    public function addUncovered(): bool
-    {
-        return $this->addUncovered;
     }
 
     public function clover(): ?string
