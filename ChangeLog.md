@@ -8,6 +8,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Added support for PHPUnit 13.1 and phpunit/php-code-coverage 14.0
 * Added `--openclover` CLI option for merging into OpenClover XML format
+* [#109](https://github.com/sebastianbergmann/phpcov/issues/109): Support for merging serialized code coverage files generated using PHPUnit's PHAR
 * [#115](https://github.com/sebastianbergmann/phpcov/issues/115): Support for merging of serialized code coverage data files generated with different base paths
 
 ### Removed
