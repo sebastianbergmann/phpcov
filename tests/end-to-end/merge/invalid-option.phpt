@@ -15,4 +15,4 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 %s
-int(1)
+int(255)

@@ -13,4 +13,4 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 Required argument "coverage" is missing
-int(1)
+int(255)

@@ -29,4 +29,4 @@ Options for "phpcov merge":
 Options for "phpcov patch-coverage":
 
   --path-prefix <prefix> Prefix that needs to be stripped from paths in the patch
-int(1)
+int(255)

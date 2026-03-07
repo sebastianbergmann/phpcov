@@ -14,4 +14,4 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 Required argument "patch" is missing
-int(1)
+int(255)

@@ -14,4 +14,4 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 "does-not-exist" is not a directory
-int(1)
+int(255)

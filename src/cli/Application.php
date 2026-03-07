@@ -30,7 +30,7 @@ final class Application
         } catch (Exception $e) {
             print PHP_EOL . $e->getMessage() . PHP_EOL;
 
-            return 1;
+            return 255;
         }
 
         if ($arguments->version()) {
@@ -53,7 +53,7 @@ final class Application
 
         (new HelpCommand)->run($arguments);
 
-        return 1;
+        return 255;
     }
 
     private function printVersion(): void

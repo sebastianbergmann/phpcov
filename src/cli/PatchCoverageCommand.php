@@ -47,18 +47,21 @@ final class PatchCoverageCommand implements Command
         }
 
         try {
-            $data          = (new Unserializer)->unserialize($arguments->coverage());
-            $patchCoverage = (new PatchCoverageCalculator)->calculate(
-                $data['codeCoverage']->lineCoverage(),
-                (new DiffParser)->parse(file_get_contents($arguments->patch())),
-                $data['basePath'],
-                $pathPrefix,
-            );
+            $data = (new Unserializer)->unserialize($arguments->coverage());
+            // @codeCoverageIgnoreStart
         } catch (CodeCoverageException $e) {
             print $e->getMessage() . PHP_EOL;
 
             return 255;
+            // @codeCoverageIgnoreEnd
         }
+
+        $patchCoverage = (new PatchCoverageCalculator)->calculate(
+            $data['codeCoverage']->lineCoverage(),
+            (new DiffParser)->parse(file_get_contents($arguments->patch())),
+            $data['basePath'],
+            $pathPrefix,
+        );
 
         if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
             $patchCoverage['numChangedLinesThatAreExecutable'] === 0 &&

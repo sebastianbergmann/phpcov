@@ -16,4 +16,4 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 phpcov %s by Sebastian Bergmann.
 
 No "%s*.cov" files found
-int(1)
+int(255)

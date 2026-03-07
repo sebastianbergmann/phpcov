@@ -49,13 +49,13 @@ final class MergeCommand implements Command
                 $arguments->directory(),
             );
 
-            return 1;
+            return 255;
         }
 
         if (!$arguments->reportConfigured()) {
             print 'No code coverage report configured' . PHP_EOL;
 
-            return 1;
+            return 255;
         }
 
         $files = (new Facade)->getFilesAsArray(
@@ -69,15 +69,17 @@ final class MergeCommand implements Command
                 realpath($arguments->directory()),
             );
 
-            return 1;
+            return 255;
         }
 
         try {
             $merged = (new CoverageMerger)->merge($files);
+            // @codeCoverageIgnoreStart
         } catch (CodeCoverageException $e) {
             print $e->getMessage() . PHP_EOL;
 
-            return 1;
+            return 255;
+            // @codeCoverageIgnoreEnd
         }
 
         if ($arguments->php() !== null) {
