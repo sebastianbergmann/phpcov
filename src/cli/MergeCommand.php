@@ -126,7 +126,7 @@ final class MergeCommand implements Command
             $writer = new OpenCloverReport;
 
             /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->clover());
+            $writer->process($report, $arguments->openClover());
 
             print 'done' . PHP_EOL;
         }
