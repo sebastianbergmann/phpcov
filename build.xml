@@ -74,12 +74,19 @@
 
     <target name="phar"
             description="Create PHAR archive of phpcov and all its dependencies"
-            depends="clean,install-dependencies,phar-build">
-        <mkdir dir="${basedir}/build/phar"/>
+            depends="clean,phar-build">
     </target>
 
     <target name="phar-build">
         <mkdir dir="${basedir}/build/artifacts"/>
+
+        <exec executable="${basedir}/tools/composer" taskname="composer">
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-ansi"/>
+            <arg value="--no-dev"/>
+        </exec>
 
         <exec executable="bash" outputproperty="version">
             <arg value="-c"/>
