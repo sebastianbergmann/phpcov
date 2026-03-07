@@ -30,15 +30,6 @@ $ ./tools/phpcov --version
 
 ## Usage
 
-### Executing a PHP script and generating code coverage in Clover XML format
-
-```
-$ phpcov execute --clover coverage.xml script.php
-phpcov 8.1.0 by Sebastian Bergmann.
-
-Generating code coverage report in Clover XML format ... done
-```
-
 ### Merging exported php-code-coverage objects stored in *.cov files
 
 ```
