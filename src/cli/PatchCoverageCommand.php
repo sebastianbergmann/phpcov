@@ -14,10 +14,8 @@ use function file_get_contents;
 use function is_file;
 use function printf;
 use function sprintf;
-use SebastianBergmann\CodeCoverage\Serialization\FileCouldNotBeReadException;
-use SebastianBergmann\CodeCoverage\Serialization\InvalidCoverageDataException;
+use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
-use SebastianBergmann\CodeCoverage\Serialization\VersionMismatchException;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
 final class PatchCoverageCommand implements Command
@@ -56,7 +54,7 @@ final class PatchCoverageCommand implements Command
                 $data['basePath'],
                 $pathPrefix,
             );
-        } catch (FileCouldNotBeReadException|InvalidCoverageDataException|VersionMismatchException $e) {
+        } catch (CodeCoverageException $e) {
             print $e->getMessage() . PHP_EOL;
 
             return 255;
