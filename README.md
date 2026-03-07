@@ -30,7 +30,7 @@ $ ./tools/phpcov --version
 
 ## Usage
 
-### Merging Serialized Code Coverage Data
+### Merging serialized code coverage data
 
 When you run PHPUnit with `--coverage-php`, it writes serialized code coverage data to a `.cov` file.
 The `phpcov merge` command merges multiple `.cov` files into a single code coverage report.
