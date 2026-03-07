@@ -101,10 +101,6 @@ final class ArgumentsBuilder
                 break;
         }
 
-        $configuration = null;
-        $include       = [];
-        $pathCoverage  = false;
-        $addUncovered  = false;
         $clover        = null;
         $openClover    = null;
         $cobertura     = null;
