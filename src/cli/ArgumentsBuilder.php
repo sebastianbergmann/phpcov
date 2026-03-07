@@ -102,18 +102,18 @@ final class ArgumentsBuilder
                 break;
         }
 
-        $clover        = null;
-        $openClover    = null;
-        $cobertura     = null;
-        $crap4j        = null;
-        $html          = null;
-        $php           = null;
-        $text          = null;
-        $source        = null;
-        $xml           = null;
-        $pathPrefix    = null;
-        $help          = false;
-        $version       = false;
+        $clover     = null;
+        $openClover = null;
+        $cobertura  = null;
+        $crap4j     = null;
+        $html       = null;
+        $php        = null;
+        $text       = null;
+        $source     = null;
+        $xml        = null;
+        $pathPrefix = null;
+        $help       = false;
+        $version    = false;
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
