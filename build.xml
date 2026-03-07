@@ -155,6 +155,15 @@
             <arg value="--filter"/>
             <arg value="testGreetsWithName"/>
         </exec>
+
+        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/tests/fixture/example3/phpunit.xml"/>
+            <arg value="--coverage-php"/>
+            <arg path="${basedir}/tests/fixture/example3/coverage/testAdd.cov"/>
+            <arg value="--filter"/>
+            <arg value="testAdd"/>
+        </exec>
     </target>
 
     <target name="publish-phar" description="Publish PHAR on phar.phpunit.de">
