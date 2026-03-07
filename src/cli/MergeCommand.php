@@ -95,7 +95,7 @@ final class MergeCommand implements Command
             print 'done' . PHP_EOL;
         }
 
-        $this->handleReports($merged['codeCoverage'], $merged['testResults'], $merged['basePath'], $arguments);
+        $this->handleReports($merged['codeCoverage'], $merged['testResults'], $arguments->source() ?? $merged['basePath'], $arguments);
 
         return 0;
     }

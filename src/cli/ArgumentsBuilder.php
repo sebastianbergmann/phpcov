@@ -24,6 +24,7 @@ final class ArgumentsBuilder
                 'crap4j=',
                 'html=',
                 'php=',
+                'source=',
                 'text=',
                 'xml=',
             ],
@@ -108,6 +109,7 @@ final class ArgumentsBuilder
         $html          = null;
         $php           = null;
         $text          = null;
+        $source        = null;
         $xml           = null;
         $pathPrefix    = null;
         $help          = false;
@@ -142,6 +144,11 @@ final class ArgumentsBuilder
 
                 case '--php':
                     $php = $option[1];
+
+                    break;
+
+                case '--source':
+                    $source = $option[1];
 
                     break;
 
@@ -185,6 +192,7 @@ final class ArgumentsBuilder
             $crap4j,
             $html,
             $php,
+            $source,
             $text,
             $xml,
             $pathPrefix,

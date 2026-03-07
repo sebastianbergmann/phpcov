@@ -24,6 +24,7 @@ Options for "phpcov merge":
   --crap4j <file>        Generate code coverage report in Crap4J XML format
   --html <directory>     Generate code coverage report in HTML format
   --php <file>           Export php-code-coverage object
+  --source <directory>   Path to source code (when merging on a different machine)
   --text <file>          Generate code coverage report in text format
   --xml <directory>      Generate code coverage report in PHPUnit XML format
 

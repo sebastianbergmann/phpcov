@@ -21,13 +21,14 @@ final class Arguments
     private ?string $crap4j;
     private ?string $html;
     private ?string $php;
+    private ?string $source;
     private ?string $text;
     private ?string $xml;
     private bool $help;
     private bool $version;
     private ?string $pathPrefix;
 
-    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $help, bool $version)
     {
         $this->command    = $command;
         $this->directory  = $directory;
@@ -39,6 +40,7 @@ final class Arguments
         $this->crap4j     = $crap4j;
         $this->html       = $html;
         $this->php        = $php;
+        $this->source     = $source;
         $this->text       = $text;
         $this->xml        = $xml;
         $this->pathPrefix = $pathPrefix;
@@ -94,6 +96,11 @@ final class Arguments
     public function php(): ?string
     {
         return $this->php;
+    }
+
+    public function source(): ?string
+    {
+        return $this->source;
     }
 
     public function text(): ?string
