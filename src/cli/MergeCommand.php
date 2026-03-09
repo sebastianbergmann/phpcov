@@ -9,7 +9,6 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
-use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
 use function is_dir;
 use function printf;
@@ -81,17 +80,11 @@ final class MergeCommand implements Command
             print 'done' . PHP_EOL;
         }
 
-        $basePath = $arguments->source() ?? $merged['basePath'];
-
-        if ($basePath !== '') {
-            foreach ($merged['codeCoverage']->coveredFiles() as $relPath) {
-                $merged['codeCoverage']->renameFile($relPath, $basePath . DIRECTORY_SEPARATOR . $relPath);
-            }
-
-            $merged['basePath'] = '';
+        if ($arguments->source() !== null) {
+            $merged['basePath'] = $arguments->source();
         }
 
-        $reportFacade = new ReportFacade($merged);
+        $reportFacade = ReportFacade::fromSerializedData($merged);
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
