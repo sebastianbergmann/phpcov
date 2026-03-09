@@ -11,34 +11,18 @@ namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
-use function file_put_contents;
 use function is_dir;
 use function printf;
 use function realpath;
 use function serialize;
-use SebastianBergmann\CodeCoverage\CodeCoverage;
-use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
-use SebastianBergmann\CodeCoverage\Node\Builder;
-use SebastianBergmann\CodeCoverage\Node\Directory;
-use SebastianBergmann\CodeCoverage\Report\Clover as CloverReport;
-use SebastianBergmann\CodeCoverage\Report\Cobertura as CoberturaReport;
-use SebastianBergmann\CodeCoverage\Report\Crap4j as Crap4jReport;
-use SebastianBergmann\CodeCoverage\Report\Html\Facade as HtmlReport;
-use SebastianBergmann\CodeCoverage\Report\OpenClover as OpenCloverReport;
-use SebastianBergmann\CodeCoverage\Report\Text as TextReport;
+use SebastianBergmann\CodeCoverage\Report\Facade as ReportFacade;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
-use SebastianBergmann\CodeCoverage\Report\Xml\Facade as XmlReport;
 use SebastianBergmann\CodeCoverage\Serialization\Merger as CoverageMerger;
-use SebastianBergmann\CodeCoverage\StaticAnalysis\FileAnalyser;
-use SebastianBergmann\CodeCoverage\StaticAnalysis\ParsingSourceAnalyser;
 use SebastianBergmann\CodeCoverage\Util\Filesystem;
 use SebastianBergmann\CodeCoverage\Version;
 use SebastianBergmann\FileIterator\Facade;
 
-/**
- * @phpstan-import-type TestType from CodeCoverage
- */
 final class MergeCommand implements Command
 {
     public function run(Arguments $arguments): int
@@ -97,25 +81,22 @@ final class MergeCommand implements Command
             print 'done' . PHP_EOL;
         }
 
-        $this->handleReports($merged['codeCoverage'], $merged['testResults'], $arguments->source() ?? $merged['basePath'], $arguments);
+        $basePath = $arguments->source() ?? $merged['basePath'];
 
-        return 0;
-    }
+        if ($basePath !== '') {
+            foreach ($merged['codeCoverage']->coveredFiles() as $relPath) {
+                $merged['codeCoverage']->renameFile($relPath, $basePath . DIRECTORY_SEPARATOR . $relPath);
+            }
 
-    /**
-     * @param array<string, TestType> $testResults
-     */
-    private function handleReports(ProcessedCodeCoverageData $codeCoverage, array $testResults, string $basePath, Arguments $arguments): void
-    {
-        $report = $this->buildReport($codeCoverage, $testResults, $basePath);
+            $merged['basePath'] = '';
+        }
+
+        $reportFacade = new ReportFacade($merged);
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
 
-            $writer = new CloverReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->clover());
+            $reportFacade->renderClover($arguments->clover());
 
             print 'done' . PHP_EOL;
         }
@@ -123,10 +104,7 @@ final class MergeCommand implements Command
         if ($arguments->openClover() !== null) {
             print 'Generating code coverage report in OpenClover XML format ... ';
 
-            $writer = new OpenCloverReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->openClover());
+            $reportFacade->renderOpenClover($arguments->openClover());
 
             print 'done' . PHP_EOL;
         }
@@ -134,10 +112,7 @@ final class MergeCommand implements Command
         if ($arguments->cobertura() !== null) {
             print 'Generating code coverage report in Cobertura XML format ... ';
 
-            $writer = new CoberturaReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->cobertura());
+            $reportFacade->renderCobertura($arguments->cobertura());
 
             print 'done' . PHP_EOL;
         }
@@ -145,10 +120,7 @@ final class MergeCommand implements Command
         if ($arguments->crap4j() !== null) {
             print 'Generating code coverage report in Crap4J XML format ... ';
 
-            $writer = new Crap4jReport;
-
-            /* @noinspection UnusedFunctionResultInspection */
-            $writer->process($report, $arguments->crap4j());
+            $reportFacade->renderCrap4j($arguments->crap4j());
 
             print 'done' . PHP_EOL;
         }
@@ -156,9 +128,7 @@ final class MergeCommand implements Command
         if ($arguments->html() !== null) {
             print 'Generating code coverage report in HTML format ... ';
 
-            $writer = new HtmlReport;
-
-            $writer->process($report, $arguments->html());
+            $reportFacade->renderHtml($arguments->html());
 
             print 'done' . PHP_EOL;
         }
@@ -166,12 +136,7 @@ final class MergeCommand implements Command
         if ($arguments->text() !== null) {
             print 'Generating code coverage report in text format ... ';
 
-            $writer = new TextReport(Thresholds::default());
-
-            file_put_contents(
-                $arguments->text(),
-                $writer->process($report),
-            );
+            $reportFacade->renderText($arguments->text(), Thresholds::default());
 
             print 'done' . PHP_EOL;
         }
@@ -179,27 +144,11 @@ final class MergeCommand implements Command
         if ($arguments->xml() !== null) {
             print 'Generating code coverage report in XML format ... ';
 
-            $writer = new XmlReport;
-
-            $writer->process($arguments->xml(), $report, $testResults);
+            $reportFacade->renderXml($arguments->xml());
 
             print 'done' . PHP_EOL;
         }
-    }
 
-    /**
-     * @param array<string, TestType> $testResults
-     */
-    private function buildReport(ProcessedCodeCoverageData $codeCoverage, array $testResults, string $basePath): Directory
-    {
-        if ($basePath !== '') {
-            $codeCoverage = clone $codeCoverage;
-
-            foreach ($codeCoverage->coveredFiles() as $relPath) {
-                $codeCoverage->renameFile($relPath, $basePath . DIRECTORY_SEPARATOR . $relPath);
-            }
-        }
-
-        return (new Builder(new FileAnalyser(new ParsingSourceAnalyser, false, false)))->build($codeCoverage, $testResults);
+        return 0;
     }
 }
