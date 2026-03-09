@@ -70,12 +70,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2129de0153a3ed3c33d085edb7a40ae9bee277b5"
+                "reference": "6a43df35edd1b41dc31e8b52d5fe17dd96a906d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2129de0153a3ed3c33d085edb7a40ae9bee277b5",
-                "reference": "2129de0153a3ed3c33d085edb7a40ae9bee277b5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6a43df35edd1b41dc31e8b52d5fe17dd96a906d6",
+                "reference": "6a43df35edd1b41dc31e8b52d5fe17dd96a906d6",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-06T10:09:56+00:00"
+            "time": "2026-03-09T06:54:23+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1184,12 +1184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "eca2bca0c2cb6d873225afc31ca674b509b9e3dc"
+                "reference": "f0a0d2fe45cedad82b74c13d60561ab8ce3bf5aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/eca2bca0c2cb6d873225afc31ca674b509b9e3dc",
-                "reference": "eca2bca0c2cb6d873225afc31ca674b509b9e3dc",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f0a0d2fe45cedad82b74c13d60561ab8ce3bf5aa",
+                "reference": "f0a0d2fe45cedad82b74c13d60561ab8ce3bf5aa",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1268,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-03-07T09:49:02+00:00"
+            "time": "2026-03-09T06:28:42+00:00"
         },
         {
             "name": "sebastian/comparator",
