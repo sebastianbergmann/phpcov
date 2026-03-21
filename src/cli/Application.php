@@ -16,7 +16,17 @@ use SebastianBergmann\Version;
 
 final class Application
 {
-    private const string VERSION = '13.0';
+    private const string VERSION       = '13.0';
+    private static string $pharVersion = '';
+
+    public static function version(): string
+    {
+        if (self::$pharVersion !== '') {
+            return self::$pharVersion;
+        }
+
+        return new Version(self::VERSION, dirname(__DIR__))->asString();
+    }
 
     /**
      * @param list<string> $argv
@@ -60,7 +70,7 @@ final class Application
     {
         printf(
             'phpcov %s by Sebastian Bergmann.' . PHP_EOL,
-            (new Version(self::VERSION, dirname(__DIR__)))->asString(),
+            self::version(),
         );
     }
 }

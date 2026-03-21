@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="phpcov" default="setup">
-    <target name="setup" depends="clean,install-dependencies"/>
+    <target name="setup" depends="clean-build-artifacts,install-dependencies"/>
 
-    <target name="clean" description="Cleanup build artifacts">
-        <delete dir="${basedir}/vendor"/>
-        <delete dir="${basedir}/build/phar"/>
+    <target name="clean" description="Cleanup build artifacts and vendor directory" depends="clean-build-artifacts,clean-vendor">
+    </target>
+
+    <target name="clean-build-artifacts" description="Cleanup build artifacts">
         <delete dir="${basedir}/build/artifacts"/>
+        <delete dir="${basedir}/build/tmp"/>
+    </target>
+
+    <target name="clean-vendor" description="Cleanup vendor directory">
+        <delete dir="${basedir}/vendor"/>
+    </target>
+
+    <target name="install-dependencies" description="Install dependencies (and generate autoloader) with Composer">
+        <exec executable="${basedir}/tools/composer" taskname="composer">
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-ansi"/>
+        </exec>
+    </target>
+
+    <target name="update-dependencies" description="Update (and bump) dependencies with Composer">
+        <exec executable="${basedir}/tools/composer" taskname="composer">
+            <arg value="update"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-progress"/>
+            <arg value="--no-ansi"/>
+        </exec>
+
+        <exec executable="${basedir}/tools/composer" taskname="composer">
+            <arg value="bump"/>
+            <arg value="--no-interaction"/>
+            <arg value="--no-ansi"/>
+        </exec>
     </target>
 
     <target name="update-tools" description="Update tools">
@@ -33,52 +63,41 @@
         </exec>
     </target>
 
-    <target name="install-dependencies" depends="clean" description="Install dependencies with Composer">
-        <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="install"/>
-            <arg value="--no-interaction"/>
-            <arg value="--no-progress"/>
-            <arg value="--no-ansi"/>
-        </exec>
-    </target>
-
-    <target name="update-dependencies" description="Update (and bump) dependencies with Composer">
-        <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="update"/>
-            <arg value="--no-interaction"/>
-            <arg value="--no-progress"/>
-            <arg value="--no-ansi"/>
-        </exec>
-
-        <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="bump"/>
-            <arg value="--no-interaction"/>
-            <arg value="--no-ansi"/>
-        </exec>
-    </target>
-
-    <target name="signed-phar"
-            description="Create signed PHAR archive of phpcov and all its dependencies (release)"
-            depends="phar">
-        <exec executable="bash" outputproperty="version">
-            <arg value="-c" />
-            <arg value="${basedir}/phpcov --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'" />
-        </exec>
-
+    <target name="signed-phar" depends="phar" description="Create signed PHAR archive of phpcov and all its dependencies">
         <exec executable="gpg" failonerror="true">
-            <arg value="--armor" />
-            <arg value="--detach-sign" />
-            <arg path="${basedir}/build/artifacts/phpcov-${version}.phar" />
+            <arg value="--local-user"/>
+            <arg value="sb@sebastian-bergmann.de"/>
+            <arg value="--armor"/>
+            <arg value="--detach-sign"/>
+            <arg path="${basedir}/build/artifacts/phpcov-${version}.phar"/>
         </exec>
     </target>
 
-    <target name="phar"
-            description="Create PHAR archive of phpcov and all its dependencies"
-            depends="clean,phar-build">
+    <target name="phar" depends="-phar-prepare,-phar-determine-version" description="Create PHAR archive of phpcov and all its dependencies">
+        <antcall target="-phar-build">
+            <param name="type" value="release"/>
+        </antcall>
     </target>
 
-    <target name="phar-build">
+    <target name="phar-snapshot" depends="-phar-prepare" description="Create PHAR archive of phpcov and all its dependencies (snapshot)">
+        <antcall target="-phar-build">
+            <param name="type" value="snapshot"/>
+        </antcall>
+    </target>
+
+    <target name="build-phar-and-run-phar-specific-tests" depends="clean,phar-snapshot" description="Build PHAR and run the PHAR-specific tests with it">
+        <antcall target="run-phar-specific-tests"/>
+    </target>
+
+    <target name="run-phar-specific-tests" description="Run the PHAR-specific tests (expects build/artifacts/phpcov-snapshot.phar to exist)">
+        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit" failonerror="true">
+            <arg value="tests/end-to-end/phar"/>
+        </exec>
+    </target>
+
+    <target name="-phar-prepare" depends="clean">
         <mkdir dir="${basedir}/build/artifacts"/>
+        <mkdir dir="${basedir}/build/tmp/phar"/>
 
         <exec executable="${basedir}/tools/composer" taskname="composer">
             <arg value="install"/>
@@ -88,60 +107,150 @@
             <arg value="--no-dev"/>
         </exec>
 
-        <exec executable="bash" outputproperty="version">
-            <arg value="-c"/>
-            <arg value="${basedir}/phpcov --version | awk 'BEGIN { ORS = &quot;&quot;; } {print $2}'"/>
+        <copy file="${basedir}/composer.lock" tofile="${basedir}/build/tmp/phar/composer.lock"/>
+
+        <exec executable="${basedir}/build/scripts/phar-manifest.php" failonerror="true">
+            <arg path="${basedir}/build/tmp/phar/manifest.txt"/>
+            <arg path="${basedir}/build/tmp/phar/sbom.xml"/>
         </exec>
 
-        <copy todir="${basedir}/build/phar/src">
-            <fileset dir="${basedir}/src">
-                <include name="**/*.php"/>
+        <copy file="${basedir}/vendor/phpunit/php-code-coverage/LICENSE" tofile="${basedir}/build/tmp/phar/php-code-coverage/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/php-code-coverage">
+            <fileset dir="${basedir}/vendor/phpunit/php-code-coverage/src">
+                <include name="**/*" />
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/phpunit">
-            <fileset dir="${basedir}/vendor/phpunit">
-                <include name="**/*.php"/>
-                <include name="php-code-coverage/src/Report/Html/Renderer/Template/**"/>
-                <exclude name="**/build/**"/>
-                <exclude name="**/tests/**"/>
+        <copy file="${basedir}/vendor/phpunit/php-file-iterator/LICENSE" tofile="${basedir}/build/tmp/phar/php-file-iterator/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/php-file-iterator">
+            <fileset dir="${basedir}/vendor/phpunit/php-file-iterator/src">
+                <include name="**/*.php" />
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/sebastian">
-            <fileset dir="${basedir}/vendor/sebastian">
-                <include name="**/src/**/*.php"/>
+        <copy file="${basedir}/vendor/phpunit/php-text-template/LICENSE" tofile="${basedir}/build/tmp/phar/php-text-template/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/php-text-template">
+            <fileset dir="${basedir}/vendor/phpunit/php-text-template/src">
+                <include name="**/*.php" />
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/nikic">
+        <copy file="${basedir}/vendor/sebastian/cli-parser/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-cli-parser/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-cli-parser">
+            <fileset dir="${basedir}/vendor/sebastian/cli-parser/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/complexity/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-complexity/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-complexity">
+            <fileset dir="${basedir}/vendor/sebastian/complexity/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/diff/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-diff/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-diff">
+            <fileset dir="${basedir}/vendor/sebastian/diff/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/environment/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-environment/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-environment">
+            <fileset dir="${basedir}/vendor/sebastian/environment/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/git-state/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-git-state/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-git-state">
+            <fileset dir="${basedir}/vendor/sebastian/git-state/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/lines-of-code/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-lines-of-code/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-lines-of-code">
+            <fileset dir="${basedir}/vendor/sebastian/lines-of-code/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/sebastian/version/LICENSE" tofile="${basedir}/build/tmp/phar/sebastian-version/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/sebastian-version">
+            <fileset dir="${basedir}/vendor/sebastian/version/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+
+        <copy file="${basedir}/vendor/nikic/php-parser/LICENSE" tofile="${basedir}/build/tmp/phar/nikic-php-parser/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/nikic-php-parser">
             <fileset dir="${basedir}/vendor/nikic/php-parser/lib">
                 <include name="**/*.php" />
             </fileset>
         </copy>
 
-        <copy todir="${basedir}/build/phar/theseer">
-            <fileset dir="${basedir}/vendor/theseer">
-                <include name="**/src/**/*.php"/>
+        <!-- https://github.com/sebastianbergmann/phpunit/issues/6092 -->
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Expr/ArrayItem.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Expr/ClosureUse.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Scalar/DNumber.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Scalar/Encapsed.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Scalar/EncapsedStringPart.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Scalar/LNumber.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Stmt/DeclareDeclare.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Stmt/PropertyProperty.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Stmt/StaticVar.php"/>
+        <delete file="${basedir}/build/tmp/phar/nikic-php-parser/PhpParser/Node/Stmt/UseUse.php"/>
+
+        <copy file="${basedir}/vendor/theseer/tokenizer/LICENSE" tofile="${basedir}/build/tmp/phar/theseer-tokenizer/LICENSE"/>
+        <copy todir="${basedir}/build/tmp/phar/theseer-tokenizer">
+            <fileset dir="${basedir}/vendor/theseer/tokenizer/src">
+                <include name="**/*.php" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="-phar-build" depends="-phar-determine-version">
+        <copy todir="${basedir}/build/tmp/phar/src">
+            <fileset dir="${basedir}/src">
+                <include name="**/*.php"/>
             </fileset>
         </copy>
 
-        <exec executable="${basedir}/build/phar-manifest.php" output="${basedir}/build/phar/manifest.txt"/>
-
-        <exec executable="${basedir}/tools/phpab">
-            <arg value="--all"/>
-            <arg value="--tolerant" />
-            <arg value="--phar"/>
-            <arg value="--output"/>
-            <arg path="${basedir}/build/artifacts/phpcov-${version}.phar"/>
-            <arg value="--template"/>
-            <arg path="${basedir}/build/phar-autoload.php.in"/>
-            <arg value="--indent"/>
-            <arg value="            "/>
-            <arg path="${basedir}/build/phar"/>
+        <exec executable="${basedir}/build/scripts/phar-version.php" outputproperty="_version" failonerror="true">
+            <arg value="${version}"/>
+            <arg value="${type}"/>
         </exec>
 
-        <chmod file="${basedir}/build/artifacts/phpcov-${version}.phar" perm="ugo+rx"/>
+        <copy file="${basedir}/build/templates/binary-phar-autoload.php.in" tofile="${basedir}/build/tmp/binary-phar-autoload.php"/>
+        <replace file="${basedir}/build/tmp/binary-phar-autoload.php" token="X.Y.Z" value="${_version}"/>
+
+        <exec executable="${basedir}/tools/phpab" taskname="phpab" failonerror="true">
+            <arg value="--all" />
+            <arg value="--tolerant" />
+            <arg value="--nolower" />
+            <arg value="--phar" />
+            <arg value="--hash" />
+            <arg value="SHA-512" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/artifacts/phpcov-${_version}.phar" />
+            <arg value="--template" />
+            <arg path="${basedir}/build/tmp/binary-phar-autoload.php" />
+            <arg path="${basedir}/build/tmp/phar" />
+        </exec>
+
+        <exec executable="${basedir}/build/scripts/phar-set-timestamps/run.php" taskname="phar-set-timestamps" failonerror="true">
+            <arg path="${basedir}/build/artifacts/phpcov-${_version}.phar" />
+        </exec>
+
+        <chmod file="${basedir}/build/artifacts/phpcov-${_version}.phar" perm="ugo+rx"/>
+
+        <delete dir="${basedir}/build/tmp"/>
+    </target>
+
+    <target name="-phar-determine-version">
+        <exec executable="${basedir}/build/scripts/version.php" outputproperty="version" failonerror="true" />
     </target>
 
     <target name="update-fixture">
@@ -188,4 +297,3 @@
         </exec>
     </target>
 </project>
-

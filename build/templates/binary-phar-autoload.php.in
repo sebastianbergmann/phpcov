@@ -1,0 +1,125 @@
+#!/usr/bin/env php
+<?php
+if (!version_compare(PHP_VERSION, PHP_VERSION, '=')) {
+    fwrite(
+        STDERR,
+        sprintf(
+            '%s declares an invalid value for PHP_VERSION.' . PHP_EOL .
+            'This breaks fundamental functionality such as version_compare().' . PHP_EOL .
+            'Please use a different PHP interpreter.' . PHP_EOL,
+
+            PHP_BINARY
+        )
+    );
+
+    die(1);
+}
+
+if (version_compare('8.4.1', PHP_VERSION, '>')) {
+    fwrite(
+        STDERR,
+        sprintf(
+            'phpcov X.Y.Z by Sebastian Bergmann.' . PHP_EOL . PHP_EOL .
+            'This version of phpcov requires PHP >= 8.4.1.' . PHP_EOL .
+            'You are using PHP %s (%s).' . PHP_EOL,
+            PHP_VERSION,
+            PHP_BINARY
+        )
+    );
+
+    die(1);
+}
+
+$requiredExtensions = ['dom', 'libxml', 'mbstring', 'tokenizer', 'xmlwriter'];
+
+$unavailableExtensions = array_filter(
+    $requiredExtensions,
+    static function ($extension) {
+        return !extension_loaded($extension);
+    }
+);
+
+if ([] !== $unavailableExtensions) {
+    fwrite(
+        STDERR,
+        sprintf(
+            'phpcov requires the "%s" extensions, but the "%s" %s not available.' . PHP_EOL,
+            implode('", "', $requiredExtensions),
+            implode('", "', $unavailableExtensions),
+            count($unavailableExtensions) === 1 ? 'extension is' : 'extensions are'
+        )
+    );
+
+    die(1);
+}
+
+unset($requiredExtensions, $unavailableExtensions);
+
+if (__FILE__ === realpath($_SERVER['SCRIPT_NAME'])) {
+    $execute = true;
+} else {
+    $execute = false;
+}
+
+$options = getopt('', array('composer-lock', 'manifest', 'sbom'));
+
+if (isset($options['composer-lock'])) {
+    $printComposerLock = true;
+} elseif (isset($options['manifest'])) {
+    $printManifest = true;
+} elseif (isset($options['sbom'])) {
+    $printSbom = true;
+}
+
+unset($options);
+
+define('__PHPCOV_PHAR__', str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
+define('__PHPCOV_PHAR_ROOT__', 'phar://___PHAR___');
+
+Phar::mapPhar('___PHAR___');
+
+spl_autoload_register(
+    function ($class) {
+        static $classes = null;
+
+        if ($classes === null) {
+            $classes = [___CLASSLIST___];
+        }
+
+        if (isset($classes[$class])) {
+            require_once 'phar://___PHAR___' . $classes[$class];
+        }
+    },
+    ___EXCEPTION___,
+    ___PREPEND___
+);
+
+foreach ([___CLASSLIST___] as $file) {
+    require_once 'phar://___PHAR___' . $file;
+}
+
+if ($execute) {
+    if (isset($printComposerLock)) {
+        print file_get_contents(__PHPCOV_PHAR_ROOT__ . '/composer.lock');
+
+        exit;
+    }
+
+    if (isset($printManifest)) {
+        print file_get_contents(__PHPCOV_PHAR_ROOT__ . '/manifest.txt');
+
+        exit;
+    }
+
+    if (isset($printSbom)) {
+        print file_get_contents(__PHPCOV_PHAR_ROOT__ . '/sbom.xml');
+
+        exit;
+    }
+
+    unset($execute);
+
+    exit((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
+}
+
+__HALT_COMPILER();

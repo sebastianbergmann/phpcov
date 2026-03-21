@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+require __DIR__ . '/../../vendor/sebastian/version/src/Version.php';
+
+use SebastianBergmann\Version;
+
+$buffer  = \file_get_contents(__DIR__ . '/../../src/cli/Application.php');
+$start   = \strpos($buffer, "VERSION       = '") + \strlen("VERSION       = '");
+$end     = \strpos($buffer, "'", $start);
+$version = \substr($buffer, $start, $end - $start);
+$version = new Version($version, __DIR__ . '/../../');
+
+print $version->asString();

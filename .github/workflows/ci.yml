@@ -73,8 +73,21 @@ jobs:
           coverage: none
           tools: none
 
+      - name: Get Composer cache directory
+        id: composer-cache
+        shell: bash
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Composer cache directory
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - name: Install dependencies with Composer
-        run: ./tools/composer update --no-interaction --no-ansi --no-progress
+        run: ./tools/composer update --no-ansi --no-interaction --no-progress
 
       - name: Run PHPStan
         run: ./tools/phpstan analyse --no-progress --error-format=github
@@ -160,3 +173,142 @@ jobs:
           report_type: coverage
           disable_search: true
           files: ./code-coverage.xml
+
+  build-phar:
+    name: Build PHAR
+
+    needs:
+      - tests
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      PHP_EXTENSIONS: none, ctype, dom, json, fileinfo, iconv, libxml, mbstring, phar, tokenizer, xml, xmlwriter
+      PHP_INI_VALUES: phar.readonly=0, zend.assertions=1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use local branch
+        shell: bash
+        run: |
+          BRANCH=$([ "${{ github.event_name }}" == "pull_request" ] && echo "${{ github.head_ref }}" || echo "${{ github.ref_name }}")
+          git branch -D $BRANCH 2>/dev/null || true
+          git branch $BRANCH HEAD
+          git checkout $BRANCH
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: ${{ env.PHP_INI_VALUES }}
+          tools: none
+
+      - name: Install java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Build PHAR
+        run: ant phar-snapshot
+
+      - name: Upload PHAR
+        uses: actions/upload-artifact@v6
+        with:
+          name: phpcov-snapshot-phar
+          overwrite: true
+          path: ./build/artifacts/phpcov-snapshot.phar
+          retention-days: 7
+
+  test-phar:
+    name: Test PHAR
+
+    needs:
+      - build-phar
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      PHP_EXTENSIONS: none, ctype, dom, json, fileinfo, iconv, libxml, mbstring, phar, tokenizer, xml, xmlwriter
+      PHP_INI_VALUES: zend.assertions=1
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.4"
+          - "8.5"
+          - "8.6"
+
+        coverage:
+          - xdebug
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Use local branch
+        shell: bash
+        run: |
+          BRANCH=$([ "${{ github.event_name }}" == "pull_request" ] && echo "${{ github.head_ref }}" || echo "${{ github.ref_name }}")
+          git branch -D $BRANCH 2>/dev/null || true
+          git branch $BRANCH HEAD
+          git checkout $BRANCH
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: ${{ matrix.coverage }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: ${{ env.PHP_INI_VALUES }}
+          tools: none
+
+      - name: Install java
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: 11
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        shell: bash
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Composer cache directory
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies with Composer
+        run: ./tools/composer update --no-ansi --no-interaction --no-progress
+
+      - name: Update test fixture
+        run: ant update-fixture
+
+      - name: Download PHAR
+        uses: actions/download-artifact@v7
+        with:
+          name: phpcov-snapshot-phar
+          path: ./build/artifacts/
+
+      - name: Make PHAR executable
+        run: chmod +x ./build/artifacts/phpcov-snapshot.phar
+
+      - name: Run PHAR-specific tests
+        run: ant run-phar-specific-tests

@@ -1,5 +1,5 @@
 /build/artifacts
-/build/phar
+/build/tmp
 /.idea
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
