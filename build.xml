@@ -171,6 +171,10 @@
             <arg value="--filter"/>
             <arg value="testAdd"/>
         </exec>
+
+        <exec executable="php" taskname="php">
+            <arg path="${basedir}/tests/fixture/generate-mismatching-fixtures.php"/>
+        </exec>
     </target>
 
     <target name="publish-phar" description="Publish PHAR on phar.phpunit.de">
