@@ -11,6 +11,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 * Added support for PHPUnit 13.1 and phpunit/php-code-coverage 14.0
 * Added `--openclover` CLI option for merging into OpenClover XML format
 * Added `--source` CLI option for configuring the path to source code when merging on a different machine
+* Added `--do-not-require-matching-git-information`, `--do-not-require-matching-php-version`, and `--do-not-require-matching-code-coverage-driver` CLI options for the `merge` command
 
 ### Fixed
 

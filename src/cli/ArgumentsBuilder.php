@@ -27,6 +27,9 @@ final class ArgumentsBuilder
                 'source=',
                 'text=',
                 'xml=',
+                'do-not-require-matching-git-information',
+                'do-not-require-matching-php-version',
+                'do-not-require-matching-code-coverage-driver',
             ],
             'arguments' => [
                 'directory',
@@ -102,18 +105,21 @@ final class ArgumentsBuilder
                 break;
         }
 
-        $clover     = null;
-        $openClover = null;
-        $cobertura  = null;
-        $crap4j     = null;
-        $html       = null;
-        $php        = null;
-        $text       = null;
-        $source     = null;
-        $xml        = null;
-        $pathPrefix = null;
-        $help       = false;
-        $version    = false;
+        $clover                            = null;
+        $openClover                        = null;
+        $cobertura                         = null;
+        $crap4j                            = null;
+        $html                              = null;
+        $php                               = null;
+        $text                              = null;
+        $source                            = null;
+        $xml                               = null;
+        $pathPrefix                        = null;
+        $requireMatchingGitInformation     = true;
+        $requireMatchingPhpVersion         = true;
+        $requireMatchingCodeCoverageDriver = true;
+        $help                              = false;
+        $version                           = false;
 
         foreach ($options[0] as $option) {
             switch ($option[0]) {
@@ -167,6 +173,21 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--do-not-require-matching-git-information':
+                    $requireMatchingGitInformation = false;
+
+                    break;
+
+                case '--do-not-require-matching-php-version':
+                    $requireMatchingPhpVersion = false;
+
+                    break;
+
+                case '--do-not-require-matching-code-coverage-driver':
+                    $requireMatchingCodeCoverageDriver = false;
+
+                    break;
+
                 case 'h':
                 case '--help':
                     $help = true;
@@ -196,6 +217,9 @@ final class ArgumentsBuilder
             $text,
             $xml,
             $pathPrefix,
+            $requireMatchingGitInformation,
+            $requireMatchingPhpVersion,
+            $requireMatchingCodeCoverageDriver,
             $help,
             $version,
         );

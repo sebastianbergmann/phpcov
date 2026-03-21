@@ -18,17 +18,21 @@ Usage:
 
 Options for "phpcov merge":
 
-  --clover <file>        Generate code coverage report in Clover XML format
-  --openclover <file>    Generate code coverage report in OpenClover XML format
-  --cobertura <file>     Generate code coverage report in Cobertura XML format
-  --crap4j <file>        Generate code coverage report in Crap4J XML format
-  --html <directory>     Generate code coverage report in HTML format
-  --php <file>           Export php-code-coverage object
-  --source <directory>   Path to source code (when merging on a different machine)
-  --text <file>          Generate code coverage report in text format
-  --xml <directory>      Generate code coverage report in PHPUnit XML format
+  --clover <file>                                Generate code coverage report in Clover XML format
+  --openclover <file>                            Generate code coverage report in OpenClover XML format
+  --cobertura <file>                             Generate code coverage report in Cobertura XML format
+  --crap4j <file>                                Generate code coverage report in Crap4J XML format
+  --html <directory>                             Generate code coverage report in HTML format
+  --php <file>                                   Export php-code-coverage object
+  --source <directory>                           Path to source code (when merging on a different machine)
+  --text <file>                                  Generate code coverage report in text format
+  --xml <directory>                              Generate code coverage report in PHPUnit XML format
+
+  --do-not-require-matching-git-information      Do not require matching git information
+  --do-not-require-matching-php-version          Do not require matching PHP version
+  --do-not-require-matching-code-coverage-driver Do not require matching code coverage driver
 
 Options for "phpcov patch-coverage":
 
-  --path-prefix <prefix> Prefix that needs to be stripped from paths in the patch
+  --path-prefix <prefix>                         Prefix that needs to be stripped from paths in the patch
 int(0)

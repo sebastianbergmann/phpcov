@@ -56,7 +56,12 @@ final class MergeCommand implements Command
         }
 
         try {
-            $merged = (new CoverageMerger)->merge($files);
+            $merged = (new CoverageMerger)->merge(
+                $files,
+                $arguments->requireMatchingGitInformation(),
+                $arguments->requireMatchingPhpVersion(),
+                $arguments->requireMatchingCodeCoverageDriver(),
+            );
             // @codeCoverageIgnoreStart
         } catch (CodeCoverageException $e) {
             print $e->getMessage() . PHP_EOL;

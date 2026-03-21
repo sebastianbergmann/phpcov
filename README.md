@@ -79,6 +79,24 @@ If you are merging `.cov` files on a different machine than where the tests were
 $ phpcov merge --source /home/ci/project --html /tmp/coverage-html /tmp/coverage
 ```
 
+#### Relaxing merge requirements
+
+By default, `phpcov merge` requires that all `.cov` files were created using the same PHP version, the same code coverage driver, and (when present) the same Git state. If these do not match, the merge will fail.
+
+You can relax these requirements with the following options:
+
+| Option                                           | Effect                                              |
+|--------------------------------------------------|-----------------------------------------------------|
+| `--do-not-require-matching-git-information`      | Allow merging files with different git state        |
+| `--do-not-require-matching-php-version`          | Allow merging files from different PHP versions     |
+| `--do-not-require-matching-code-coverage-driver` | Allow merging files from different coverage drivers |
+
+For example, to merge `.cov` files that were collected with different PHP versions:
+
+```
+$ phpcov merge --do-not-require-matching-php-version --html /tmp/coverage-html /tmp/coverage
+```
+
 #### Available Report Formats
 
 | Option                | Format                  |
