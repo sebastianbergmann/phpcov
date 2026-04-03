@@ -281,6 +281,15 @@
             <arg value="testAdd"/>
         </exec>
 
+        <exec executable="${basedir}/vendor/bin/phpunit" taskname="phpunit">
+            <arg value="--configuration"/>
+            <arg path="${basedir}/tests/fixture/example2/phpunit.xml"/>
+            <arg value="--coverage-php"/>
+            <arg path="${basedir}/tests/fixture/example2/coverage/testGreetsWorld2.cov"/>
+            <arg value="--filter"/>
+            <arg value="testGreetsWorld"/>
+        </exec>
+
         <exec executable="php" taskname="php">
             <arg path="${basedir}/tests/fixture/generate-mismatching-fixtures.php"/>
         </exec>
