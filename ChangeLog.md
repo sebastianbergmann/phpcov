@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [13.1.0] - 2026-xx-xx
+
+### Added
+
+* Added support for PHPUnit 13.1.6 and phpunit/php-code-coverage 14.1.2
+
 ## [13.0.0] - 2026-04-03
 
 ### Added
