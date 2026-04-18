@@ -2,6 +2,10 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [13.0.1] - 2026-04-18
+
+* Added support for phpunit/php-code-coverage 14.1.3
+
 ## [13.0.0] - 2026-04-03
 
 ### Added
@@ -165,6 +169,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[13.0.1]: https://github.com/sebastianbergmann/phpcov/compare/13.0.0...13.0.1
 [13.0.0]: https://github.com/sebastianbergmann/phpcov/compare/12.0.0...13.0.0
 [12.0.0]: https://github.com/sebastianbergmann/phpcov/compare/11.0.4...12.0.0
 [11.0.4]: https://github.com/sebastianbergmann/phpcov/compare/11.0.3...11.0.4
