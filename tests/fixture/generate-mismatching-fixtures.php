@@ -10,9 +10,9 @@
  */
 require __DIR__ . '/../../vendor/autoload.php';
 
+use SebastianBergmann\CodeCoverage\Serialization\Serializer;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
 use SebastianBergmann\CodeCoverage\Util\Filesystem;
-use SebastianBergmann\CodeCoverage\Version;
 
 $unserializer = new Unserializer;
 
@@ -23,7 +23,7 @@ $write = static function (string $path, array $data): void
 {
     Filesystem::write(
         $path,
-        '<?php // phpunit/php-code-coverage version ' . Version::id() . PHP_EOL .
+        '<?php // phpunit/php-code-coverage serialization format ' . Serializer::SERIALIZATION_FORMAT . PHP_EOL .
         "return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'" . PHP_EOL .
         \serialize($data) . PHP_EOL .
         'END_OF_COVERAGE_SERIALIZATION' . PHP_EOL .

@@ -18,8 +18,8 @@ use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Report\Facade as ReportFacade;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Serialization\Merger as CoverageMerger;
+use SebastianBergmann\CodeCoverage\Serialization\Serializer;
 use SebastianBergmann\CodeCoverage\Util\Filesystem;
-use SebastianBergmann\CodeCoverage\Version;
 use SebastianBergmann\FileIterator\Facade;
 
 final class MergeCommand implements Command
@@ -75,7 +75,7 @@ final class MergeCommand implements Command
 
             Filesystem::write(
                 $arguments->php(),
-                '<?php // phpunit/php-code-coverage version ' . Version::id() . PHP_EOL .
+                '<?php // phpunit/php-code-coverage serialization format ' . Serializer::SERIALIZATION_FORMAT . PHP_EOL .
                 "return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'" . PHP_EOL .
                 serialize($merged) . PHP_EOL .
                 'END_OF_COVERAGE_SERIALIZATION' . PHP_EOL .
