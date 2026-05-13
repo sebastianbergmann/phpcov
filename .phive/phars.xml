@@ -2,5 +2,4 @@
 <phive xmlns="https://phar.io/phive">
   <phar name="phpab" version="^1.29" installed="1.29.4" location="./tools/phpab" copy="true"/>
   <phar name="php-cs-fixer" version="^3.94" installed="3.94.2" location="./tools/php-cs-fixer" copy="true"/>
-  <phar name="composer" version="^2.9" installed="2.9.5" location="./tools/composer" copy="true"/>
 </phive>
