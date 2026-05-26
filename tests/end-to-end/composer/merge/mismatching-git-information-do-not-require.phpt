@@ -1,7 +1,5 @@
 --TEST--
 phpcov merge --do-not-require-matching-git-information --text /tmp/file ../../fixture/mismatching-git/coverage
---INI--
-xdebug.overload_var_dump=0
 --FILE--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../../vendor/autoload.php';

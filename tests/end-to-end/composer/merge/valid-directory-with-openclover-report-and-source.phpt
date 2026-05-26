@@ -1,7 +1,5 @@
 --TEST--
 phpcov merge --openclover /tmp/file --source /tmp/source <directory with .cov files from different base paths>
---INI--
-xdebug.overload_var_dump=0
 --FILE--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../../vendor/autoload.php';

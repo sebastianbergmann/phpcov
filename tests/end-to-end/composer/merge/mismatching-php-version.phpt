@@ -1,7 +1,5 @@
 --TEST--
 phpcov merge --text /tmp/file ../../fixture/mismatching-php-version/coverage
---INI--
-xdebug.overload_var_dump=0
 --FILE--
 <?php declare(strict_types=1);
 require __DIR__ . '/../../../../vendor/autoload.php';
