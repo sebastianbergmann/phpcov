@@ -26,7 +26,7 @@
         "phpunit/php-code-coverage": "^14.2.2",
         "phpunit/php-file-iterator": "^7.0.0",
         "sebastian/cli-parser": "^5.0.0",
-        "sebastian/diff": "^8.3.0",
+        "sebastian/diff": "^8.3.0 || ^9.0.0",
         "sebastian/version": "^7.0.0"
     },
     "require-dev": {
