@@ -25,7 +25,7 @@
         "php": ">=8.4",
         "phpunit/php-code-coverage": "^14.2.4",
         "phpunit/php-file-iterator": "^7.0.0",
-        "sebastian/cli-parser": "^5.0.0",
+        "sebastian/cli-parser": "^5.0.1",
         "sebastian/diff": "^9.0.0",
         "sebastian/version": "^7.0.0"
     },
