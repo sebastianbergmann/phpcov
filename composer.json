@@ -23,14 +23,14 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.4",
-        "phpunit/php-code-coverage": "^14.2.4",
+        "phpunit/php-code-coverage": "^14.3.0",
         "phpunit/php-file-iterator": "^7.0.0",
         "sebastian/cli-parser": "^5.0.1",
         "sebastian/diff": "^9.0.0",
         "sebastian/version": "^7.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^13.2.6"
+        "phpunit/phpunit": "^13.3.0"
     },
     "autoload": {
         "classmap": [
@@ -42,7 +42,7 @@
     ],
     "extra": {
         "branch-alias": {
-            "dev-main": "13.0-dev"
+            "dev-main": "13.1-dev"
         }
     }
 }

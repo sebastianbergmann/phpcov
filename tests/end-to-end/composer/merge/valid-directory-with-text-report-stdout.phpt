@@ -21,7 +21,7 @@ Code Coverage Report:
  Summary:
   Classes: 100.00% (1/1)
   Methods: 100.00% (2/2)
-  Lines:   66.67% (2/3)
+  Lines:   66.66% (2/3)
 
 SebastianBergmann\PHPCOV\TestFixture\Greeter
   Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
