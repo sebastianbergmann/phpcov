@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use SebastianBergmann\CodeCoverage\Report\Html\Views;
+
 final class Arguments
 {
     private ?string $command;
@@ -20,6 +22,7 @@ final class Arguments
     private ?string $cobertura;
     private ?string $crap4j;
     private ?string $html;
+    private Views $htmlViews;
     private ?string $php;
     private ?string $source;
     private ?string $text;
@@ -31,7 +34,7 @@ final class Arguments
     private bool $version;
     private ?string $pathPrefix;
 
-    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $help, bool $version)
     {
         $this->command                           = $command;
         $this->directory                         = $directory;
@@ -42,6 +45,7 @@ final class Arguments
         $this->cobertura                         = $cobertura;
         $this->crap4j                            = $crap4j;
         $this->html                              = $html;
+        $this->htmlViews                         = $htmlViews;
         $this->php                               = $php;
         $this->source                            = $source;
         $this->text                              = $text;
@@ -97,6 +101,11 @@ final class Arguments
     public function html(): ?string
     {
         return $this->html;
+    }
+
+    public function htmlViews(): Views
+    {
+        return $this->htmlViews;
     }
 
     public function php(): ?string

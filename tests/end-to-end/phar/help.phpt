@@ -18,6 +18,7 @@ Options for "phpcov merge":
   --cobertura <file>                             Generate code coverage report in Cobertura XML format
   --crap4j <file>                                Generate code coverage report in Crap4J XML format
   --html <directory>                             Generate code coverage report in HTML format
+  --html-views <views>                           Views to include in the HTML report ("file", "class", or "file,class")
   --php <file>                                   Export php-code-coverage object
   --source <directory>                           Path to source code (when merging on a different machine)
   --text <file>                                  Generate code coverage report in text format

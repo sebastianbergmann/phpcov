@@ -60,6 +60,22 @@ You can generate reports in multiple formats at once:
 $ phpcov merge --html /tmp/coverage-html --openclover /tmp/coverage.xml /tmp/coverage
 ```
 
+#### Choosing the views of the HTML report
+
+The HTML report has a file-oriented view (directories and files) and a class-oriented view (namespaces and classes). By default, both are generated.
+
+Use `--html-views` to generate only one of them:
+
+| Value        | Effect                                     |
+|--------------|--------------------------------------------|
+| `file`       | Only the file-oriented view                |
+| `class`      | Only the class-oriented view               |
+| `file,class` | Both views (default)                       |
+
+```
+$ phpcov merge --html /tmp/coverage-html --html-views class /tmp/coverage
+```
+
 #### Exporting merged data
 
 Use `--php` to write the merged coverage data back to a `.cov` file:

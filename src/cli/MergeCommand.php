@@ -126,7 +126,7 @@ final class MergeCommand implements Command
         if ($arguments->html() !== null) {
             print 'Generating code coverage report in HTML format ... ';
 
-            $reportFacade->renderHtml($arguments->html());
+            $reportFacade->renderHtml($arguments->html(), '', null, null, null, $arguments->htmlViews());
 
             print 'done' . PHP_EOL;
         }

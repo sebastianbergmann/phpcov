@@ -10,8 +10,11 @@
 namespace SebastianBergmann\PHPCOV;
 
 use function array_merge;
+use function explode;
+use function trim;
 use SebastianBergmann\CliParser\Exception as CliParserException;
 use SebastianBergmann\CliParser\Parser as CliParser;
+use SebastianBergmann\CodeCoverage\Report\Html\Views;
 
 final class ArgumentsBuilder
 {
@@ -23,6 +26,7 @@ final class ArgumentsBuilder
                 'cobertura=',
                 'crap4j=',
                 'html=',
+                'html-views=',
                 'php=',
                 'source=',
                 'text=',
@@ -110,6 +114,7 @@ final class ArgumentsBuilder
         $cobertura                         = null;
         $crap4j                            = null;
         $html                              = null;
+        $htmlViews                         = Views::FileViewAndClassView;
         $php                               = null;
         $text                              = null;
         $source                            = null;
@@ -145,6 +150,11 @@ final class ArgumentsBuilder
 
                 case '--html':
                     $html = $option[1];
+
+                    break;
+
+                case '--html-views':
+                    $htmlViews = $this->htmlViews($option[1]);
 
                     break;
 
@@ -212,6 +222,7 @@ final class ArgumentsBuilder
             $cobertura,
             $crap4j,
             $html,
+            $htmlViews,
             $php,
             $source,
             $text,
@@ -223,5 +234,41 @@ final class ArgumentsBuilder
             $help,
             $version,
         );
+    }
+
+    /**
+     * @throws InvalidHtmlViewsException
+     */
+    private function htmlViews(string $value): Views
+    {
+        $fileView  = false;
+        $classView = false;
+
+        foreach (explode(',', $value) as $view) {
+            switch (trim($view)) {
+                case 'file':
+                    $fileView = true;
+
+                    break;
+
+                case 'class':
+                    $classView = true;
+
+                    break;
+
+                default:
+                    throw new InvalidHtmlViewsException($value);
+            }
+        }
+
+        if ($fileView && $classView) {
+            return Views::FileViewAndClassView;
+        }
+
+        if ($fileView) {
+            return Views::OnlyFileView;
+        }
+
+        return Views::OnlyClassView;
     }
 }
