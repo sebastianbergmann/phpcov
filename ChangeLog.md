@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [13.1.1] - 2026-09-25
+
+### Fixed
+
+* [#237](https://github.com/sebastianbergmann/phpcov/issues/237): Support for serialization format 4 of phpunit/php-code-coverage 14.3.5
+
 ## [13.1.0] - 2026-08-07
 
 ### Added
@@ -178,6 +184,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[13.1.1]: https://github.com/sebastianbergmann/phpcov/compare/13.1.0...13.1.1
 [13.1.0]: https://github.com/sebastianbergmann/phpcov/compare/13.0.1...13.1.0
 [13.0.1]: https://github.com/sebastianbergmann/phpcov/compare/13.0.0...13.0.1
 [13.0.0]: https://github.com/sebastianbergmann/phpcov/compare/12.0.0...13.0.0
