@@ -163,6 +163,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: xdebug
+          extensions: xdebug-3.5.3
           tools: none
 
       - name: Get Composer cache directory
