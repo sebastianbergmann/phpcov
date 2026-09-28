@@ -25,7 +25,7 @@ final class Application
             return self::$pharVersion;
         }
 
-        return new Version(self::VERSION, dirname(__DIR__))->asString();
+        return new Version(self::VERSION, dirname(__DIR__, 2))->asString();
     }
 
     /**
