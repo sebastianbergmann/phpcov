@@ -298,7 +298,7 @@
         </exec>
 
         <exec executable="php" taskname="php">
-            <arg path="${basedir}/tests/fixture/generate-mismatching-fixtures.php"/>
+            <arg path="${basedir}/tests/fixture/postprocess-fixtures.php"/>
         </exec>
     </target>
 
