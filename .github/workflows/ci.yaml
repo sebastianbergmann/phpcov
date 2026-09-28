@@ -109,7 +109,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies with Composer
-        run: ./tools/composer update --no-ansi --no-interaction --no-progress
+        run: ./tools/composer install --no-ansi --no-interaction --no-progress
 
       - name: Run PHPStan
         run: ./tools/phpstan analyse --no-progress --error-format=github
@@ -153,12 +153,6 @@ jobs:
           git branch "$BRANCH" HEAD
           git checkout "$BRANCH"
 
-      - name: Install Java
-        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
-        with:
-          distribution: zulu
-          java-version: 11
-
       - name: Install PHP with extensions
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
@@ -181,10 +175,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies with Composer
-        run: ./tools/composer update --no-ansi --no-interaction --no-progress
-
-      - name: Update test fixture
-        run: ant update-fixture
+        run: ./tools/composer install --no-ansi --no-interaction --no-progress
 
       - name: Run tests with PHPUnit
         run: ./vendor/bin/phpunit --log-junit test-results.xml --coverage-openclover=code-coverage.xml
@@ -291,9 +282,6 @@ jobs:
           - "8.5"
           - "8.6"
 
-        coverage:
-          - xdebug
-
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -322,7 +310,7 @@ jobs:
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
         with:
           php-version: ${{ matrix.php-version }}
-          coverage: ${{ matrix.coverage }}
+          coverage: none
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ env.PHP_INI_VALUES }}
           tools: none
@@ -347,10 +335,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies with Composer
-        run: ./tools/composer update --no-ansi --no-interaction --no-progress
-
-      - name: Update test fixture
-        run: ant update-fixture
+        run: ./tools/composer install --no-ansi --no-interaction --no-progress
 
       - name: Download PHAR
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
