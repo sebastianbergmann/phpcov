@@ -27,6 +27,7 @@ final class ArgumentsBuilder
                 'crap4j=',
                 'html=',
                 'html-views=',
+                'jsonl=',
                 'php=',
                 'source=',
                 'text=',
@@ -115,6 +116,7 @@ final class ArgumentsBuilder
         $crap4j                            = null;
         $html                              = null;
         $htmlViews                         = Views::FileViewAndClassView;
+        $jsonl                             = null;
         $php                               = null;
         $text                              = null;
         $source                            = null;
@@ -155,6 +157,11 @@ final class ArgumentsBuilder
 
                 case '--html-views':
                     $htmlViews = $this->htmlViews($option[1]);
+
+                    break;
+
+                case '--jsonl':
+                    $jsonl = $option[1];
 
                     break;
 
@@ -223,6 +230,7 @@ final class ArgumentsBuilder
             $crap4j,
             $html,
             $htmlViews,
+            $jsonl,
             $php,
             $source,
             $text,

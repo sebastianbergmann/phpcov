@@ -122,6 +122,7 @@ $ phpcov merge --do-not-require-matching-php-version --html /tmp/coverage-html /
 | `--cobertura <file>`  | Cobertura XML           |
 | `--crap4j <file>`     | Crap4J XML              |
 | `--html <directory>`  | HTML                    |
+| `--jsonl <directory>` | JSONL                   |
 | `--php <file>`        | Serialized PHP (`.cov`) |
 | `--text <file>`       | Plain text              |
 | `--xml <directory>`   | PHPUnit XML             |

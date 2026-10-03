@@ -131,6 +131,14 @@ final class MergeCommand implements Command
             print 'done' . PHP_EOL;
         }
 
+        if ($arguments->jsonl() !== null) {
+            print 'Generating code coverage report in JSONL format ... ';
+
+            $reportFacade->renderJsonl($arguments->jsonl());
+
+            print 'done' . PHP_EOL;
+        }
+
         if ($arguments->text() !== null) {
             print 'Generating code coverage report in text format ... ';
 

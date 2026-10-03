@@ -23,6 +23,7 @@ final class Arguments
     private ?string $crap4j;
     private ?string $html;
     private Views $htmlViews;
+    private ?string $jsonl;
     private ?string $php;
     private ?string $source;
     private ?string $text;
@@ -34,7 +35,7 @@ final class Arguments
     private bool $version;
     private ?string $pathPrefix;
 
-    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $jsonl, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $help, bool $version)
     {
         $this->command                           = $command;
         $this->directory                         = $directory;
@@ -46,6 +47,7 @@ final class Arguments
         $this->crap4j                            = $crap4j;
         $this->html                              = $html;
         $this->htmlViews                         = $htmlViews;
+        $this->jsonl                             = $jsonl;
         $this->php                               = $php;
         $this->source                            = $source;
         $this->text                              = $text;
@@ -108,6 +110,11 @@ final class Arguments
         return $this->htmlViews;
     }
 
+    public function jsonl(): ?string
+    {
+        return $this->jsonl;
+    }
+
     public function php(): ?string
     {
         return $this->php;
@@ -165,6 +172,7 @@ final class Arguments
                $this->cobertura() !== null ||
                $this->crap4j() !== null ||
                $this->html() !== null ||
+               $this->jsonl() !== null ||
                $this->php() !== null ||
                $this->text() !== null ||
                $this->xml() !== null;
