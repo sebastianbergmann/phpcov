@@ -10,8 +10,10 @@
 namespace SebastianBergmann\PHPCOV;
 
 use function array_keys;
+use function basename;
 use function dirname;
 use function file_get_contents;
+use function hash_file;
 use function json_decode;
 use function libxml_clear_errors;
 use function libxml_get_errors;
@@ -280,6 +282,62 @@ final class SbomTest extends TestCase
         }
     }
 
+    public function testSbomForPharFileIsValidAccordingToCycloneDx17XmlSchema(): void
+    {
+        $this->assertValidAccordingToCycloneDx17XmlSchema($this->sbomForPharFile()->document);
+    }
+
+    public function testSbomForPharFileHasSerialNumber(): void
+    {
+        $this->assertSame(
+            1,
+            preg_match(
+                '/^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+                $this->sbomForPharFile()->document->documentElement->getAttribute('serialNumber'),
+            ),
+        );
+    }
+
+    public function testSbomForPharFileDescribesPharFile(): void
+    {
+        $xpath     = $this->sbomForPharFile();
+        $component = $xpath->query('/c:bom/c:metadata/c:component')->item(0);
+        $filename  = basename($this->phar());
+        $hash      = hash_file('sha512', $this->phar());
+
+        $this->assertSame($hash, $xpath->evaluate('string(c:hashes/c:hash[@alg="SHA-512"])', $component));
+        $this->assertSame('https://phar.phpunit.de/' . $filename, $xpath->evaluate('string(c:externalReferences/c:reference[@type="distribution"]/c:url)', $component));
+        $this->assertSame($hash, $xpath->evaluate('string(c:externalReferences/c:reference[@type="distribution"]/c:hashes/c:hash[@alg="SHA-512"])', $component));
+        $this->assertSame($filename, $xpath->evaluate('string(c:properties/c:property[@name="bsi:component:filename"])', $component));
+        $this->assertSame('executable', $xpath->evaluate('string(c:properties/c:property[@name="bsi:component:executable"])', $component));
+        $this->assertSame('archive', $xpath->evaluate('string(c:properties/c:property[@name="bsi:component:archive"])', $component));
+        $this->assertSame('structured', $xpath->evaluate('string(c:properties/c:property[@name="bsi:component:structured"])', $component));
+    }
+
+    public function testSbomForPharFileIsEmbeddedSbomWithInformationAboutPharFile(): void
+    {
+        $xpath     = $this->sbomForPharFile();
+        $component = $xpath->query('/c:bom/c:metadata/c:component')->item(0);
+
+        $xpath->document->documentElement->removeAttribute('serialNumber');
+
+        $additions = $xpath->query(
+            '/c:bom/c:metadata/c:tools/c:components/c:component[c:name="phar-sbom"] | ' .
+            'c:hashes | ' .
+            'c:externalReferences/c:reference[@type="distribution"] | ' .
+            'c:properties/c:property[@name="bsi:component:filename" or @name="bsi:component:executable" or @name="bsi:component:archive" or @name="bsi:component:structured"]',
+            $component,
+        );
+
+        $this->assertSame(7, $additions->length);
+
+        foreach ($additions as $addition) {
+            $addition->parentNode->removeChild($addition);
+        }
+
+        $this->assertSame($this->xpath()->document->C14N(), $xpath->document->C14N());
+    }
+
     private function phar(): string
     {
         return dirname(__DIR__, 3) . '/build/artifacts/phpcov-snapshot.phar';
@@ -288,6 +346,11 @@ final class SbomTest extends TestCase
     private function xpath(): DOMXPath
     {
         return $this->load('phar://' . $this->phar() . '/sbom.xml');
+    }
+
+    private function sbomForPharFile(): DOMXPath
+    {
+        return $this->load($this->phar() . '.cdx.xml');
     }
 
     private function load(string $filename): DOMXPath

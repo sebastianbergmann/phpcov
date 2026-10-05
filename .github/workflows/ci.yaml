@@ -259,7 +259,7 @@ jobs:
         with:
           name: phpcov-snapshot-phar
           overwrite: true
-          path: ./build/artifacts/phpcov-snapshot.phar
+          path: ./build/artifacts/phpcov-snapshot.phar*
           retention-days: 7
 
   test-phar:
