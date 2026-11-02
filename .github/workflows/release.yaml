@@ -1,0 +1,49 @@
+# https://docs.github.com/en/actions
+
+on:
+  push:
+    tags:
+      - "**"
+
+name: Release
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  release:
+    name: Release
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: write # needed to create the GitHub Release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install PHP with extensions
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: 8.5
+          coverage: none
+          extensions: none
+          tools: none
+
+      - name: Determine tag
+        run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_ENV"
+
+      - name: Parse ChangeLog
+        run: build/scripts/extract-release-notes.php "${RELEASE_TAG}" > release-notes.md
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${RELEASE_TAG}" --title "phpcov ${RELEASE_TAG}" --notes-file release-notes.md
