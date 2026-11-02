@@ -1,0 +1,89 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+/*
+ * This file is part of phpcov.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+$rootDirectory = dirname(__DIR__, 2);
+$versionFile   = $rootDirectory . '/src/cli/Application.php';
+$branch        = 'main';
+
+if (!is_file($versionFile) || !is_readable($versionFile) || !is_writable($versionFile)) {
+    print $versionFile . ' cannot be read or written' . PHP_EOL;
+
+    exit(1);
+}
+
+$versionFileContents = file_get_contents($versionFile);
+
+if (preg_match('/private const string VERSION\s+= \'(\d+)\.(\d+)\.(\d+)\'/', $versionFileContents, $matches) !== 1) {
+    print 'Unable to determine the current version number from ' . $versionFile . PHP_EOL;
+
+    exit(1);
+}
+
+$major      = (int) $matches[1];
+$minor      = (int) $matches[2];
+$patch      = (int) $matches[3];
+$oldVersion = $major . '.' . $minor . '.' . $patch;
+$newVersion = $major . '.' . $minor . '.' . ($patch + 1);
+
+$versionFileContents = str_replace(
+    $matches[0],
+    str_replace('\'' . $oldVersion . '\'', '\'' . $newVersion . '\'', $matches[0]),
+    $versionFileContents,
+);
+
+$changeLogFile = $rootDirectory . '/ChangeLog.md';
+
+if (!is_file($changeLogFile) || !is_readable($changeLogFile) || !is_writable($changeLogFile)) {
+    print $changeLogFile . ' cannot be read or written' . PHP_EOL;
+
+    exit(1);
+}
+
+$changeLogContents = file_get_contents($changeLogFile);
+$today             = date('Y-m-d');
+
+$headingPattern = '/^## \[' . preg_quote($newVersion, '/') . '\] - .*$/m';
+
+if (preg_match($headingPattern, $changeLogContents) !== 1) {
+    print 'Unable to find the heading for version ' . $newVersion . ' in ' . $changeLogFile . PHP_EOL;
+
+    exit(1);
+}
+
+$changeLogContents = preg_replace(
+    $headingPattern,
+    '## [' . $newVersion . '] - ' . $today,
+    $changeLogContents,
+);
+
+$diffPattern = '/^(\[' . preg_quote($newVersion, '/') . '\]: .*\.\.\.)' . preg_quote($branch, '/') . '$/m';
+
+if (preg_match($diffPattern, $changeLogContents) !== 1) {
+    print 'Unable to find the comparison URL for version ' . $newVersion . ' in ' . $changeLogFile . PHP_EOL;
+
+    exit(1);
+}
+
+$changeLogContents = preg_replace(
+    $diffPattern,
+    '${1}' . $newVersion,
+    $changeLogContents,
+);
+
+// Files are only written after all checks have passed so that a failed check
+// does not leave behind a version number that does not match the ChangeLog
+file_put_contents($versionFile, $versionFileContents);
+
+print 'Updated version number from ' . $oldVersion . ' to ' . $newVersion . ' in ' . $versionFile . PHP_EOL;
+
+file_put_contents($changeLogFile, $changeLogContents);
+
+print 'Set release date of version ' . $newVersion . ' to ' . $today . ' in ' . $changeLogFile . PHP_EOL;
+print 'Updated comparison URL of version ' . $newVersion . ' from branch ' . $branch . ' to ' . $newVersion . ' in ' . $changeLogFile . PHP_EOL;
