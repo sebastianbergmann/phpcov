@@ -110,17 +110,9 @@
         </exec>
     </target>
 
-    <target name="-phar-prepare" depends="clean">
+    <target name="-phar-prepare" depends="clean,install-dependencies">
         <mkdir dir="${basedir}/build/artifacts"/>
         <mkdir dir="${basedir}/build/tmp/phar"/>
-
-        <exec executable="${basedir}/tools/composer" taskname="composer">
-            <arg value="install"/>
-            <arg value="--no-interaction"/>
-            <arg value="--no-progress"/>
-            <arg value="--no-ansi"/>
-            <arg value="--no-dev"/>
-        </exec>
 
         <copy file="${basedir}/composer.lock" tofile="${basedir}/build/tmp/phar/composer.lock"/>
 
