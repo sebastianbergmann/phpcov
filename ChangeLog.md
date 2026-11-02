@@ -2,6 +2,12 @@
 
 All notable changes in PHPCOV are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [13.2.1] - 2026-MM-DD
+
+### Changed
+
+* Make PHAR build reproducible across filesystems (files are now added to the PHAR sorted by their path instead of in the order in which the filesystem lists them)
+
 ## [13.2.0] - 2026-10-05
 
 ### Added
@@ -190,6 +196,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 * Removed support for PHP versions older than PHP 7.2
 
+[13.2.1]: https://github.com/sebastianbergmann/phpcov/compare/13.2.0...main
 [13.2.0]: https://github.com/sebastianbergmann/phpcov/compare/13.1.1...13.2.0
 [13.1.1]: https://github.com/sebastianbergmann/phpcov/compare/13.1.0...13.1.1
 [13.1.0]: https://github.com/sebastianbergmann/phpcov/compare/13.0.1...13.1.0
