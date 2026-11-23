@@ -147,6 +147,8 @@ $ phpcov merge --require-matching-base-paths --html /tmp/coverage-html /tmp/cove
 The `phpcov patch-coverage` command calculates code coverage for the lines that were added or changed.
 It reports how many of the changed executable lines are covered by tests.
 
+Which lines of a statement that spans multiple lines are executable depends on how the executable lines were determined when the code coverage data was collected: the line of an argument of a function call, for instance, may not be an executable line. A changed line that is not an executable line is therefore counted as a changed executable line when it belongs to a statement that has executable lines. It is covered when one of these lines is covered. This requires the source code to be available.
+
 The lines that were added or changed are either determined using Git or read from a patch file.
 
 #### Changes in a Git repository

@@ -84,6 +84,36 @@ final class GitRepository
         );
     }
 
+    /**
+     * The source code of a class with a method that has one statement, which
+     * spans lines 8 to 12. A comment can be added in line 13.
+     */
+    public static function farewell(string $farewell = 'Bye', string $comment = ''): string
+    {
+        return sprintf(
+            <<<'EOT'
+            <?php declare(strict_types=1);
+            namespace Example;
+
+            final class Farewell
+            {
+                public function bye(string $name): string
+                {
+                    return sprintf(
+                        '%%s, %%s',
+                        '%s',
+                        $name,
+                    );
+                    %s
+                }
+            }
+
+            EOT,
+            $farewell,
+            $comment,
+        );
+    }
+
     public function __construct()
     {
         $directory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('phpcov');

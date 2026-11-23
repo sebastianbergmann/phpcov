@@ -82,14 +82,15 @@ final class PatchCoverageCalculator
             $sourceLines = $this->sourceLines($fullPath);
 
             foreach ($lines as $line) {
-                if (!isset($lineCoverage[$key][$line]) ||
-                    !is_array($lineCoverage[$key][$line])) {
+                $executed = $this->wasExecuted($lineCoverage[$key], $line, $sourceLines);
+
+                if ($executed === null) {
                     continue;
                 }
 
                 $result['numChangedLinesThatAreExecutable']++;
 
-                if ($lineCoverage[$key][$line] !== []) {
+                if ($executed) {
                     $result['numChangedLinesThatWereExecuted']++;
 
                     continue;
@@ -106,6 +107,48 @@ final class PatchCoverageCalculator
         }
 
         return $result;
+    }
+
+    /**
+     * Returns null for a line that is not executable.
+     *
+     * Which lines of a statement that spans multiple lines are executable
+     * depends on how the executable lines were determined when the code
+     * coverage data was collected: the line of an argument of a function
+     * call, for instance, is not executable when they were determined from
+     * the bytecode. Changing such a line changes the statement nevertheless.
+     * A line that the code coverage data does not have as an executable line
+     * is therefore treated as an executable line when it belongs to a
+     * statement that has executable lines. It was executed when one of them
+     * was executed.
+     *
+     * @param array<int, null|array<mixed>> $lineCoverage
+     */
+    private function wasExecuted(array $lineCoverage, int $line, ?SourceLines $sourceLines): ?bool
+    {
+        if (isset($lineCoverage[$line]) && is_array($lineCoverage[$line])) {
+            return $lineCoverage[$line] !== [];
+        }
+
+        if ($sourceLines === null) {
+            return null;
+        }
+
+        $executed = null;
+
+        foreach ($sourceLines->linesOfStatementAt($line) as $lineOfStatement) {
+            if (!isset($lineCoverage[$lineOfStatement]) || !is_array($lineCoverage[$lineOfStatement])) {
+                continue;
+            }
+
+            if ($lineCoverage[$lineOfStatement] !== []) {
+                return true;
+            }
+
+            $executed = false;
+        }
+
+        return $executed;
     }
 
     /**
