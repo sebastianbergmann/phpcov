@@ -47,6 +47,7 @@ final class ArgumentsBuilder
             'longOptions' => [
                 'path-prefix=',
                 'base=',
+                'do-not-require-up-to-date-code-coverage',
             ],
             'arguments' => [
                 'coverage',
@@ -125,6 +126,7 @@ final class ArgumentsBuilder
         $xml                               = null;
         $pathPrefix                        = null;
         $base                              = null;
+        $requireUpToDateCodeCoverage       = true;
         $requireMatchingGitInformation     = true;
         $requireMatchingPhpVersion         = true;
         $requireMatchingCodeCoverageDriver = true;
@@ -200,6 +202,11 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--do-not-require-up-to-date-code-coverage':
+                    $requireUpToDateCodeCoverage = false;
+
+                    break;
+
                 case '--do-not-require-matching-git-information':
                     $requireMatchingGitInformation = false;
 
@@ -246,6 +253,12 @@ final class ArgumentsBuilder
                 );
             }
 
+            if ($patch !== null && !$requireUpToDateCodeCoverage) {
+                throw new InvalidOptionCombinationException(
+                    'The --do-not-require-up-to-date-code-coverage option cannot be used together with a patch file',
+                );
+            }
+
             if ($patch === null && $pathPrefix !== null) {
                 throw new InvalidOptionCombinationException(
                     'The --path-prefix option can only be used together with a patch file',
@@ -271,6 +284,7 @@ final class ArgumentsBuilder
             $xml,
             $pathPrefix,
             $base,
+            $requireUpToDateCodeCoverage,
             $requireMatchingGitInformation,
             $requireMatchingPhpVersion,
             $requireMatchingCodeCoverageDriver,

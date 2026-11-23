@@ -32,6 +32,7 @@ use function touch;
 use function trim;
 use function uniqid;
 use function unlink;
+use DateTimeImmutable;
 use RuntimeException;
 use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
 use SebastianBergmann\CodeCoverage\Serialization\Serializer;
@@ -156,15 +157,18 @@ final class GitRepository
     /**
      * Writes a file with code coverage data for files in the src directory
      * of the repository and returns the path to that file, which is not
-     * located in the repository.
+     * located in the repository. Unless configured otherwise, the data
+     * states that it was written now.
      *
      * @param array<string, array<int, ?list<string>>> $lineCoverage
      */
-    public function coverage(array $lineCoverage, ?string $basePath = null): string
+    public function coverage(array $lineCoverage, ?string $basePath = null, ?string $timestamp = null): string
     {
         $data = (new Unserializer)->unserialize(
             dirname(__DIR__) . '/fixture/example/coverage/testGreetsWorld.cov',
         );
+
+        $data['buildInformation']['timestamp'] = $timestamp ?? (new DateTimeImmutable)->format('D M j G:i:s T Y');
 
         $data['basePath']     = $basePath ?? $this->directory . DIRECTORY_SEPARATOR . 'src';
         $data['codeCoverage'] = new ProcessedCodeCoverageData;

@@ -37,8 +37,9 @@ final class Arguments
     private bool $version;
     private ?string $pathPrefix;
     private ?string $base;
+    private bool $requireUpToDateCodeCoverage;
 
-    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $jsonl, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, ?string $base, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $requireMatchingGranularity, bool $requireMatchingBasePaths, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $jsonl, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, ?string $base, bool $requireUpToDateCodeCoverage, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $requireMatchingGranularity, bool $requireMatchingBasePaths, bool $help, bool $version)
     {
         $this->command                           = $command;
         $this->directory                         = $directory;
@@ -57,6 +58,7 @@ final class Arguments
         $this->xml                               = $xml;
         $this->pathPrefix                        = $pathPrefix;
         $this->base                              = $base;
+        $this->requireUpToDateCodeCoverage       = $requireUpToDateCodeCoverage;
         $this->requireMatchingGitInformation     = $requireMatchingGitInformation;
         $this->requireMatchingPhpVersion         = $requireMatchingPhpVersion;
         $this->requireMatchingCodeCoverageDriver = $requireMatchingCodeCoverageDriver;
@@ -149,6 +151,11 @@ final class Arguments
     public function base(): ?string
     {
         return $this->base;
+    }
+
+    public function requireUpToDateCodeCoverage(): bool
+    {
+        return $this->requireUpToDateCodeCoverage;
     }
 
     public function requireMatchingGitInformation(): bool

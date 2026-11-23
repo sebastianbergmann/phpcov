@@ -42,6 +42,7 @@ Options for "phpcov patch-coverage":
 
   --path-prefix <directory>                      Directory that the paths in the patch file are relative to (default: current working directory)
   --base <revision>                              Revision to compare with when no patch file is given (default: default branch of the "origin" remote)
+  --do-not-require-up-to-date-code-coverage      Do not require that the code coverage data is newer than the changes when no patch file is given
 
 EOT;
 

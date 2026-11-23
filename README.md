@@ -182,6 +182,12 @@ $ phpcov patch-coverage --base HEAD /tmp/coverage.cov
 
 How Git is configured does not affect how the changes are determined: an external diff tool, for instance, is not used.
 
+Code coverage data does not describe a file that was changed after the data was written. `phpcov patch-coverage` therefore fails with exit code `2` when one of the files that were changed, and that is located in the directory that code coverage was collected for, was modified after the code coverage data was written. This is determined using the time the files were last modified, so switching branches after the tests were run can trigger it. Use `--do-not-require-up-to-date-code-coverage` to disable this check:
+
+```
+$ phpcov patch-coverage --do-not-require-up-to-date-code-coverage /tmp/coverage.cov
+```
+
 #### Changes in a patch file
 
 The lines that were added or changed can also be read from a patch file (unified diff):
@@ -212,6 +218,9 @@ The command exits with code `0` when all changed executable lines are covered. T
 
 It exits with `1` when some changed executable lines are not covered.
 
-It exits with `2` when the files that were changed could not be found: the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. For a patch file, this indicates that `--path-prefix` is needed, or not correct.
+It exits with `2` when the code coverage of the changes could not be determined:
+
+* The files that were changed could not be found: the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. For a patch file, this indicates that `--path-prefix` is needed, or not correct.
+* The code coverage data is older than the changes (only when Git is used to determine the changes).
 
 It exits with `255` when the code coverage file or the patch file does not exist or cannot be processed, or when Git fails.

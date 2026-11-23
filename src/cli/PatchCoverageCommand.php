@@ -14,6 +14,7 @@ use const PHP_EOL;
 use function array_any;
 use function array_keys;
 use function file_get_contents;
+use function filemtime;
 use function getcwd;
 use function implode;
 use function is_dir;
@@ -24,8 +25,10 @@ use function realpath;
 use function sort;
 use function sprintf;
 use function str_ends_with;
+use function str_replace;
 use function str_starts_with;
 use function substr;
+use DateTimeImmutable;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
 
@@ -86,6 +89,27 @@ final class PatchCoverageCommand implements Command
             print $e->getMessage() . PHP_EOL;
 
             return 255;
+        }
+
+        if ($patch === null && $arguments->requireUpToDateCodeCoverage()) {
+            $files = $this->filesChangedAfterCodeCoverageDataWasWritten(
+                array_keys($changedLines),
+                $pathPrefix,
+                $data['basePath'],
+                $this->timeCodeCoverageDataWasWritten($data['buildInformation']['timestamp'], $arguments->coverage()),
+            );
+
+            if ($files !== []) {
+                print 'The code coverage data is older than the changes to these files:' . PHP_EOL;
+
+                foreach ($files as $file) {
+                    print '  ' . $file . PHP_EOL;
+                }
+
+                print PHP_EOL . 'Collect code coverage again, or use --do-not-require-up-to-date-code-coverage.' . PHP_EOL;
+
+                return 2;
+            }
         }
 
         $patchCoverage = (new PatchCoverageCalculator)->calculate(
@@ -233,6 +257,66 @@ final class PatchCoverageCommand implements Command
         }
 
         return $directory;
+    }
+
+    /**
+     * Code coverage data does not describe a file that was changed after the
+     * data was written: lines that were added since are not part of it, and
+     * the lines that it has data for may have moved.
+     *
+     * Only the files below the base path of the code coverage data are
+     * considered, as only these can be files that code coverage is collected
+     * for. A file that was added after the data was written is not part of
+     * it and would otherwise go unnoticed.
+     *
+     * @param list<string> $files
+     *
+     * @return list<string>
+     */
+    private function filesChangedAfterCodeCoverageDataWasWritten(array $files, string $pathPrefix, string $basePath, int $time): array
+    {
+        if ($basePath === '') {
+            // @codeCoverageIgnoreStart
+            return [];
+            // @codeCoverageIgnoreEnd
+        }
+
+        if (!str_ends_with($basePath, DIRECTORY_SEPARATOR)) {
+            $basePath .= DIRECTORY_SEPARATOR;
+        }
+
+        $result = [];
+
+        foreach ($files as $file) {
+            $path = $pathPrefix . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $file);
+
+            if (!str_starts_with($path, $basePath) || !is_file($path)) {
+                continue;
+            }
+
+            if (filemtime($path) > $time) {
+                $result[] = $file;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * The time that is stored in the code coverage data has a time zone
+     * abbreviation that may not be understood. The time the file was last
+     * modified is used then: it is not earlier than the time the data was
+     * written, but it is later when the file was copied, for instance.
+     */
+    private function timeCodeCoverageDataWasWritten(string $timestamp, string $file): int
+    {
+        $time = DateTimeImmutable::createFromFormat('D M j G:i:s T Y', $timestamp);
+
+        if ($time !== false) {
+            return $time->getTimestamp();
+        }
+
+        return (int) filemtime($file);
     }
 
     /**
