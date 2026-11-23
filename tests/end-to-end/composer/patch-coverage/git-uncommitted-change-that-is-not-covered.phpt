@@ -30,5 +30,5 @@ Changes compared to HEAD, including uncommitted changes and untracked files
 0 / 1 changed executable lines covered (  0.00%)
 
 Changed executable lines that are not covered:
-  src/Greeter.php:13
+  src/Greeter.php:13 (Example\Greeter::greetWithName)
 int(1)

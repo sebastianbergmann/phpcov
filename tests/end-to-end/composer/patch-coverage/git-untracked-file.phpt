@@ -17,7 +17,7 @@ $repository->write('src/Farewell.php', GitRepository::greeter());
 chdir($repository->directory());
 
 $_SERVER['argv'][1] = 'patch-coverage';
-$_SERVER['argv'][2] = $repository->coverage(['Greeter.php' => [8 => ['a test'], 13 => []], 'Farewell.php' => [8 => [], 9 => [], 13 => ['a test']]]);
+$_SERVER['argv'][2] = $repository->coverage(['Greeter.php' => [8 => ['a test'], 13 => []], 'Farewell.php' => [8 => [], 13 => ['a test']]]);
 
 var_dump((new Application)->run($_SERVER['argv']));
 
@@ -27,8 +27,8 @@ phpcov %s by Sebastian Bergmann.
 
 Changes compared to HEAD, including uncommitted changes and untracked files
 
-1 / 3 changed executable lines covered ( 33.33%)
+1 / 2 changed executable lines covered ( 50.00%)
 
 Changed executable lines that are not covered:
-  src/Farewell.php:8-9
+  src/Farewell.php:8 (Example\Greeter::greetWorld)
 int(1)

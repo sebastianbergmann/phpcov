@@ -17,5 +17,5 @@ phpcov %s by Sebastian Bergmann.
 0 / 1 changed executable lines covered (  0.00%)
 
 Changed executable lines that are not covered:
-  tests/fixture/example/src/Greeter.php:21
+  tests/fixture/example/src/Greeter.php:21 (SebastianBergmann\PHPCOV\TestFixture\Greeter::greetWithName)
 int(1)

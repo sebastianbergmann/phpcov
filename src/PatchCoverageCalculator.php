@@ -12,12 +12,15 @@ namespace SebastianBergmann\PHPCOV;
 use const DIRECTORY_SEPARATOR;
 use function array_keys;
 use function is_array;
+use function is_file;
 use function str_ends_with;
 use function str_replace;
 use function str_starts_with;
 use function strlen;
 use function substr;
 use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
+use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
+use SebastianBergmann\CodeCoverage\StaticAnalysis\SourceLines;
 
 /**
  * @phpstan-import-type LineCoverageType from ProcessedCodeCoverageData
@@ -26,10 +29,15 @@ use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
 final class PatchCoverageCalculator
 {
     /**
+     * The changed lines that were not executed are grouped by file, and then
+     * by the method or function they belong to. Lines that do not belong to
+     * a method or function, and lines of a file that could not be read, are
+     * grouped under an empty string.
+     *
      * @param LineCoverageType $lineCoverage
      * @param ChangedLinesType $changedLines
      *
-     * @return array{numChangedFilesWithCodeCoverageData: non-negative-int, numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
+     * @return array{numChangedFilesWithCodeCoverageData: non-negative-int, numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<string, array<string, non-empty-list<int>>>}
      */
     public function calculate(array $lineCoverage, array $changedLines, string $basePath, string $pathPrefix): array
     {
@@ -71,24 +79,51 @@ final class PatchCoverageCalculator
                 $lines = array_keys($lineCoverage[$key]);
             }
 
+            $sourceLines = $this->sourceLines($fullPath);
+
             foreach ($lines as $line) {
-                if (isset($lineCoverage[$key][$line]) &&
-                    is_array($lineCoverage[$key][$line])) {
-                    $result['numChangedLinesThatAreExecutable']++;
-
-                    if ($lineCoverage[$key][$line] === []) {
-                        if (!isset($result['changedLinesThatWereNotExecuted'][$file])) {
-                            $result['changedLinesThatWereNotExecuted'][$file] = [];
-                        }
-
-                        $result['changedLinesThatWereNotExecuted'][$file][] = $line;
-                    } else {
-                        $result['numChangedLinesThatWereExecuted']++;
-                    }
+                if (!isset($lineCoverage[$key][$line]) ||
+                    !is_array($lineCoverage[$key][$line])) {
+                    continue;
                 }
+
+                $result['numChangedLinesThatAreExecutable']++;
+
+                if ($lineCoverage[$key][$line] !== []) {
+                    $result['numChangedLinesThatWereExecuted']++;
+
+                    continue;
+                }
+
+                $codeUnit = '';
+
+                if ($sourceLines !== null) {
+                    $codeUnit = $sourceLines->codeUnitAt($line) ?? '';
+                }
+
+                $result['changedLinesThatWereNotExecuted'][$file][$codeUnit][] = $line;
             }
         }
 
         return $result;
+    }
+
+    /**
+     * The source code is not available when the code coverage data was
+     * collected in another location, for instance.
+     */
+    private function sourceLines(string $file): ?SourceLines
+    {
+        if ($file === '' || !is_file($file)) {
+            return null;
+        }
+
+        try {
+            return SourceLines::of($file);
+            // @codeCoverageIgnoreStart
+        } catch (CodeCoverageException) {
+            return null;
+            // @codeCoverageIgnoreEnd
+        }
     }
 }

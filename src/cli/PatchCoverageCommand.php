@@ -166,12 +166,15 @@ final class PatchCoverageCommand implements Command
         if ($patchCoverage['changedLinesThatWereNotExecuted'] !== []) {
             print PHP_EOL . 'Changed executable lines that are not covered:' . PHP_EOL;
 
-            foreach ($patchCoverage['changedLinesThatWereNotExecuted'] as $file => $lines) {
-                printf(
-                    '  %s:%s' . PHP_EOL,
-                    $file,
-                    implode(', ', $this->ranges($lines)),
-                );
+            foreach ($patchCoverage['changedLinesThatWereNotExecuted'] as $file => $codeUnits) {
+                foreach ($codeUnits as $codeUnit => $lines) {
+                    printf(
+                        '  %s:%s%s' . PHP_EOL,
+                        $file,
+                        implode(', ', $this->ranges($lines)),
+                        $codeUnit !== '' ? ' (' . $codeUnit . ')' : '',
+                    );
+                }
             }
 
             return 1;
@@ -356,7 +359,7 @@ final class PatchCoverageCommand implements Command
     }
 
     /**
-     * @param non-empty-list<positive-int> $lines
+     * @param non-empty-list<int> $lines
      *
      * @return non-empty-list<non-empty-string>
      */

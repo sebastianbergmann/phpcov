@@ -161,10 +161,11 @@ Changes compared to origin/main (merge base 5f2c0d3a9b1e), including uncommitted
 1 / 4 changed executable lines covered ( 25.00%)
 
 Changed executable lines that are not covered:
-  src/Example.php:11-12, 20
+  src/Example.php:11-12 (Example::doSomething)
+  src/Example.php:20 (Example::doSomethingElse)
 ```
 
-Consecutive lines that are not covered are reported as a range.
+Consecutive lines that are not covered are reported as a range. The method or function that the lines belong to is reported when the source code is available.
 
 The working tree is compared with the commit that `HEAD` and the default branch of the `origin` remote (`refs/remotes/origin/HEAD`) have in common. This is the same default that Infection uses for its `--git-diff-lines` option. The changes therefore are
 
@@ -199,7 +200,8 @@ $ phpcov patch-coverage /tmp/coverage.cov /tmp/patch.txt
 1 / 4 changed executable lines covered ( 25.00%)
 
 Changed executable lines that are not covered:
-  src/Example.php:11-12, 20
+  src/Example.php:11-12 (Example::doSomething)
+  src/Example.php:20 (Example::doSomethingElse)
 ```
 
 The paths in a patch are relative to the directory the patch was generated for. For a patch that was generated using `git diff`, this is the root directory of the repository.

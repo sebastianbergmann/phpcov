@@ -35,5 +35,5 @@ Changes compared to origin/main (merge base %s), including uncommitted changes a
 1 / 2 changed executable lines covered ( 50.00%)
 
 Changed executable lines that are not covered:
-  src/Greeter.php:13
+  src/Greeter.php:13 (Example\Greeter::greetWithName)
 int(1)
