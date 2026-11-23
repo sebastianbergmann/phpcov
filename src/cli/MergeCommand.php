@@ -68,16 +68,16 @@ final class MergeCommand implements Command
             // @codeCoverageIgnoreEnd
         }
 
+        if ($arguments->source() !== null) {
+            $merged['basePath'] = $arguments->source();
+        }
+
         if ($arguments->php() !== null) {
             print 'Generating code coverage report in PHP format ... ';
 
             (new Serializer)->write($arguments->php(), $merged);
 
             print 'done' . PHP_EOL;
-        }
-
-        if ($arguments->source() !== null) {
-            $merged['basePath'] = $arguments->source();
         }
 
         $reportFacade = ReportFacade::fromSerializedData($merged);

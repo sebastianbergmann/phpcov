@@ -86,7 +86,7 @@ $ phpcov merge --php /tmp/merged.cov /tmp/coverage
 
 #### Merging on a different machine
 
-The serialized `.cov` files store file paths relative to a base path (the common path prefix of all covered files).
+The serialized `.cov` files store file paths relative to a base path (the common path prefix of the files that code coverage was collected for).
 When generating reports, the source files must be readable so that they can be analysed.
 
 If you are merging `.cov` files on a different machine than where the tests were run, and the source code is located at a different path, use `--source` to specify where the source code is on the current machine:
@@ -94,6 +94,8 @@ If you are merging `.cov` files on a different machine than where the tests were
 ```
 $ phpcov merge --source /home/ci/project --html /tmp/coverage-html /tmp/coverage
 ```
+
+When `--php` is used together with `--source`, the `.cov` file that is written has the path given with `--source` as its base path.
 
 #### Relaxing merge requirements
 
