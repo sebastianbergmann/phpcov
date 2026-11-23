@@ -173,15 +173,12 @@ It exits with `2` when no changed executable lines could be detected. This usual
 
 #### The `--path-prefix` option
 
-The `--path-prefix` option is needed when the file paths in the patch do not match the file paths in the coverage data.
+The paths in a patch are relative to the directory the patch was generated for. For a patch that was generated using `git diff`, this is the root directory of the repository.
 
-The serialized `.cov` file stores file paths relative to a base path.
-The patch file contains paths relative to wherever `git diff` (or equivalent) was run.
-When both are relative to the same project root directory, which is the common case, they match and `--path-prefix` is not needed.
-
-When the paths do not match, `--path-prefix` specifies the directory to prepend to the paths in the patch so that they can be resolved against the coverage data.
-For example, if the diff was generated from a parent directory and contains paths like `project/src/Foo.php`, but the coverage data has paths relative to the project root (`src/Foo.php`), you would use:
+`phpcov patch-coverage` expects this directory to be the current working directory. Use `--path-prefix` when it is not:
 
 ```
 $ phpcov patch-coverage --path-prefix /path/to/project /tmp/coverage.cov /tmp/patch.txt
 ```
+
+A relative path is resolved against the current working directory.

@@ -11,8 +11,10 @@ namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
 use function file_get_contents;
+use function getcwd;
 use function is_file;
 use function printf;
+use function realpath;
 use function sprintf;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
@@ -40,11 +42,7 @@ final class PatchCoverageCommand implements Command
             return 255;
         }
 
-        $pathPrefix = '';
-
-        if ($arguments->pathPrefix() !== null) {
-            $pathPrefix = $arguments->pathPrefix();
-        }
+        $pathPrefix = $this->pathPrefix($arguments);
 
         try {
             $data = (new Unserializer)->unserialize($arguments->coverage());
@@ -68,7 +66,7 @@ final class PatchCoverageCommand implements Command
             $patchCoverage['numChangedLinesNotCovered'] === 0) {
             print 'Unable to detect executable lines that were changed.' . PHP_EOL;
 
-            if ($pathPrefix === '') {
+            if ($arguments->pathPrefix() === null) {
                 print 'Are you sure you do not need to use --path-prefix?' . PHP_EOL;
             } else {
                 print 'Are you sure your --path-prefix is correct?' . PHP_EOL;
@@ -104,6 +102,36 @@ final class PatchCoverageCommand implements Command
         }
 
         return 0;
+    }
+
+    /**
+     * The paths in a patch are relative to the directory the patch was
+     * generated for. Unless configured otherwise, this is expected to be
+     * the current working directory.
+     */
+    private function pathPrefix(Arguments $arguments): string
+    {
+        $pathPrefix = $arguments->pathPrefix();
+
+        if ($pathPrefix === null) {
+            $pathPrefix = getcwd();
+
+            if ($pathPrefix === false) {
+                // @codeCoverageIgnoreStart
+                return '';
+                // @codeCoverageIgnoreEnd
+            }
+
+            return $pathPrefix;
+        }
+
+        $resolved = realpath($pathPrefix);
+
+        if ($resolved !== false) {
+            return $resolved;
+        }
+
+        return $pathPrefix;
     }
 
     private function percentage(float $fraction, float $total): string

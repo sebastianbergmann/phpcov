@@ -19,6 +19,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 ### Fixed
 
 * `phpcov patch-coverage` does not find the changed lines in code coverage data that has the root directory as its base path
+* `phpcov patch-coverage` does not find the changed lines when `--path-prefix` is not used. The paths in the patch are now resolved against the current working directory when `--path-prefix` is not used, and a relative path that is configured using `--path-prefix` is resolved against the current working directory
 
 ## [13.2.1] - 2026-11-02
 
