@@ -13,13 +13,11 @@ use const PHP_EOL;
 use function is_dir;
 use function printf;
 use function realpath;
-use function serialize;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Report\Facade as ReportFacade;
 use SebastianBergmann\CodeCoverage\Report\Thresholds;
 use SebastianBergmann\CodeCoverage\Serialization\Merger as CoverageMerger;
 use SebastianBergmann\CodeCoverage\Serialization\Serializer;
-use SebastianBergmann\CodeCoverage\Util\Filesystem;
 use SebastianBergmann\FileIterator\Facade;
 
 final class MergeCommand implements Command
@@ -73,14 +71,7 @@ final class MergeCommand implements Command
         if ($arguments->php() !== null) {
             print 'Generating code coverage report in PHP format ... ';
 
-            Filesystem::write(
-                $arguments->php(),
-                '<?php // phpunit/php-code-coverage serialization format ' . Serializer::SERIALIZATION_FORMAT . PHP_EOL .
-                "return \unserialize(<<<'END_OF_COVERAGE_SERIALIZATION'" . PHP_EOL .
-                serialize($merged) . PHP_EOL .
-                'END_OF_COVERAGE_SERIALIZATION' . PHP_EOL .
-                ');',
-            );
+            (new Serializer)->write($arguments->php(), $merged);
 
             print 'done' . PHP_EOL;
         }
