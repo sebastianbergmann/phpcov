@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d093ba9f1ae895bb001410245ff5695",
+    "content-hash": "fc3df7a80015b31304c98c36f75628c2",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -66,16 +66,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "14.5.2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2f122b9b48af71ad9b4448368febc26af86534c9"
+                "reference": "6db7a2797efe7401d156a093070d9a9d89aa9395"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2f122b9b48af71ad9b4448368febc26af86534c9",
-                "reference": "2f122b9b48af71ad9b4448368febc26af86534c9",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6db7a2797efe7401d156a093070d9a9d89aa9395",
+                "reference": "6db7a2797efe7401d156a093070d9a9d89aa9395",
                 "shasum": ""
             },
             "require": {
@@ -90,19 +90,20 @@
                 "sebastian/environment": "^9.3.3",
                 "sebastian/git-state": "^1.1.0",
                 "sebastian/lines-of-code": "^5.0.2",
-                "sebastian/version": "^7.0.1"
+                "sebastian/version": "^7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^13.4.6"
+                "phpunit/phpunit": "^13.4.8"
             },
             "suggest": {
                 "ext-pcov": "PHP extension that provides line coverage",
                 "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "14.5.x-dev"
+                    "dev-main": "14.6.x-dev"
                 }
             },
             "autoload": {
@@ -131,7 +132,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/14.5.2"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/main"
             },
             "funding": [
                 {
@@ -151,8 +152,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-09T05:24:08+00:00",
-            "published-time": "2026-11-09T05:25:09+00:00"
+            "time": "2026-11-23T06:51:18+00:00",
+            "published-time": "2026-11-23T06:53:14+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -225,7 +226,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-25T14:47:43+00:00"
+            "time": "2026-08-25T14:47:43+00:00",
+            "published-time": "2026-08-25T14:48:49+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -367,7 +369,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-01T04:27:14+00:00"
+            "time": "2026-08-01T04:27:14+00:00",
+            "published-time": "2026-08-01T04:29:01+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -517,7 +520,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-25T15:38:55+00:00"
+            "time": "2026-08-25T15:38:55+00:00",
+            "published-time": "2026-08-25T15:39:44+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -1900,7 +1904,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,

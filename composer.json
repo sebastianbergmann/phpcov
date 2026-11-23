@@ -20,10 +20,11 @@
         "optimize-autoloader": true,
         "sort-packages": true
     },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.4",
-        "phpunit/php-code-coverage": "^14.5.2",
+        "phpunit/php-code-coverage": "^14.6",
         "phpunit/php-file-iterator": "^7.0.2",
         "sebastian/cli-parser": "^5.0.1",
         "sebastian/diff": "^9.0.1",
