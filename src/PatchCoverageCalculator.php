@@ -16,21 +16,20 @@ use function str_starts_with;
 use function strlen;
 use function substr;
 use SebastianBergmann\CodeCoverage\Data\ProcessedCodeCoverageData;
-use SebastianBergmann\Diff\Diff;
-use SebastianBergmann\Diff\Line;
 
 /**
  * @phpstan-import-type LineCoverageType from ProcessedCodeCoverageData
+ * @phpstan-import-type ChangedLinesType from PatchParser
  */
 final class PatchCoverageCalculator
 {
     /**
      * @param LineCoverageType $lineCoverage
-     * @param list<Diff>       $patch
+     * @param ChangedLinesType $changedLines
      *
      * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, numChangedLinesNotCovered: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
      */
-    public function calculate(array $lineCoverage, array $patch, string $basePath, string $pathPrefix): array
+    public function calculate(array $lineCoverage, array $changedLines, string $basePath, string $pathPrefix): array
     {
         $result = [
             'numChangedLinesThatAreExecutable' => 0,
@@ -50,28 +49,7 @@ final class PatchCoverageCalculator
             $basePath .= DIRECTORY_SEPARATOR;
         }
 
-        $changes = [];
-
-        foreach ($patch as $diff) {
-            $file           = substr($diff->to(), 2);
-            $changes[$file] = [];
-
-            foreach ($diff->chunks() as $chunk) {
-                $lineNr = $chunk->end();
-
-                foreach ($chunk->lines() as $line) {
-                    if ($line->type() === Line::ADDED) {
-                        $changes[$file][] = $lineNr;
-                    }
-
-                    if ($line->type() !== Line::REMOVED) {
-                        $lineNr++;
-                    }
-                }
-            }
-        }
-
-        foreach ($changes as $file => $lines) {
+        foreach ($changedLines as $file => $lines) {
             $fullPath = $pathPrefix . $file;
 
             if ($basePath !== '' && str_starts_with($fullPath, $basePath)) {

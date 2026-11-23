@@ -18,7 +18,6 @@ use function realpath;
 use function sprintf;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
-use SebastianBergmann\Diff\Parser as DiffParser;
 
 final class PatchCoverageCommand implements Command
 {
@@ -54,9 +53,20 @@ final class PatchCoverageCommand implements Command
             // @codeCoverageIgnoreEnd
         }
 
+        try {
+            $changedLines = (new PatchParser)->changedLines((string) file_get_contents($arguments->patch()));
+        } catch (InvalidPatchException) {
+            printf(
+                'Patch file "%s" is not a unified diff' . PHP_EOL,
+                $arguments->patch(),
+            );
+
+            return 255;
+        }
+
         $patchCoverage = (new PatchCoverageCalculator)->calculate(
             $data['codeCoverage']->lineCoverage(),
-            (new DiffParser)->parse(file_get_contents($arguments->patch())),
+            $changedLines,
             $data['basePath'],
             $pathPrefix,
         );
