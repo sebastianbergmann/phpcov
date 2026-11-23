@@ -26,6 +26,5 @@ unlink($patch);
 --EXPECTF--
 phpcov %s by Sebastian Bergmann.
 
-Unable to detect executable lines that were changed.
-Are you sure you do not need to use --path-prefix?
-int(2)
+The patch does not change files that code coverage data is available for.
+int(0)

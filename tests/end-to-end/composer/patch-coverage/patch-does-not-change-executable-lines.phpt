@@ -14,5 +14,5 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 --EXPECTF--
 phpcov %s by Sebastian Bergmann.
 
-0 / 0 changed executable lines covered ()
+The patch does not change executable lines.
 int(0)

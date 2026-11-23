@@ -14,6 +14,7 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 --EXPECTF--
 phpcov %s by Sebastian Bergmann.
 
-Unable to detect executable lines that were changed.
+Unable to find the files that the patch changes.
+The paths in the patch were resolved against "%s", the code coverage data is for files in "%s".
 Are you sure your --path-prefix is correct?
 int(2)

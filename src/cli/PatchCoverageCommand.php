@@ -9,13 +9,19 @@
  */
 namespace SebastianBergmann\PHPCOV;
 
+use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
+use function array_any;
+use function array_keys;
 use function file_get_contents;
 use function getcwd;
+use function is_dir;
 use function is_file;
 use function printf;
 use function realpath;
 use function sprintf;
+use function str_ends_with;
+use function str_starts_with;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
 
@@ -71,10 +77,16 @@ final class PatchCoverageCommand implements Command
             $pathPrefix,
         );
 
-        if ($patchCoverage['numChangedLinesThatWereExecuted'] === 0 &&
-            $patchCoverage['numChangedLinesThatAreExecutable'] === 0 &&
-            $patchCoverage['numChangedLinesNotCovered'] === 0) {
-            print 'Unable to detect executable lines that were changed.' . PHP_EOL;
+        if ($changedLines !== [] &&
+            $patchCoverage['numChangedFilesWithCodeCoverageData'] === 0 &&
+            !$this->pathsCanBeMapped(array_keys($changedLines), $data['basePath'], $pathPrefix)) {
+            print 'Unable to find the files that the patch changes.' . PHP_EOL;
+
+            printf(
+                'The paths in the patch were resolved against "%s", the code coverage data is for files in "%s".' . PHP_EOL,
+                $pathPrefix,
+                $data['basePath'],
+            );
 
             if ($arguments->pathPrefix() === null) {
                 print 'Are you sure you do not need to use --path-prefix?' . PHP_EOL;
@@ -83,6 +95,18 @@ final class PatchCoverageCommand implements Command
             }
 
             return 2;
+        }
+
+        if ($patchCoverage['numChangedFilesWithCodeCoverageData'] === 0) {
+            print 'The patch does not change files that code coverage data is available for.' . PHP_EOL;
+
+            return 0;
+        }
+
+        if ($patchCoverage['numChangedLinesThatAreExecutable'] === 0) {
+            print 'The patch does not change executable lines.' . PHP_EOL;
+
+            return 0;
         }
 
         printf(
@@ -142,6 +166,42 @@ final class PatchCoverageCommand implements Command
         }
 
         return $pathPrefix;
+    }
+
+    /**
+     * Tells apart a patch that does not change files that code coverage data
+     * is available for from a patch whose paths were resolved against the
+     * wrong directory. In both cases, none of the files that the patch
+     * changes is found in the code coverage data.
+     *
+     * @param list<string> $files
+     */
+    private function pathsCanBeMapped(array $files, string $basePath, string $pathPrefix): bool
+    {
+        if (!str_ends_with($pathPrefix, DIRECTORY_SEPARATOR)) {
+            $pathPrefix .= DIRECTORY_SEPARATOR;
+        }
+
+        if ($basePath !== '') {
+            if (!str_ends_with($basePath, DIRECTORY_SEPARATOR)) {
+                $basePath .= DIRECTORY_SEPARATOR;
+            }
+
+            if (!str_starts_with($basePath, $pathPrefix) && !str_starts_with($pathPrefix, $basePath)) {
+                return false;
+            }
+
+            // The code coverage data was collected in another location,
+            // the files that the patch changes cannot be expected to exist
+            if (!is_dir($basePath)) {
+                return true;
+            }
+        }
+
+        return array_any(
+            $files,
+            static fn (string $file): bool => is_file($pathPrefix . $file),
+        );
     }
 
     private function percentage(float $fraction, float $total): string

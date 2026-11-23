@@ -167,9 +167,10 @@ Changed executable lines that are not covered:
   Example.php:11
 ```
 
-The command exits with code `0` when all changed executable lines are covered.
+The command exits with code `0` when all changed executable lines are covered. This includes a patch that does not change executable lines, and a patch that does not change files that code coverage data is available for, such as a patch that only changes the documentation.
 It exits with `1` when some changed executable lines are not covered.
-It exits with `2` when no changed executable lines could be detected. This usually indicates a path mismatch.
+It exits with `2` when the files that the patch changes could not be found: the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. This indicates that `--path-prefix` is needed, or not correct.
+It exits with `255` when the code coverage file or the patch file does not exist or cannot be processed.
 
 #### The `--path-prefix` option
 

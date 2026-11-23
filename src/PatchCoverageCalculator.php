@@ -27,15 +27,15 @@ final class PatchCoverageCalculator
      * @param LineCoverageType $lineCoverage
      * @param ChangedLinesType $changedLines
      *
-     * @return array{numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, numChangedLinesNotCovered: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
+     * @return array{numChangedFilesWithCodeCoverageData: non-negative-int, numChangedLinesThatAreExecutable: non-negative-int, numChangedLinesThatWereExecuted: non-negative-int, changedLinesThatWereNotExecuted: array<non-empty-string, non-empty-list<positive-int>>}
      */
     public function calculate(array $lineCoverage, array $changedLines, string $basePath, string $pathPrefix): array
     {
         $result = [
-            'numChangedLinesThatAreExecutable' => 0,
-            'numChangedLinesThatWereExecuted'  => 0,
-            'numChangedLinesNotCovered'        => 0,
-            'changedLinesThatWereNotExecuted'  => [],
+            'numChangedFilesWithCodeCoverageData' => 0,
+            'numChangedLinesThatAreExecutable'    => 0,
+            'numChangedLinesThatWereExecuted'     => 0,
+            'changedLinesThatWereNotExecuted'     => [],
         ];
 
         if (substr($pathPrefix, -1, 1) !== DIRECTORY_SEPARATOR) {
@@ -58,6 +58,12 @@ final class PatchCoverageCalculator
                 $key = $fullPath;
             }
 
+            if (!isset($lineCoverage[$key])) {
+                continue;
+            }
+
+            $result['numChangedFilesWithCodeCoverageData']++;
+
             foreach ($lines as $line) {
                 if (isset($lineCoverage[$key][$line]) &&
                     is_array($lineCoverage[$key][$line])) {
@@ -72,10 +78,6 @@ final class PatchCoverageCalculator
                     } else {
                         $result['numChangedLinesThatWereExecuted']++;
                     }
-                }
-
-                if (isset($lineCoverage[$key]) && !isset($lineCoverage[$key][$line])) {
-                    $result['numChangedLinesNotCovered']++;
                 }
             }
         }
