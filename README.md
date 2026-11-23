@@ -99,7 +99,7 @@ When `--php` is used together with `--source`, the `.cov` file that is written h
 
 #### Relaxing merge requirements
 
-By default, `phpcov merge` requires that all `.cov` files were created using the same PHP version, the same code coverage driver, and (when present) the same Git state. If these do not match, the merge will fail.
+By default, `phpcov merge` requires that all `.cov` files were created using the same PHP version, the same code coverage driver, the same granularity (line coverage, or line and branch coverage, or line, branch, and path coverage), and (when present) the same Git state. If these do not match, the merge will fail.
 
 You can relax these requirements with the following options:
 
@@ -108,11 +108,24 @@ You can relax these requirements with the following options:
 | `--do-not-require-matching-git-information`      | Allow merging files with different git state        |
 | `--do-not-require-matching-php-version`          | Allow merging files from different PHP versions     |
 | `--do-not-require-matching-code-coverage-driver` | Allow merging files from different coverage drivers |
+| `--do-not-require-matching-granularity`          | Allow merging files with different granularity      |
 
 For example, to merge `.cov` files that were collected with different PHP versions:
 
 ```
 $ phpcov merge --do-not-require-matching-php-version --html /tmp/coverage-html /tmp/coverage
+```
+
+Branch and path coverage that is merged with code coverage data that was collected without it is incomplete: what was executed while the latter was collected is missing from it.
+
+#### Requiring a single location
+
+The paths in a `.cov` file are relative to its base path. `.cov` files that were written in different locations, by CI jobs that check the project out into different directories for instance, have different base paths and are merged using these relative paths.
+
+Use `--require-matching-base-paths` when all `.cov` files are expected to come from the same location. The merge then fails when the base paths of two files are not the same directory and neither is a directory below the other:
+
+```
+$ phpcov merge --require-matching-base-paths --html /tmp/coverage-html /tmp/coverage
 ```
 
 #### Available Report Formats

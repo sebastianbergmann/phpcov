@@ -63,6 +63,8 @@ final class MergeCommand implements Command
                 $arguments->requireMatchingGitInformation(),
                 $arguments->requireMatchingPhpVersion(),
                 $arguments->requireMatchingCodeCoverageDriver(),
+                $arguments->requireMatchingBasePaths(),
+                $arguments->requireMatchingGranularity(),
             );
             // @codeCoverageIgnoreStart
         } catch (CodeCoverageException $e) {

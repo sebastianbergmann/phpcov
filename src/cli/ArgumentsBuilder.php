@@ -35,6 +35,8 @@ final class ArgumentsBuilder
                 'do-not-require-matching-git-information',
                 'do-not-require-matching-php-version',
                 'do-not-require-matching-code-coverage-driver',
+                'do-not-require-matching-granularity',
+                'require-matching-base-paths',
             ],
             'arguments' => [
                 'directory',
@@ -125,6 +127,8 @@ final class ArgumentsBuilder
         $requireMatchingGitInformation     = true;
         $requireMatchingPhpVersion         = true;
         $requireMatchingCodeCoverageDriver = true;
+        $requireMatchingGranularity        = true;
+        $requireMatchingBasePaths          = false;
         $help                              = false;
         $version                           = false;
 
@@ -205,6 +209,16 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--do-not-require-matching-granularity':
+                    $requireMatchingGranularity = false;
+
+                    break;
+
+                case '--require-matching-base-paths':
+                    $requireMatchingBasePaths = true;
+
+                    break;
+
                 case 'h':
                 case '--help':
                     $help = true;
@@ -239,6 +253,8 @@ final class ArgumentsBuilder
             $requireMatchingGitInformation,
             $requireMatchingPhpVersion,
             $requireMatchingCodeCoverageDriver,
+            $requireMatchingGranularity,
+            $requireMatchingBasePaths,
             $help,
             $version,
         );

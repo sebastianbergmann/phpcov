@@ -31,11 +31,13 @@ final class Arguments
     private bool $requireMatchingGitInformation;
     private bool $requireMatchingPhpVersion;
     private bool $requireMatchingCodeCoverageDriver;
+    private bool $requireMatchingGranularity;
+    private bool $requireMatchingBasePaths;
     private bool $help;
     private bool $version;
     private ?string $pathPrefix;
 
-    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $jsonl, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $help, bool $version)
+    public function __construct(?string $command, ?string $directory, ?string $coverage, ?string $patch, ?string $clover, ?string $openClover, ?string $cobertura, ?string $crap4j, ?string $html, Views $htmlViews, ?string $jsonl, ?string $php, ?string $source, ?string $text, ?string $xml, ?string $pathPrefix, bool $requireMatchingGitInformation, bool $requireMatchingPhpVersion, bool $requireMatchingCodeCoverageDriver, bool $requireMatchingGranularity, bool $requireMatchingBasePaths, bool $help, bool $version)
     {
         $this->command                           = $command;
         $this->directory                         = $directory;
@@ -56,6 +58,8 @@ final class Arguments
         $this->requireMatchingGitInformation     = $requireMatchingGitInformation;
         $this->requireMatchingPhpVersion         = $requireMatchingPhpVersion;
         $this->requireMatchingCodeCoverageDriver = $requireMatchingCodeCoverageDriver;
+        $this->requireMatchingGranularity        = $requireMatchingGranularity;
+        $this->requireMatchingBasePaths          = $requireMatchingBasePaths;
         $this->help                              = $help;
         $this->version                           = $version;
     }
@@ -153,6 +157,16 @@ final class Arguments
     public function requireMatchingCodeCoverageDriver(): bool
     {
         return $this->requireMatchingCodeCoverageDriver;
+    }
+
+    public function requireMatchingGranularity(): bool
+    {
+        return $this->requireMatchingGranularity;
+    }
+
+    public function requireMatchingBasePaths(): bool
+    {
+        return $this->requireMatchingBasePaths;
     }
 
     public function help(): bool

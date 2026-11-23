@@ -35,6 +35,8 @@ Options for "phpcov merge":
   --do-not-require-matching-git-information      Do not require matching git information
   --do-not-require-matching-php-version          Do not require matching PHP version
   --do-not-require-matching-code-coverage-driver Do not require matching code coverage driver
+  --do-not-require-matching-granularity          Do not require matching granularity (line, branch, and path coverage)
+  --require-matching-base-paths                  Require that all code coverage data was collected in the same location
 
 Options for "phpcov patch-coverage":
 
