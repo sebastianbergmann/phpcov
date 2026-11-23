@@ -11,6 +11,7 @@ namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
 use function is_array;
+use function str_ends_with;
 use function str_starts_with;
 use function strlen;
 use function substr;
@@ -42,6 +43,13 @@ final class PatchCoverageCalculator
             $pathPrefix .= DIRECTORY_SEPARATOR;
         }
 
+        // The base path of code coverage data for source files that have
+        // nothing but the root directory in common is the root directory,
+        // which already ends with the directory separator
+        if ($basePath !== '' && !str_ends_with($basePath, DIRECTORY_SEPARATOR)) {
+            $basePath .= DIRECTORY_SEPARATOR;
+        }
+
         $changes = [];
 
         foreach ($patch as $diff) {
@@ -66,8 +74,8 @@ final class PatchCoverageCalculator
         foreach ($changes as $file => $lines) {
             $fullPath = $pathPrefix . $file;
 
-            if ($basePath !== '' && str_starts_with($fullPath, $basePath . DIRECTORY_SEPARATOR)) {
-                $key = substr($fullPath, strlen($basePath) + 1);
+            if ($basePath !== '' && str_starts_with($fullPath, $basePath)) {
+                $key = substr($fullPath, strlen($basePath));
             } else {
                 $key = $fullPath;
             }
