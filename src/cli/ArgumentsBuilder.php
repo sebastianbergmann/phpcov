@@ -46,10 +46,10 @@ final class ArgumentsBuilder
         'patch-coverage' => [
             'longOptions' => [
                 'path-prefix=',
+                'base=',
             ],
             'arguments' => [
                 'coverage',
-                'patch',
             ],
         ],
     ];
@@ -107,7 +107,7 @@ final class ArgumentsBuilder
 
             case 'patch-coverage':
                 $coverage = $options[1][1];
-                $patch    = $options[1][2];
+                $patch    = $options[1][2] ?? null;
 
                 break;
         }
@@ -124,6 +124,7 @@ final class ArgumentsBuilder
         $source                            = null;
         $xml                               = null;
         $pathPrefix                        = null;
+        $base                              = null;
         $requireMatchingGitInformation     = true;
         $requireMatchingPhpVersion         = true;
         $requireMatchingCodeCoverageDriver = true;
@@ -194,6 +195,11 @@ final class ArgumentsBuilder
 
                     break;
 
+                case '--base':
+                    $base = $option[1];
+
+                    break;
+
                 case '--do-not-require-matching-git-information':
                     $requireMatchingGitInformation = false;
 
@@ -233,6 +239,20 @@ final class ArgumentsBuilder
             }
         }
 
+        if ($command === 'patch-coverage') {
+            if ($patch !== null && $base !== null) {
+                throw new InvalidOptionCombinationException(
+                    'The --base option cannot be used together with a patch file',
+                );
+            }
+
+            if ($patch === null && $pathPrefix !== null) {
+                throw new InvalidOptionCombinationException(
+                    'The --path-prefix option can only be used together with a patch file',
+                );
+            }
+        }
+
         return new Arguments(
             $command,
             $directory,
@@ -250,6 +270,7 @@ final class ArgumentsBuilder
             $text,
             $xml,
             $pathPrefix,
+            $base,
             $requireMatchingGitInformation,
             $requireMatchingPhpVersion,
             $requireMatchingCodeCoverageDriver,

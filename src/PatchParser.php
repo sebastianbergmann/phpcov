@@ -16,7 +16,7 @@ use SebastianBergmann\Diff\Line;
 use SebastianBergmann\Diff\Parser as DiffParser;
 
 /**
- * @phpstan-type ChangedLinesType array<string, list<int>>
+ * @phpstan-type ChangedLinesType array<string, ?list<int>>
  */
 final class PatchParser
 {
@@ -26,7 +26,7 @@ final class PatchParser
      *
      * @throws InvalidPatchException
      *
-     * @return ChangedLinesType
+     * @return array<string, list<int>>
      */
     public function changedLines(string $patch): array
     {

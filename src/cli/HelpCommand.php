@@ -16,7 +16,7 @@ final class HelpCommand implements Command
         print <<<'EOT'
 Usage:
   phpcov merge          [options] <directory with *.cov files>
-  phpcov patch-coverage [options] <coverage file> <patch file>
+  phpcov patch-coverage [options] <coverage file> [<patch file>]
 
 Options for "phpcov merge":
 
@@ -40,7 +40,8 @@ Options for "phpcov merge":
 
 Options for "phpcov patch-coverage":
 
-  --path-prefix <prefix>                         Prefix that needs to be stripped from paths in the patch
+  --path-prefix <directory>                      Directory that the paths in the patch file are relative to (default: current working directory)
+  --base <revision>                              Revision to compare with when no patch file is given (default: default branch of the "origin" remote)
 
 EOT;
 

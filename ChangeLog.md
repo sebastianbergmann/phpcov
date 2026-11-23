@@ -6,6 +6,8 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 ### Added
 
+* `phpcov patch-coverage` no longer requires a patch file. When none is given, it uses Git to determine the lines that were added or changed in the repository that the current working directory belongs to: the commits that are not on the default branch of the `origin` remote, staged and unstaged changes, and the files that are neither tracked nor ignored. `--path-prefix` is not needed for this, and how Git is configured (an external diff tool, for instance) does not affect the result
+* Added `--base` CLI option for configuring the revision that `phpcov patch-coverage` compares the working tree with when it uses Git
 * Added `--require-matching-base-paths` CLI option for requiring that the code coverage data that is merged was collected in the same location
 * Added `--do-not-require-matching-granularity` CLI option for merging code coverage data that was collected with different granularity (line coverage, or line and branch coverage, or line, branch, and path coverage)
 * `phpcov merge` prints a warning when there is code coverage data for files that are not part of the reports because these files were not found. Before, this code coverage data was left out silently

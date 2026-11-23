@@ -18,15 +18,20 @@ use function getcwd;
 use function implode;
 use function is_dir;
 use function is_file;
+use function ksort;
 use function printf;
 use function realpath;
 use function sort;
 use function sprintf;
 use function str_ends_with;
 use function str_starts_with;
+use function substr;
 use SebastianBergmann\CodeCoverage\Exception as CodeCoverageException;
 use SebastianBergmann\CodeCoverage\Serialization\Unserializer;
 
+/**
+ * @phpstan-import-type ChangedLinesType from PatchParser
+ */
 final class PatchCoverageCommand implements Command
 {
     public function run(Arguments $arguments): int
@@ -40,16 +45,16 @@ final class PatchCoverageCommand implements Command
             return 255;
         }
 
-        if (!is_file($arguments->patch())) {
+        $patch = $arguments->patch();
+
+        if ($patch !== null && !is_file($patch)) {
             printf(
                 'Patch file "%s" does not exist' . PHP_EOL,
-                $arguments->patch(),
+                $patch,
             );
 
             return 255;
         }
-
-        $pathPrefix = $this->pathPrefix($arguments);
 
         try {
             $data = (new Unserializer)->unserialize($arguments->coverage());
@@ -62,12 +67,23 @@ final class PatchCoverageCommand implements Command
         }
 
         try {
-            $changedLines = (new PatchParser)->changedLines((string) file_get_contents($arguments->patch()));
+            if ($patch !== null) {
+                $pathPrefix   = $this->pathPrefix($arguments);
+                $changedLines = (new PatchParser)->changedLines((string) file_get_contents($patch));
+            } else {
+                $git          = new Git($this->currentWorkingDirectory());
+                $pathPrefix   = $git->repository();
+                $changedLines = $this->changedLines($git, $arguments->base());
+            }
         } catch (InvalidPatchException) {
             printf(
                 'Patch file "%s" is not a unified diff' . PHP_EOL,
-                $arguments->patch(),
+                $patch,
             );
+
+            return 255;
+        } catch (GitException $e) {
+            print $e->getMessage() . PHP_EOL;
 
             return 255;
         }
@@ -90,7 +106,9 @@ final class PatchCoverageCommand implements Command
                 $data['basePath'],
             );
 
-            if ($arguments->pathPrefix() === null) {
+            if ($patch === null) {
+                print 'Was the code coverage data collected in this Git repository?' . PHP_EOL;
+            } elseif ($arguments->pathPrefix() === null) {
                 print 'Are you sure you do not need to use --path-prefix?' . PHP_EOL;
             } else {
                 print 'Are you sure your --path-prefix is correct?' . PHP_EOL;
@@ -139,6 +157,50 @@ final class PatchCoverageCommand implements Command
     }
 
     /**
+     * The lines that were added or changed in the working tree of a Git
+     * repository, compared to the commit that HEAD and a revision have in
+     * common. Every line of a file that is not tracked yet is such a line.
+     *
+     * @throws GitException
+     * @throws InvalidPatchException
+     *
+     * @return ChangedLinesType
+     */
+    private function changedLines(Git $git, ?string $revision): array
+    {
+        if ($revision === null) {
+            $revision = $git->defaultRevision();
+        }
+
+        $commit      = 'HEAD';
+        $description = 'HEAD';
+
+        if ($revision !== 'HEAD') {
+            $commit      = $git->mergeBase($revision);
+            $description = sprintf(
+                '%s (merge base %s)',
+                $revision,
+                substr($commit, 0, 12),
+            );
+        }
+
+        $changedLines = (new PatchParser)->changedLines($git->diff($commit));
+
+        foreach ($git->untrackedFiles() as $file) {
+            $changedLines[$file] = null;
+        }
+
+        ksort($changedLines);
+
+        printf(
+            'Changes compared to %s, including uncommitted changes and untracked files' . PHP_EOL . PHP_EOL,
+            $description,
+        );
+
+        return $changedLines;
+    }
+
+    /**
      * The paths in a patch are relative to the directory the patch was
      * generated for. Unless configured otherwise, this is expected to be
      * the current working directory.
@@ -148,15 +210,7 @@ final class PatchCoverageCommand implements Command
         $pathPrefix = $arguments->pathPrefix();
 
         if ($pathPrefix === null) {
-            $pathPrefix = getcwd();
-
-            if ($pathPrefix === false) {
-                // @codeCoverageIgnoreStart
-                return '';
-                // @codeCoverageIgnoreEnd
-            }
-
-            return $pathPrefix;
+            return $this->currentWorkingDirectory();
         }
 
         $resolved = realpath($pathPrefix);
@@ -166,6 +220,19 @@ final class PatchCoverageCommand implements Command
         }
 
         return $pathPrefix;
+    }
+
+    private function currentWorkingDirectory(): string
+    {
+        $directory = getcwd();
+
+        if ($directory === false) {
+            // @codeCoverageIgnoreStart
+            return '';
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $directory;
     }
 
     /**

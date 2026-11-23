@@ -10,8 +10,10 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const DIRECTORY_SEPARATOR;
+use function array_keys;
 use function is_array;
 use function str_ends_with;
+use function str_replace;
 use function str_starts_with;
 use function strlen;
 use function substr;
@@ -50,7 +52,7 @@ final class PatchCoverageCalculator
         }
 
         foreach ($changedLines as $file => $lines) {
-            $fullPath = $pathPrefix . $file;
+            $fullPath = $pathPrefix . str_replace('/', DIRECTORY_SEPARATOR, $file);
 
             if ($basePath !== '' && str_starts_with($fullPath, $basePath)) {
                 $key = substr($fullPath, strlen($basePath));
@@ -63,6 +65,11 @@ final class PatchCoverageCalculator
             }
 
             $result['numChangedFilesWithCodeCoverageData']++;
+
+            // Every line of a file is a changed line when the file is new
+            if ($lines === null) {
+                $lines = array_keys($lineCoverage[$key]);
+            }
 
             foreach ($lines as $line) {
                 if (isset($lineCoverage[$key][$line]) &&

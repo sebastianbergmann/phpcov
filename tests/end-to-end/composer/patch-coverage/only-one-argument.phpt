@@ -11,5 +11,5 @@ var_dump((new SebastianBergmann\PHPCOV\Application)->run($_SERVER['argv']));
 --EXPECTF--
 phpcov %s by Sebastian Bergmann.
 
-Required argument "patch" is missing
+Code Coverage file "does-not-exist" does not exist
 int(255)

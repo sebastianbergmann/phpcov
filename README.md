@@ -144,22 +144,20 @@ $ phpcov merge --require-matching-base-paths --html /tmp/coverage-html /tmp/cove
 
 ### Patch Coverage
 
-The `phpcov patch-coverage` command calculates code coverage for the lines changed in a patch (unified diff).
+The `phpcov patch-coverage` command calculates code coverage for the lines that were added or changed.
 It reports how many of the changed executable lines are covered by tests.
 
-#### Example
+The lines that were added or changed are either determined using Git or read from a patch file.
 
-Generate a unified diff and collect code coverage:
+#### Changes in a Git repository
+
+When no patch file is given, `phpcov patch-coverage` uses Git to determine the lines that were added or changed in the repository that the current working directory belongs to:
 
 ```
-$ git diff HEAD^1 > /tmp/patch.txt
 $ phpunit --coverage-php /tmp/coverage.cov
-```
+$ phpcov patch-coverage /tmp/coverage.cov
+Changes compared to origin/main (merge base 5f2c0d3a9b1e), including uncommitted changes and untracked files
 
-Then calculate patch coverage:
-
-```
-$ phpcov patch-coverage /tmp/coverage.cov /tmp/patch.txt
 1 / 4 changed executable lines covered ( 25.00%)
 
 Changed executable lines that are not covered:
@@ -168,12 +166,35 @@ Changed executable lines that are not covered:
 
 Consecutive lines that are not covered are reported as a range.
 
-The command exits with code `0` when all changed executable lines are covered. This includes a patch that does not change executable lines, and a patch that does not change files that code coverage data is available for, such as a patch that only changes the documentation.
-It exits with `1` when some changed executable lines are not covered.
-It exits with `2` when the files that the patch changes could not be found: the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. This indicates that `--path-prefix` is needed, or not correct.
-It exits with `255` when the code coverage file or the patch file does not exist or cannot be processed.
+The working tree is compared with the commit that `HEAD` and the default branch of the `origin` remote (`refs/remotes/origin/HEAD`) have in common. This is the same default that Infection uses for its `--git-diff-lines` option. The changes therefore are
 
-#### The `--path-prefix` option
+* the commits of the current branch that are not on the default branch,
+* staged and unstaged changes, and
+* the files that are neither tracked nor ignored: every line of such a file is a line that was added.
+
+When `refs/remotes/origin/HEAD` does not exist, in a repository without a remote for instance, the working tree is compared with `HEAD`, and only uncommitted changes and untracked files are changes. `git remote set-head origin --auto` creates this reference.
+
+Use `--base` to compare with another revision, with `HEAD` to only consider uncommitted changes and untracked files, for instance:
+
+```
+$ phpcov patch-coverage --base HEAD /tmp/coverage.cov
+```
+
+How Git is configured does not affect how the changes are determined: an external diff tool, for instance, is not used.
+
+#### Changes in a patch file
+
+The lines that were added or changed can also be read from a patch file (unified diff):
+
+```
+$ git diff --no-ext-diff HEAD^1 > /tmp/patch.txt
+$ phpunit --coverage-php /tmp/coverage.cov
+$ phpcov patch-coverage /tmp/coverage.cov /tmp/patch.txt
+1 / 4 changed executable lines covered ( 25.00%)
+
+Changed executable lines that are not covered:
+  src/Example.php:11-12, 20
+```
 
 The paths in a patch are relative to the directory the patch was generated for. For a patch that was generated using `git diff`, this is the root directory of the repository.
 
@@ -184,3 +205,13 @@ $ phpcov patch-coverage --path-prefix /path/to/project /tmp/coverage.cov /tmp/pa
 ```
 
 A relative path is resolved against the current working directory.
+
+#### Exit codes
+
+The command exits with code `0` when all changed executable lines are covered. This includes changes that do not affect executable lines, and changes that do not affect files that code coverage data is available for, such as changes to the documentation.
+
+It exits with `1` when some changed executable lines are not covered.
+
+It exits with `2` when the files that were changed could not be found: the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. For a patch file, this indicates that `--path-prefix` is needed, or not correct.
+
+It exits with `255` when the code coverage file or the patch file does not exist or cannot be processed, or when Git fails.
