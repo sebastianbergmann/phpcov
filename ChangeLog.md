@@ -4,6 +4,10 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 ## [13.3.0] - 2026-MM-DD
 
+### Added
+
+* `phpcov merge` prints a warning when there is code coverage data for files that are not part of the reports because these files were not found. Before, this code coverage data was left out silently
+
 ### Changed
 
 * The file that `phpcov merge --php` writes has the path that is configured using `--source` as the base path of the merged code coverage data. Before, `--source` was only used for the reports that are generated from the merged code coverage data, and the file had the base path of the first `.cov` file that was merged

@@ -10,6 +10,8 @@
 namespace SebastianBergmann\PHPCOV;
 
 use const PHP_EOL;
+use function array_slice;
+use function count;
 use function is_dir;
 use function printf;
 use function realpath;
@@ -22,6 +24,8 @@ use SebastianBergmann\FileIterator\Facade;
 
 final class MergeCommand implements Command
 {
+    private const int MAXIMUM_NUMBER_OF_FILES_LISTED_IN_WARNING = 10;
+
     public function run(Arguments $arguments): int
     {
         if (!is_dir($arguments->directory())) {
@@ -81,6 +85,12 @@ final class MergeCommand implements Command
         }
 
         $reportFacade = ReportFacade::fromSerializedData($merged);
+
+        $this->warnAboutFilesThatWereNotFound(
+            $reportFacade->filesThatWereNotFound(),
+            $merged['basePath'],
+            $arguments->source() !== null,
+        );
 
         if ($arguments->clover() !== null) {
             print 'Generating code coverage report in Clover XML format ... ';
@@ -147,5 +157,49 @@ final class MergeCommand implements Command
         }
 
         return 0;
+    }
+
+    /**
+     * @param list<non-empty-string> $files
+     */
+    private function warnAboutFilesThatWereNotFound(array $files, string $basePath, bool $sourceIsConfigured): void
+    {
+        if ($files === []) {
+            return;
+        }
+
+        printf(
+            'Warning: The code coverage data of %d file%s is not part of the reports because %s not found:' . PHP_EOL . PHP_EOL,
+            count($files),
+            count($files) === 1 ? '' : 's',
+            count($files) === 1 ? 'this file was' : 'these files were',
+        );
+
+        foreach (array_slice($files, 0, self::MAXIMUM_NUMBER_OF_FILES_LISTED_IN_WARNING) as $file) {
+            print '  ' . $file . PHP_EOL;
+        }
+
+        if (count($files) > self::MAXIMUM_NUMBER_OF_FILES_LISTED_IN_WARNING) {
+            printf(
+                '  (and %d more)' . PHP_EOL,
+                count($files) - self::MAXIMUM_NUMBER_OF_FILES_LISTED_IN_WARNING,
+            );
+        }
+
+        print PHP_EOL;
+
+        if ($sourceIsConfigured) {
+            printf(
+                'The path configured using --source is "%s". Is this where the source code is located?' . PHP_EOL . PHP_EOL,
+                $basePath,
+            );
+
+            return;
+        }
+
+        printf(
+            'The base path of the merged code coverage data is "%s". Use --source when the source code is located somewhere else.' . PHP_EOL . PHP_EOL,
+            $basePath,
+        );
     }
 }
