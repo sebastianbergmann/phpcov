@@ -12,6 +12,7 @@ All notable changes in PHPCOV are documented in this file using the [Keep a CHAN
 
 ### Changed
 
+* `phpcov patch-coverage` reports consecutive changed executable lines that are not covered as a range (`src/Example.php:11-12, 20`). Before, it printed one line for each line that is not covered
 * `phpcov patch-coverage` exits with exit code `0` when the patch does not change files that code coverage data is available for, or does not change executable lines. Before, a patch that does not change files that code coverage data is available for, such as a patch that only changes the documentation, was reported as a failure with exit code `2`
 * `phpcov patch-coverage` exits with exit code `2` when the files that the patch changes could not be found: when the paths in the patch were resolved against a directory that does not contain these files, or that is unrelated to the location the code coverage data was collected in. The message that is printed names both directories
 * `phpcov patch-coverage` fails with exit code `255` and a message that says so when the patch file is not a unified diff, which is what `git diff` writes when an external diff tool is configured, for instance. Before, it reported that it was unable to detect executable lines that were changed, and asked whether `--path-prefix` is needed

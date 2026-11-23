@@ -15,10 +15,12 @@ use function array_any;
 use function array_keys;
 use function file_get_contents;
 use function getcwd;
+use function implode;
 use function is_dir;
 use function is_file;
 use function printf;
 use function realpath;
+use function sort;
 use function sprintf;
 use function str_ends_with;
 use function str_starts_with;
@@ -123,13 +125,11 @@ final class PatchCoverageCommand implements Command
             print PHP_EOL . 'Changed executable lines that are not covered:' . PHP_EOL;
 
             foreach ($patchCoverage['changedLinesThatWereNotExecuted'] as $file => $lines) {
-                foreach ($lines as $line) {
-                    printf(
-                        '  %s:%d' . PHP_EOL,
-                        $file,
-                        $line,
-                    );
-                }
+                printf(
+                    '  %s:%s' . PHP_EOL,
+                    $file,
+                    implode(', ', $this->ranges($lines)),
+                );
             }
 
             return 1;
@@ -202,6 +202,45 @@ final class PatchCoverageCommand implements Command
             $files,
             static fn (string $file): bool => is_file($pathPrefix . $file),
         );
+    }
+
+    /**
+     * @param non-empty-list<positive-int> $lines
+     *
+     * @return non-empty-list<non-empty-string>
+     */
+    private function ranges(array $lines): array
+    {
+        sort($lines);
+
+        $ranges = [];
+        $start  = $lines[0];
+        $end    = $lines[0];
+
+        foreach ($lines as $line) {
+            if ($line > $end + 1) {
+                $ranges[] = $this->range($start, $end);
+                $start    = $line;
+            }
+
+            $end = $line;
+        }
+
+        $ranges[] = $this->range($start, $end);
+
+        return $ranges;
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    private function range(int $start, int $end): string
+    {
+        if ($start === $end) {
+            return (string) $start;
+        }
+
+        return $start . '-' . $end;
     }
 
     private function percentage(float $fraction, float $total): string

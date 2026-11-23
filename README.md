@@ -160,12 +160,13 @@ Then calculate patch coverage:
 
 ```
 $ phpcov patch-coverage /tmp/coverage.cov /tmp/patch.txt
-1 / 2 changed executable lines covered (50.00%)
+1 / 4 changed executable lines covered ( 25.00%)
 
 Changed executable lines that are not covered:
-
-  Example.php:11
+  src/Example.php:11-12, 20
 ```
+
+Consecutive lines that are not covered are reported as a range.
 
 The command exits with code `0` when all changed executable lines are covered. This includes a patch that does not change executable lines, and a patch that does not change files that code coverage data is available for, such as a patch that only changes the documentation.
 It exits with `1` when some changed executable lines are not covered.
